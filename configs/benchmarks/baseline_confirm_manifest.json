@@ -1,0 +1,35 @@
+{
+  "suite_name": "baseline_confirm",
+  "suite_kind": "confirm",
+  "default_seeds": 10,
+  "entries": [
+    {
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 4101
+    },
+    {
+      "problem": "knapsack",
+      "size": 80,
+      "preset": "configs/presets/knapsack_large.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "seed_start": 4201
+    },
+    {
+      "problem": "tsp",
+      "size": 50,
+      "preset": "configs/presets/tsp_large.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "seed_start": 4301
+    },
+    {
+      "problem": "zdt1",
+      "size": 50,
+      "preset": "configs/presets/zdt1_large.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 4401
+    }
+  ]
+}

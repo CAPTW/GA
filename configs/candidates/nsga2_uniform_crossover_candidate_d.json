@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "candidate_id": "candidate_d_uniform_crossover",
+  "candidate_type": "nsga2_operator_variant",
+  "status": "proposed",
+  "promotion_status": "under_validation",
+  "default_changed": false,
+  "base_variant": "internal_nsga2",
+  "operator_change": {
+    "crossover": {
+      "from": "arithmetic",
+      "to": "uniform"
+    }
+  },
+  "runtime_selection": {
+    "selection_mode": "explicit_only",
+    "entrypoints": [
+      "scripts/validate_nsga2_candidate_suite.py",
+      "src/ga_lab/experiment/nsga2_candidate_variants.py"
+    ]
+  },
+  "validated_benchmarks": [
+    "zdt1",
+    "zdt2",
+    "zdt3",
+    "dtlz2_m2_smoke"
+  ],
+  "known_risks": [
+    "Spacing remains weaker than pymoo/deap across the ZDT suite.",
+    "Nondominated count remains weaker than pymoo/deap across the ZDT suite.",
+    "DTLZ2 shows mixed signals with IGD, spacing, and nondominated count regressions.",
+    "Evidence is still concentrated in smooth synthetic multi-objective benchmarks."
+  ],
+  "source_artifacts": [
+    "artifacts/nsga2_parity_diagnosis_report.md",
+    "artifacts/nsga2_candidate_suite_validation_report_zdt_suite.md",
+    "artifacts/external_mo_comparison_report_installed.md"
+  ],
+  "promotion_gate": {
+    "required_for_default_review": [
+      "No mutation_fn contract regression",
+      "No non-finite fitness validation regression",
+      "ZDT1/ZDT2/ZDT3 core metric improvement vs internal baseline remains reproducible",
+      "No critical regression on at least one non-ZDT continuous benchmark beyond DTLZ2 smoke",
+      "Evaluation budget mismatch remains within 5 percent",
+      "Local baseline and governance checks remain PASS"
+    ],
+    "current_recommendation": "proposed_change_request_only"
+  },
+  "notes": [
+    "This file does not change the default NSGA-II operator path.",
+    "Selecting this candidate requires explicit runner or variant invocation."
+  ]
+}

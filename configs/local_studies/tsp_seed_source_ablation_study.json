@@ -1,0 +1,132 @@
+{
+  "study_name": "tsp_seed_source_ablation_study",
+  "description": "Factorized TSP seed-source ablation on the current hard-case suite. Compare hybrid no-seed against nearest-neighbor mix seeding without changing the operator stack.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "cluster_bridge_12",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target coarse case",
+      "overrides": {
+        "genome_length": 12,
+        "problem_options": {
+          "num_cities": 12,
+          "instance_name": "cluster_bridge_12",
+          "instance_source": "local_tsp_fixed_stack",
+          "coordinates": [
+            [0.0, 0.0], [3.0, 5.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [68.0, 0.0], [72.0, 4.0], [66.0, -5.0], [75.0, -2.0], [70.0, 7.0], [36.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "ring_chord_20",
+      "group": "rescue_target",
+      "note": "ring-like rescue-target coarse case",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "ring_chord_20",
+          "instance_source": "local_tsp_fixed_stack",
+          "coordinates": [
+            [40.0, 0.0], [38.0, 15.0], [29.0, 29.0], [15.0, 38.0], [0.0, 40.0], [-15.0, 38.0],
+            [-29.0, 29.0], [-38.0, 15.0], [-40.0, 0.0], [-38.0, -15.0], [-29.0, -29.0], [-15.0, -38.0],
+            [0.0, -40.0], [15.0, -38.0], [29.0, -29.0], [38.0, -15.0], [0.0, 0.0], [10.0, 12.0],
+            [-12.0, 10.0], [0.0, -14.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_fixed_stack",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "none": {
+      "algorithm": "ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "decay": {
+      "algorithm": "ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "decay_mutation",
+        "adaptive_mutation_min_rate": 0.02,
+        "adaptive_mutation_max_rate": 0.2,
+        "decay_end_rate": 0.02
+      }
+    },
+    "hybrid_swap_noseed": {
+      "algorithm": "hybrid_ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "none",
+        "seed_fraction": 0.0,
+        "local_search_strategy": "none"
+      }
+    },
+    "seeded_swap_seed25": {
+      "algorithm": "hybrid_ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.25,
+        "local_search_strategy": "none"
+      }
+    },
+    "seeded_swap_seed50": {
+      "algorithm": "hybrid_ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "none",
+      "decay",
+      "hybrid_swap_noseed",
+      "seeded_swap_seed25",
+      "seeded_swap_seed50"
+    ],
+    "generations": [28, 45]
+  },
+  "seeds": [121, 122, 123, 124, 125],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Seed-source ablation only. Use hybrid no-seed versus nearest-neighbor mix so the seeding head-start can be read separately from the rest of the stack."
+}

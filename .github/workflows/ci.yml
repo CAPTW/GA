@@ -1,0 +1,298 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Ruff
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/lint
+          status=0
+          python -m ruff check src tests scripts services 2>&1 | tee .ci-artifacts/lint/ruff-check.log || status=$?
+          python -m ruff format --check src tests scripts services 2>&1 | tee .ci-artifacts/lint/ruff-format.log || status=$?
+          exit "$status"
+      - name: Upload lint artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-lint
+          path: .ci-artifacts/lint
+          retention-days: 14
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: MyPy
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/typecheck
+          python -m mypy src 2>&1 | tee .ci-artifacts/typecheck/mypy.log
+      - name: Upload typecheck artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-typecheck
+          path: .ci-artifacts/typecheck
+          retention-days: 14
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/test
+          python -m pytest --junitxml .ci-artifacts/test/pytest.xml 2>&1 | tee .ci-artifacts/test/pytest.log
+      - name: Public API snapshot check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/check_public_api.py 2>&1 | tee .ci-artifacts/test/public-api.log
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-test
+          path: .ci-artifacts/test
+          retention-days: 14
+
+  baseline-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Baseline regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/baseline-regression
+          python -m pytest tests/test_baseline_regression.py --junitxml .ci-artifacts/baseline-regression/pytest.xml 2>&1 | tee .ci-artifacts/baseline-regression/pytest.log
+      - name: Upload baseline regression artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-baseline-regression
+          path: .ci-artifacts/baseline-regression
+          retention-days: 14
+
+  benchmark-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Benchmark smoke suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/benchmark-smoke
+          python scripts/run_ci_benchmarks.py --tier tier1 --output-root .ci-artifacts/benchmark-smoke 2>&1 | tee .ci-artifacts/benchmark-smoke/benchmark-smoke.log
+          find .ci-artifacts/benchmark-smoke -maxdepth 4 -type f | sort > .ci-artifacts/benchmark-smoke/files.txt
+      - name: Upload benchmark smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-benchmark-smoke
+          path: .ci-artifacts/benchmark-smoke
+          retention-days: 14
+
+  portable-smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        python-version: ["3.11"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+      - name: Build wheel
+        run: python -m build
+      - name: Portable wheel smoke
+        run: |
+          python scripts/package_portability_smoke.py --dist-dir dist --output-root .ci-artifacts/portable-smoke
+      - name: Upload portable smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portable-smoke-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: .ci-artifacts/portable-smoke
+          retention-days: 14
+
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Governance tier 0
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/governance
+          python scripts/run_ci_benchmarks.py --tier tier0 --output-root .ci-artifacts/governance 2>&1 | tee .ci-artifacts/governance/governance.log
+      - name: Upload governance artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-governance
+          path: .ci-artifacts/governance
+          retention-days: 14
+
+  codex-review:
+    if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    needs:
+      - lint
+      - typecheck
+      - test
+      - baseline-regression
+      - benchmark-smoke
+      - portable-smoke
+      - governance
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download CI artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: .ci-review/artifacts
+          pattern: ci-*
+      - name: Check Codex secret
+        id: codex-ready
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -n "${OPENAI_API_KEY}" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build Codex prompt
+        id: prompt
+        shell: bash
+        env:
+          LINT_RESULT: ${{ needs.lint.result }}
+          TYPECHECK_RESULT: ${{ needs.typecheck.result }}
+          TEST_RESULT: ${{ needs.test.result }}
+          BASELINE_RESULT: ${{ needs.baseline-regression.result }}
+          SMOKE_RESULT: ${{ needs.benchmark-smoke.result }}
+          GOVERNANCE_RESULT: ${{ needs.governance.result }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -euo pipefail
+          prompt_file="docs/prompts/review.md"
+          if [ "${BASELINE_RESULT}" = "failure" ] || [ "${SMOKE_RESULT}" = "failure" ]; then
+            prompt_file="docs/prompts/baseline_regression.md"
+          elif [ "${LINT_RESULT}" = "failure" ] || [ "${TYPECHECK_RESULT}" = "failure" ] || [ "${TEST_RESULT}" = "failure" ]; then
+            prompt_file="docs/prompts/ci_failure_analysis.md"
+          fi
+
+          cp "${prompt_file}" codex_prompt.txt
+          {
+            echo
+            echo "CI context:"
+            echo "- pull_request_number: ${PR_NUMBER}"
+            echo "- head_sha: ${HEAD_SHA}"
+            echo "- base_ref: ${BASE_REF}"
+            echo "- lint: ${LINT_RESULT}"
+            echo "- typecheck: ${TYPECHECK_RESULT}"
+            echo "- tests: ${TEST_RESULT}"
+            echo "- baseline_regression: ${BASELINE_RESULT}"
+            echo "- benchmark_smoke: ${SMOKE_RESULT}"
+            echo "- governance: ${GOVERNANCE_RESULT}"
+            echo
+            echo "Downloaded CI artifacts:"
+            find .ci-review/artifacts -maxdepth 3 -type f | sort | sed 's#^#- #'
+          } >> codex_prompt.txt
+
+          {
+            echo "prompt<<EOF"
+            cat codex_prompt.txt
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Run Codex review
+        if: ${{ steps.codex-ready.outputs.enabled == 'true' }}
+        continue-on-error: true
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: ${{ steps.prompt.outputs.prompt }}
+      - name: Skip Codex review
+        if: ${{ steps.codex-ready.outputs.enabled != 'true' }}
+        run: echo "OPENAI_API_KEY is not configured; skipping Codex review."

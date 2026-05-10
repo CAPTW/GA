@@ -1,0 +1,25 @@
+{
+  "suite_name": "core_baselines",
+  "entries": [
+    {
+      "label": "onemax_baseline",
+      "config": "configs/onemax_baseline.json",
+      "seeds": 3
+    },
+    {
+      "label": "tsp_baseline",
+      "config": "configs/tsp_baseline.json",
+      "seeds": 3
+    },
+    {
+      "label": "knapsack_baseline",
+      "config": "configs/knapsack_baseline.json",
+      "seeds": 3
+    },
+    {
+      "label": "zdt1_nsga2",
+      "config": "configs/zdt1_nsga2.json",
+      "seeds": 3
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "run_name": "onemax_stress",
+  "problem": "onemax",
+  "population_size": 120,
+  "genome_length": 128,
+  "generations": 120,
+  "crossover_rate": 0.95,
+  "mutation_rate": 0.01,
+  "elitism": 4,
+  "tournament_size": 4,
+  "seed": 11,
+  "maximize": true,
+  "target_fitness": 128,
+  "log_every": 5
+}

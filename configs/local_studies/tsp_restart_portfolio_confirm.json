@@ -1,0 +1,137 @@
+{
+  "study_name": "tsp_restart_portfolio_confirm",
+  "description": "10-seed confirm for the TSP restart portfolio frontier. Re-check the best matched-budget and budget-first fast-restart shapes against canonical and fast singles.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_restart_portfolio_confirm",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0],
+            [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target holdout",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_restart_portfolio_confirm",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-3.0, 5.0], [6.0, -3.0], [-5.0, -4.0], [2.0, 8.0],
+            [52.0, 22.0], [70.0, 0.0], [74.0, 5.0], [68.0, -6.0], [78.0, -2.0], [71.0, 8.0],
+            [36.0, 12.0], [44.0, -10.0], [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_restart_portfolio_confirm",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "near-collinear corridor anti-case",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_restart_portfolio_confirm",
+          "coordinates": [
+            [0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0],
+            [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0],
+            [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "canonical_once": {
+      "population_size": 40,
+      "generations": 45,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "fast_once": {
+      "population_size": 30,
+      "generations": 45,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "fast_x3_equal_split": {
+      "__local_baseline__": "tsp_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/tsp_seeded_swap_local_fast.json",
+        "portfolio_restart_count": 3,
+        "portfolio_total_budget_factor": 1.0
+      }
+    },
+    "fast_x3_budget075": {
+      "__local_baseline__": "tsp_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/tsp_seeded_swap_local_fast.json",
+        "portfolio_restart_count": 3,
+        "portfolio_total_budget_factor": 0.75
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "canonical_once",
+      "fast_once",
+      "fast_x3_equal_split",
+      "fast_x3_budget075"
+    ]
+  },
+  "seeds": [8501, 8502, 8503, 8504, 8505, 8506, 8507, 8508, 8509, 8510],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Confirm only. Keep a TSP multi-start note only if matched-budget or budget-first equal-split fast restarts stay simple and genuinely improve on fast_once without giving back canonical quality too often."
+}

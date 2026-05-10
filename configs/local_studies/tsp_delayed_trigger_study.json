@@ -1,0 +1,37 @@
+{
+  "study_name": "tsp_delayed_trigger_study",
+  "description": "Coarse TSP delayed-trigger sweep around the current reusable diversity-injection profile.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "diversity_threshold": 0.15,
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 4,
+      "stagnation_window": 10,
+      "stagnation_boost_factor": 1.5,
+      "decay_end_rate": 0.02,
+      "periodic_refresh_every": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection",
+      "decay_mutation",
+      "delayed_trigger_v1",
+      "delayed_trigger_v2"
+    ],
+    "algorithm_options.warmup_generation": [5, 10, 15]
+  },
+  "seeds": [171, 172, 173, 174, 175],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Stage-1 TSP delayed-trigger semantics sweep. Keep only delayed candidates that stay near the current top tier while moving first trigger generation later."
+}

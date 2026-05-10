@@ -1,0 +1,788 @@
+{
+  "suite_name": "ablation_scan",
+  "suite_kind": "comparison",
+  "default_seeds": 5,
+  "entries": [
+    {
+      "entry_id": "onemax_128_ablation",
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "seed_start": 8101,
+      "methods": [
+        {
+          "label": "pure_ga",
+          "kind": "base_preset",
+          "family": "ga"
+        },
+        {
+          "label": "mutation_only_ea",
+          "kind": "override",
+          "family": "ga",
+          "overrides": {
+            "crossover_rate": 0.0
+          }
+        },
+        {
+          "label": "hill_climb",
+          "kind": "baseline",
+          "family": "hill_climb"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "onemax128_hill_vs_pure_ga_success",
+          "left": "hill_climb",
+          "right": "pure_ga",
+          "metric": "success_to_target",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "onemax128_hill_vs_pure_ga_evals",
+          "left": "hill_climb",
+          "right": "pure_ga",
+          "metric": "evaluations_to_target",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "onemax128_mutation_only_vs_pure_ga_evals",
+          "left": "mutation_only_ea",
+          "right": "pure_ga",
+          "metric": "evaluations_to_target",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "knapsack_20_ablation",
+      "problem": "knapsack",
+      "size": 20,
+      "preset": "configs/presets/knapsack_small.json",
+      "seed_start": 8201,
+      "methods": [
+        {
+          "label": "pure_ga",
+          "kind": "base_preset",
+          "family": "ga"
+        },
+        {
+          "label": "seeded_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25
+            }
+          }
+        },
+        {
+          "label": "repair_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "local_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        },
+        {
+          "label": "seed_repair",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "full_hybrid",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill",
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        },
+        {
+          "label": "greedy_local_search",
+          "kind": "baseline",
+          "family": "greedy_local_search"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "knapsack20_seeded_only_vs_pure_ga",
+          "left": "seeded_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack20_repair_only_vs_pure_ga",
+          "left": "repair_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack20_local_only_vs_pure_ga",
+          "left": "local_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack20_seed_repair_vs_pure_ga",
+          "left": "seed_repair",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack20_seed_repair_vs_greedy",
+          "left": "seed_repair",
+          "right": "greedy_local_search",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack20_full_hybrid_vs_seed_repair",
+          "left": "full_hybrid",
+          "right": "seed_repair",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "knapsack_30_ablation",
+      "problem": "knapsack",
+      "size": 30,
+      "preset": "configs/presets/knapsack_medium.json",
+      "seed_start": 8211,
+      "methods": [
+        {
+          "label": "pure_ga",
+          "kind": "base_preset",
+          "family": "ga"
+        },
+        {
+          "label": "seeded_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25
+            }
+          }
+        },
+        {
+          "label": "repair_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "local_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        },
+        {
+          "label": "seed_repair",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "full_hybrid",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill",
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        },
+        {
+          "label": "greedy_local_search",
+          "kind": "baseline",
+          "family": "greedy_local_search"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "knapsack30_seeded_only_vs_pure_ga",
+          "left": "seeded_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack30_repair_only_vs_pure_ga",
+          "left": "repair_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack30_local_only_vs_pure_ga",
+          "left": "local_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack30_seed_repair_vs_pure_ga",
+          "left": "seed_repair",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack30_seed_repair_vs_greedy",
+          "left": "seed_repair",
+          "right": "greedy_local_search",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack30_full_hybrid_vs_seed_repair",
+          "left": "full_hybrid",
+          "right": "seed_repair",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "knapsack_80_ablation",
+      "problem": "knapsack",
+      "size": 80,
+      "preset": "configs/presets/knapsack_large.json",
+      "seed_start": 8221,
+      "methods": [
+        {
+          "label": "pure_ga",
+          "kind": "base_preset",
+          "family": "ga"
+        },
+        {
+          "label": "seeded_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25
+            }
+          }
+        },
+        {
+          "label": "repair_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "local_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        },
+        {
+          "label": "seed_repair",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "full_hybrid",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill",
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        },
+        {
+          "label": "greedy_local_search",
+          "kind": "baseline",
+          "family": "greedy_local_search"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "knapsack80_seeded_only_vs_pure_ga",
+          "left": "seeded_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack80_repair_only_vs_pure_ga",
+          "left": "repair_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack80_local_only_vs_pure_ga",
+          "left": "local_only",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack80_seed_repair_vs_pure_ga",
+          "left": "seed_repair",
+          "right": "pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack80_seed_repair_vs_greedy",
+          "left": "seed_repair",
+          "right": "greedy_local_search",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "knapsack80_full_hybrid_vs_seed_repair",
+          "left": "full_hybrid",
+          "right": "seed_repair",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "tsp_20_ablation",
+      "problem": "tsp",
+      "size": 20,
+      "preset": "configs/presets/tsp_medium.json",
+      "seed_start": 8301,
+      "methods": [
+        {
+          "label": "pure_ga",
+          "kind": "base_preset",
+          "family": "ga"
+        },
+        {
+          "label": "seeded_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5
+            }
+          }
+        },
+        {
+          "label": "local_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        },
+        {
+          "label": "official_hybrid",
+          "kind": "preset",
+          "family": "hybrid_ga",
+          "preset": "configs/presets/tsp_medium_hybrid.json"
+        },
+        {
+          "label": "nearest_neighbor_2opt",
+          "kind": "baseline",
+          "family": "nearest_neighbor_2opt"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "tsp20_seeded_only_vs_pure_ga_distance",
+          "left": "seeded_only",
+          "right": "pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_local_only_vs_pure_ga_distance",
+          "left": "local_only",
+          "right": "pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_seeded_only_vs_baseline_distance",
+          "left": "seeded_only",
+          "right": "nearest_neighbor_2opt",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_local_only_vs_baseline_distance",
+          "left": "local_only",
+          "right": "nearest_neighbor_2opt",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_official_vs_seeded_only_distance",
+          "left": "official_hybrid",
+          "right": "seeded_only",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_official_vs_local_only_distance",
+          "left": "official_hybrid",
+          "right": "local_only",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_official_vs_pure_ga_distance",
+          "left": "official_hybrid",
+          "right": "pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp20_official_vs_baseline_distance",
+          "left": "official_hybrid",
+          "right": "nearest_neighbor_2opt",
+          "metric": "final_best_distance",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "tsp_50_ablation",
+      "problem": "tsp",
+      "size": 50,
+      "preset": "configs/presets/tsp_large.json",
+      "seed_start": 8311,
+      "methods": [
+        {
+          "label": "pure_ga",
+          "kind": "base_preset",
+          "family": "ga"
+        },
+        {
+          "label": "seeded_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5
+            }
+          }
+        },
+        {
+          "label": "local_only",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        },
+        {
+          "label": "full_hybrid",
+          "kind": "override",
+          "family": "hybrid_ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        },
+        {
+          "label": "nearest_neighbor_2opt",
+          "kind": "baseline",
+          "family": "nearest_neighbor_2opt"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "tsp50_seeded_only_vs_pure_ga_distance",
+          "left": "seeded_only",
+          "right": "pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp50_local_only_vs_pure_ga_distance",
+          "left": "local_only",
+          "right": "pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp50_seeded_only_vs_baseline_distance",
+          "left": "seeded_only",
+          "right": "nearest_neighbor_2opt",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp50_full_hybrid_vs_seeded_only_distance",
+          "left": "full_hybrid",
+          "right": "seeded_only",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp50_full_hybrid_vs_local_only_distance",
+          "left": "full_hybrid",
+          "right": "local_only",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp50_full_hybrid_vs_pure_ga_distance",
+          "left": "full_hybrid",
+          "right": "pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsp50_full_hybrid_vs_baseline_distance",
+          "left": "full_hybrid",
+          "right": "nearest_neighbor_2opt",
+          "metric": "final_best_distance",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "zdt1_20_ablation",
+      "problem": "zdt1",
+      "size": 20,
+      "preset": "configs/presets/zdt1_medium.json",
+      "seed_start": 8401,
+      "methods": [
+        {
+          "label": "nsga2_preset",
+          "kind": "base_preset",
+          "family": "nsga2"
+        },
+        {
+          "label": "random_archive",
+          "kind": "baseline",
+          "family": "random_archive"
+        },
+        {
+          "label": "mutation_archive",
+          "kind": "baseline",
+          "family": "mutation_archive"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "zdt120_nsga2_vs_random_hv",
+          "left": "nsga2_preset",
+          "right": "random_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt120_nsga2_vs_mutation_hv",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt120_nsga2_vs_mutation_pareto_ratio",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "pareto_ratio",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt120_nsga2_vs_mutation_spread",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "spread",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "zdt1_50_ablation",
+      "problem": "zdt1",
+      "size": 50,
+      "preset": "configs/presets/zdt1_large.json",
+      "seed_start": 8411,
+      "methods": [
+        {
+          "label": "nsga2_preset",
+          "kind": "base_preset",
+          "family": "nsga2"
+        },
+        {
+          "label": "random_archive",
+          "kind": "baseline",
+          "family": "random_archive"
+        },
+        {
+          "label": "mutation_archive",
+          "kind": "baseline",
+          "family": "mutation_archive"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "zdt150_nsga2_vs_random_hv",
+          "left": "nsga2_preset",
+          "right": "random_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt150_nsga2_vs_mutation_hv",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt150_nsga2_vs_mutation_pareto_ratio",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "pareto_ratio",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt150_nsga2_vs_mutation_spread",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "spread",
+          "objective": "min"
+        }
+      ]
+    }
+  ]
+}

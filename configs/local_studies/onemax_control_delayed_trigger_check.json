@@ -1,0 +1,27 @@
+{
+  "study_name": "onemax_control_delayed_trigger_check",
+  "description": "Control check for onemax against one delayed-trigger candidate from the TSP pass.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "algorithm_options": {
+      "diversity_threshold": 0.4,
+      "refresh_fraction": 0.1,
+      "adaptation_cooldown": 4,
+      "stagnation_window": 5,
+      "warmup_generation": 10,
+      "adaptive_mutation_min_rate": 0.005,
+      "adaptive_mutation_max_rate": 0.08
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "delayed_trigger_v2"]
+  },
+  "seeds": [31, 32, 33, 34, 35],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Small onemax control check. Delayed trigger should not survive here unless it clearly beats the fixed baseline."
+}

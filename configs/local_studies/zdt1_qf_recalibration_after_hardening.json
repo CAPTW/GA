@@ -1,0 +1,71 @@
+{
+  "study_name": "zdt1_qf_recalibration_after_hardening",
+  "description": "ZDT1 Q/F recalibration after fast hardening. Measure the hardened cooldown-3 fast default against the canonical profile, while keeping the old cooldown-4 fast only as a legacy reference.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "budget_first_legacy": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "budget_first": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "plot_name_suffix": "_recalibrated"
+    },
+    "zdt1_fast_hardening": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "budget_first_legacy",
+      "candidate_variants": ["budget_first"],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first_legacy", "budget_first"]
+  },
+  "seeds": [8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Recalibration after hardening only. Recompute the ZDT1 Q/F envelope with the hardened cooldown-3 fast profile and keep the old cooldown-4 fast only as a reference."
+}

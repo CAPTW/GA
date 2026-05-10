@@ -1,0 +1,546 @@
+{
+  "suite_name": "large_gap_closure",
+  "entries": [
+    {
+      "label": "zdt1_large_ps80_g120_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9501,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g120_mr0.2"
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g160_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9511,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g160_mr0.2",
+        "generations": 160
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g200_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9521,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g200_mr0.2",
+        "generations": 200
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g120_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9531,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g120_mr0.2",
+        "population_size": 120
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g160_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9541,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g160_mr0.2",
+        "population_size": 120,
+        "generations": 160
+      }
+    },
+    {
+      "label": "zdt1_large_ps160_g120_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9551,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps160_g120_mr0.2",
+        "population_size": 160
+      }
+    },
+    {
+      "label": "zdt1_large_ps160_g160_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9561,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps160_g160_mr0.2",
+        "population_size": 160,
+        "generations": 160
+      }
+    },
+    {
+      "label": "zdt1_large_ps200_g120_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9571,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps200_g120_mr0.2",
+        "population_size": 200
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9101,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.01",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9111,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.01",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.01
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.015625",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9121,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.015625",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.015625
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.02",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9131,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.02",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.02
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g160_mr0.0078125",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9141,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g160_mr0.0078125",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.0078125
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g160_mr0.01",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9151,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g160_mr0.01",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.01
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g160_mr0.015625",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9161,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g160_mr0.015625",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.015625
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g160_mr0.02",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9171,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g160_mr0.02",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.02
+      }
+    },
+    {
+      "label": "onemax_large_ps160_g120_mr0.0078125",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9181,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps160_g120_mr0.0078125",
+        "population_size": 160,
+        "generations": 120,
+        "mutation_rate": 0.0078125
+      }
+    },
+    {
+      "label": "onemax_large_ps160_g120_mr0.01",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9191,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps160_g120_mr0.01",
+        "population_size": 160,
+        "generations": 120,
+        "mutation_rate": 0.01
+      }
+    },
+    {
+      "label": "onemax_large_ps160_g120_mr0.015625",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9201,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps160_g120_mr0.015625",
+        "population_size": 160,
+        "generations": 120,
+        "mutation_rate": 0.015625
+      }
+    },
+    {
+      "label": "onemax_large_ps160_g120_mr0.02",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9211,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps160_g120_mr0.02",
+        "population_size": 160,
+        "generations": 120,
+        "mutation_rate": 0.02
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g160_mr0.08",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9601,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g160_mr0.08",
+        "generations": 160,
+        "mutation_rate": 0.08
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g160_mr0.1",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9611,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g160_mr0.1",
+        "generations": 160,
+        "mutation_rate": 0.1
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g160_mr0.15",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9621,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g160_mr0.15",
+        "generations": 160,
+        "mutation_rate": 0.15
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g160_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9631,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g160_mr0.2",
+        "generations": 160,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g200_mr0.08",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9641,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g200_mr0.08",
+        "generations": 200,
+        "mutation_rate": 0.08
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g200_mr0.1",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9651,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g200_mr0.1",
+        "generations": 200,
+        "mutation_rate": 0.1
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g200_mr0.15",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9661,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g200_mr0.15",
+        "generations": 200,
+        "mutation_rate": 0.15
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g200_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9671,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g200_mr0.2",
+        "generations": 200,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g160_mr0.08",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9681,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g160_mr0.08",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.08
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g160_mr0.1",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9691,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g160_mr0.1",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.1
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g160_mr0.15",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9701,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g160_mr0.15",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.15
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g160_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9711,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g160_mr0.2",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "zdt1_large_ps160_g160_mr0.08",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9721,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps160_g160_mr0.08",
+        "population_size": 160,
+        "generations": 160,
+        "mutation_rate": 0.08
+      }
+    },
+    {
+      "label": "zdt1_large_ps160_g160_mr0.1",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9731,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps160_g160_mr0.1",
+        "population_size": 160,
+        "generations": 160,
+        "mutation_rate": 0.1
+      }
+    },
+    {
+      "label": "zdt1_large_ps160_g160_mr0.15",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9741,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps160_g160_mr0.15",
+        "population_size": 160,
+        "generations": 160,
+        "mutation_rate": 0.15
+      }
+    },
+    {
+      "label": "zdt1_large_ps160_g160_mr0.2",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9751,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps160_g160_mr0.2",
+        "population_size": 160,
+        "generations": 160,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125_e1_t2",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9301,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125_e1_t2",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125,
+        "elitism": 1,
+        "tournament_size": 2
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125_e1_t3",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9311,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125_e1_t3",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125,
+        "elitism": 1,
+        "tournament_size": 3
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125_e1_t5",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9321,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125_e1_t5",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125,
+        "elitism": 1,
+        "tournament_size": 5
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125_e2_t2",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9331,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125_e2_t2",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125,
+        "elitism": 2,
+        "tournament_size": 2
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125_e2_t3",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9341,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125_e2_t3",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125,
+        "elitism": 2,
+        "tournament_size": 3
+      }
+    },
+    {
+      "label": "onemax_large_ps120_g120_mr0.0078125_e2_t5",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 9351,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "onemax_large_ps120_g120_mr0.0078125_e2_t5",
+        "population_size": 120,
+        "generations": 120,
+        "mutation_rate": 0.0078125,
+        "elitism": 2,
+        "tournament_size": 5
+      }
+    },
+    {
+      "label": "zdt1_large_ps80_g200_mr0.2_cr0.8",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9801,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps80_g200_mr0.2_cr0.8",
+        "generations": 200,
+        "mutation_rate": 0.2,
+        "crossover_rate": 0.8
+      }
+    },
+    {
+      "label": "zdt1_large_ps120_g160_mr0.2_cr0.8",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 9811,
+      "seeds": 3,
+      "overrides": {
+        "run_name": "zdt1_large_ps120_g160_mr0.2_cr0.8",
+        "population_size": 120,
+        "generations": 160,
+        "mutation_rate": 0.2,
+        "crossover_rate": 0.8
+      }
+    }
+  ],
+  "matrices": [
+    {
+      "base_config": "configs/presets/onemax_large.json",
+      "seed_start": 9001,
+      "seeds": 5,
+      "label_template": "onemax_large_ps{population_size}_g{generations}",
+      "axes": {
+        "population_size": [
+          80,
+          120,
+          160,
+          200
+        ],
+        "generations": [
+          40,
+          80,
+          120,
+          160,
+          200
+        ]
+      }
+    }
+  ]
+}

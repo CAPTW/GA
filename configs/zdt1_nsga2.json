@@ -1,0 +1,30 @@
+{
+  "run_name": "zdt1_nsga2",
+  "problem": "zdt1",
+  "algorithm": "nsga2",
+  "algorithm_options": {
+    "hypervolume_reference_point": [1.1, 11.0]
+  },
+  "representation": "real",
+  "representation_options": {
+    "low": 0.0,
+    "high": 1.0
+  },
+  "selection": "tournament",
+  "crossover": "arithmetic",
+  "mutation": "gaussian",
+  "mutation_options": {
+    "sigma": 0.1
+  },
+  "population_size": 60,
+  "genome_length": 30,
+  "generations": 120,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.1,
+  "elitism": 2,
+  "tournament_size": 2,
+  "seed": 21,
+  "maximize": false,
+  "objective_directions": [false, false],
+  "log_every": 5
+}

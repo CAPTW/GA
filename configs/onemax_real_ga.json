@@ -1,0 +1,30 @@
+{
+  "run_name": "onemax_real_ga",
+  "problem": "onemax",
+  "algorithm": "ga",
+  "representation": "real",
+  "representation_options": {
+    "low": 0.0,
+    "high": 1.0
+  },
+  "mutation": "gaussian",
+  "mutation_options": {
+    "sigma": 0.1
+  },
+  "crossover": "arithmetic",
+  "crossover_options": {
+    "alpha": 0.45
+  },
+  "selection": "rank",
+  "population_size": 80,
+  "genome_length": 64,
+  "generations": 80,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.05,
+  "elitism": 2,
+  "tournament_size": 3,
+  "seed": 17,
+  "maximize": true,
+  "target_fitness": 32.0,
+  "log_every": 2
+}

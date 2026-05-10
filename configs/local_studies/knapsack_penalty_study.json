@@ -1,0 +1,20 @@
+{
+  "study_name": "knapsack_penalty_study",
+  "description": "Check penalty_factor sensitivity on the small knapsack preset.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80
+  },
+  "sweep": {
+    "problem_options.penalty_factor": [5.0, 20.0, 50.0]
+  },
+  "seeds": [11, 12, 13],
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness",
+    "comparison_metric": "best_feasible_fitness"
+  },
+  "runtime_budget_note": "Small local sweep, usually under two minutes on a laptop."
+}

@@ -1,0 +1,37 @@
+{
+  "study_name": "onemax_control_budget_check",
+  "description": "Tiny OneMax budget control check. Reconfirm that the fixed baseline remains enough while a single progress-plateau stop is only a cheap sanity comparator.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "early_stop_plateau": {
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 6,
+        "early_stop_min_generation": 10,
+        "early_stop_epsilon": 0.0
+      }
+    }
+  },
+  "shared_overrides": {
+    "population_size": 40,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "early_stop_plateau"],
+    "generations": [25, 50]
+  },
+  "seeds": [7101, 7102, 7103, 7104, 7105],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control-only budget check. Do not promote a new OneMax fast profile; only verify that the fixed baseline still behaves as the control reference."
+}

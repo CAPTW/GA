@@ -1,0 +1,109 @@
+{
+  "cache_root": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks",
+  "sources": {
+    "tsplib": {
+      "name": "TSPLIB95 mirror",
+      "problem": "tsp",
+      "provenance": "TSPLIB instances from Reinelt (1991), fetched through the public mastqe/tsplib mirror because the original Heidelberg host is not reliably reachable in automation.",
+      "primary_url": "http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/",
+      "reference_url": "https://github.com/mastqe/tsplib",
+      "license_note": "The mirror does not publish an explicit repository license. This repo treats TSPLIB files as fetch-only cache artifacts and does not commit them.",
+      "redistribution_policy": "fetch_only"
+    },
+    "kplib": {
+      "name": "kplib",
+      "problem": "knapsack",
+      "provenance": "0/1 knapsack benchmark instances generated according to Kellerer, Pferschy, and Pisinger (2004), provided by the likr/kplib repository.",
+      "primary_url": "https://github.com/likr/kplib",
+      "reference_url": "https://github.com/likr/kplib",
+      "license_note": "CC BY 4.0 as stated in the kplib README.",
+      "redistribution_policy": "fetch_or_cache"
+    },
+    "synthetic_bitstring": {
+      "name": "Synthetic bitstring families",
+      "problem": "onemax",
+      "provenance": "Canonical synthetic benchmark families implemented locally: OneMax, LeadingOnes, deceptive concatenated trap, and Jump_k.",
+      "primary_url": null,
+      "reference_url": null,
+      "license_note": "No external dataset; deterministic local problem definitions only.",
+      "redistribution_policy": "local_definition"
+    },
+    "zdt_family": {
+      "name": "ZDT family",
+      "problem": "zdt1",
+      "provenance": "Canonical ZDT multi-objective benchmark family implemented locally (ZDT1, ZDT2, ZDT3).",
+      "primary_url": null,
+      "reference_url": null,
+      "license_note": "No external dataset; deterministic analytical benchmark family.",
+      "redistribution_policy": "local_definition"
+    }
+  },
+  "instances": {
+    "tsplib_ulysses22": {
+      "problem": "tsp",
+      "family": "tsplib",
+      "display_name": "ulysses22",
+      "size": 22,
+      "cache_relpath": "cache/tsplib/ulysses22.tsp",
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses22.tsp",
+      "parser": "tsplib",
+      "reference_note": "GEO instance, close to the internal medium TSP scale.",
+      "cache_path": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks\\cache\\tsplib\\ulysses22.tsp"
+    },
+    "tsplib_berlin52": {
+      "problem": "tsp",
+      "family": "tsplib",
+      "display_name": "berlin52",
+      "size": 52,
+      "cache_relpath": "cache/tsplib/berlin52.tsp",
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/berlin52.tsp",
+      "parser": "tsplib",
+      "reference_note": "EUC_2D instance, close to the internal large TSP scale.",
+      "cache_path": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks\\cache\\tsplib\\berlin52.tsp"
+    },
+    "kplib_uncorrelated_50_s000": {
+      "problem": "knapsack",
+      "family": "kplib_uncorrelated",
+      "display_name": "uncorrelated_n50_r1000_s000",
+      "size": 50,
+      "cache_relpath": "cache/kplib/00Uncorrelated/n00050/R01000/s000.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/master/00Uncorrelated/n00050/R01000/s000.kp",
+      "parser": "kplib",
+      "reference_note": "Canonical uncorrelated profit/weight family.",
+      "cache_path": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks\\cache\\kplib\\00Uncorrelated\\n00050\\R01000\\s000.kp"
+    },
+    "kplib_weakly_correlated_50_s000": {
+      "problem": "knapsack",
+      "family": "kplib_weakly_correlated",
+      "display_name": "weakly_correlated_n50_r1000_s000",
+      "size": 50,
+      "cache_relpath": "cache/kplib/01WeaklyCorrelated/n00050/R01000/s000.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/master/01WeaklyCorrelated/n00050/R01000/s000.kp",
+      "parser": "kplib",
+      "reference_note": "Canonical weakly correlated family.",
+      "cache_path": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks\\cache\\kplib\\01WeaklyCorrelated\\n00050\\R01000\\s000.kp"
+    },
+    "kplib_strongly_correlated_100_s000": {
+      "problem": "knapsack",
+      "family": "kplib_strongly_correlated",
+      "display_name": "strongly_correlated_n100_r1000_s000",
+      "size": 100,
+      "cache_relpath": "cache/kplib/02StronglyCorrelated/n00100/R01000/s000.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/master/02StronglyCorrelated/n00100/R01000/s000.kp",
+      "parser": "kplib",
+      "reference_note": "Canonical strongly correlated family.",
+      "cache_path": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks\\cache\\kplib\\02StronglyCorrelated\\n00100\\R01000\\s000.kp"
+    },
+    "kplib_subset_sum_100_s000": {
+      "problem": "knapsack",
+      "family": "kplib_subset_sum",
+      "display_name": "subset_sum_n100_r1000_s000",
+      "size": 100,
+      "cache_relpath": "cache/kplib/05SubsetSum/n00100/R01000/s000.kp",
+      "source_url": "https://raw.githubusercontent.com/likr/kplib/master/05SubsetSum/n00100/R01000/s000.kp",
+      "parser": "kplib",
+      "reference_note": "Subset-sum-like structured family.",
+      "cache_path": "C:\\Users\\IDEAL\\OneDrive\\문서\\Antigravity\\GA\\ga-codex-lab\\benchmarks\\cache\\kplib\\05SubsetSum\\n00100\\R01000\\s000.kp"
+    }
+  }
+}

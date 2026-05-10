@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "candidate_id": "candidate_n_low_g_tail_mutation_light",
+  "candidate_type": "nsga2_operator_quality_variant",
+  "status": "proposed",
+  "promotion_status": "phase0_sanity",
+  "default_changed": false,
+  "base_candidate": "candidate_j_h_lite_retry2",
+  "mechanism": "low_g_tail_mutation_light",
+  "source_hypothesis": "nsga2_operator_quality_phase0_plan",
+  "operator_change": {
+    "mutation": {
+      "from": "candidate_j gaussian mutation path",
+      "to": "candidate_j gaussian mutation path + very light stochastic tail-only low-g perturbation"
+    },
+    "selection": {
+      "from": "candidate_j parent selection path",
+      "to": "unchanged"
+    },
+    "duplicate_handling": {
+      "decision_dedup": true,
+      "duplicate_retry_count": 2,
+      "duplicate_retry_mutation_scale": 1.5,
+      "tail_low_g_perturbation_enabled": true
+    }
+  },
+  "runtime_selection": {
+    "selection_mode": "explicit_only",
+    "entrypoints": [
+      "scripts/validate_nsga2_operator_quality_phase0.py",
+      "src/ga_lab/experiment/nsga2_candidate_variants.py"
+    ]
+  },
+  "allowed_use": "phase0_sanity_only",
+  "disallowed_use": "default_replacement",
+  "expected_improvement": [
+    "segment0_g_mean",
+    "segment0_distance_mean",
+    "segment0_low_g_count"
+  ],
+  "known_risks": [
+    "ZDT1-specific overfitting risk remains high.",
+    "A tail-only perturbation may look like extra noise without real low-g conversion.",
+    "The perturbation may reduce diversity or worsen HV, distance, or IGD.",
+    "Mutation contract regressions or non-finite objective failures must be treated as blocking."
+  ],
+  "required_gates": [
+    "fairness_fail_free",
+    "default_changed_false",
+    "candidate_isolation_pass",
+    "default_drift_audit_pass",
+    "actual_evaluations_match",
+    "zdt1_component_diagnostics_present",
+    "artifact_suffix_required",
+    "local_baseline_guard_pass"
+  ],
+  "zdt1_specific_warning": "This candidate is a ZDT1-specific Phase 0 sanity probe and must not be generalized as a broad MOEA improvement claim.",
+  "source_artifacts": [
+    "artifacts/hypotheses/nsga2_zdt1_low_g_bottleneck_postmortem.md",
+    "artifacts/hypotheses/nsga2_operator_quality_phase0_plan.md",
+    "artifacts/nsga2_operator_quality_planning_report.md",
+    "artifacts/nsga2_zdt1_component_diagnostics_report_zdtcomp1.md"
+  ],
+  "notes": [
+    "This candidate is Phase 0 only and is not approved as an opt-in profile.",
+    "It must not directly force x0 or all tail variables to fixed low values.",
+    "Selecting this candidate requires explicit runner invocation."
+  ]
+}

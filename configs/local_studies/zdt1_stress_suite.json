@@ -1,0 +1,62 @@
+{
+  "study_name": "zdt1_stress_suite",
+  "description": "Small ZDT1 stress suite. Reuse the current Q/F defaults and the known safety-sensitive seeds to keep spread / Pareto safety failures visible without inventing a new rule.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "budget_first": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "plot_name_suffix": "_stress"
+    },
+    "stress_suite": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "budget_band_label": "current_qf_split",
+      "catalog_top_overall": 3,
+      "catalog_top_group": 2,
+      "hv_boundary_pct": 0.5,
+      "protocol_note": "ZDT1 keeps the current Q/F split: F for exploratory HV sanity, Q for final spread and Pareto safety."
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first"]
+  },
+  "seeds": [9122, 9124, 9126, 9129, 9130],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Stress-suite pass only. Keep the current ZDT1 defaults fixed and catalog the seed blocks that still drive HV and safety tails."
+}

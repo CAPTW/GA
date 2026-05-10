@@ -1,0 +1,26 @@
+{
+  "study_name": "knapsack_restart_confirm_study",
+  "description": "Confirm whether the small knapsack restart signal survives against the static baseline.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_policy": "stagnation_restart",
+      "refresh_fraction": 0.25,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.stagnation_window": [5, 12, 999]
+  },
+  "seeds": [341, 342, 343, 344, 345, 346, 347, 348, 349, 350],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Stage-2 knapsack confirm. Compare the best short restart window, the earlier window-12 signal, and an effectively disabled restart."
+}

@@ -1,0 +1,66 @@
+{
+  "study_name": "zdt1_fast_profile_confirm",
+  "description": "10-seed confirm for ZDT1 fast-profile candidates. Compare one generation cut and two population cuts against the canonical default after the budget frontier coarse pass.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "current_default": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "generations_075": {
+      "population_size": 60,
+      "generations": 60,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "population_075": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "population_050": {
+      "population_size": 30,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "current_default",
+      "generations_075",
+      "population_075",
+      "population_050"
+    ]
+  },
+  "seeds": [5201, 5202, 5203, 5204, 5205, 5206, 5207, 5208, 5209, 5210],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Confirm only. Promote a ZDT1 fast profile only if the cheaper candidate stays close on HV while keeping Pareto-ratio and spread sane on holdout seeds."
+}

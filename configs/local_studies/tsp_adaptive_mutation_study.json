@@ -1,0 +1,26 @@
+{
+  "study_name": "tsp_adaptive_mutation_study",
+  "description": "Compare fixed, decay, and stagnation-boost mutation schedules on small TSP under the same evaluation budget.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "stagnation_window": 6,
+      "stagnation_boost_factor": 2.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "decay_mutation", "stagnation_boost"]
+  },
+  "seeds": [3, 4, 5],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Small adaptive TSP study, usually under two minutes on a laptop."
+}

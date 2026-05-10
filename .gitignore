@@ -1,0 +1,70 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.ops-cli
+dist/
+build/
+*.egg-info/
+outputs/
+outputs_test/
+.ci-artifacts/
+mlruns/
+wandb/
+benchmarks/cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+.DS_Store
+var/
+docker-data/
+
+.tmp_pytest*/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Source-only baseline ignores
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-local-tmp/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local env / secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# Generated run outputs
+outputs*/
+output/
+results/
+logs/
+
+# Generated experiment artifacts
+artifacts/
+!artifacts/.gitkeep
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.tmp_pytest*/
+.pytest_cache/
+__pycache__/
+*.pyc

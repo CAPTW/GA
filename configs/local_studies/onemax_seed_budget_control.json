@@ -1,0 +1,44 @@
+{
+  "study_name": "onemax_seed_budget_control",
+  "description": "Tiny OneMax seed-budget control check. Reconfirm that this remains a clean control problem and that seed-budget calibration does not need a more elaborate operating rule here.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "early_stop_reference": {
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 6,
+        "early_stop_min_generation": 10,
+        "early_stop_epsilon": 0.0
+      }
+    }
+  },
+  "analysis": {
+    "seed_budget": {
+      "seed_counts": [1, 3, 5],
+      "control_variant": "none",
+      "reference_variant": "early_stop_reference"
+    }
+  },
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 25,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "early_stop_reference"]
+  },
+  "seeds": [9141, 9142, 9143, 9144, 9145],
+  "budget_ceiling": 1040,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control-only seed-budget check. Keep OneMax as the clean fixed-baseline reference and ask only whether any larger seed ladder is even necessary."
+}

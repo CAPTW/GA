@@ -1,0 +1,69 @@
+{
+  "study_name": "zdt1_two_stage_gate_confirm",
+  "description": "10-seed confirm for the ZDT1 two-stage gate candidates against always-canonical and always-fast.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "always_canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "always_fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "pilot_then_canonical_v1": {
+      "__local_baseline__": "zdt1_two_stage_gate",
+      "algorithm_options": {
+        "gate_fast_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "gate_canonical_profile": "configs/local_profiles/zdt1_diversity_injection.json",
+        "gate_pilot_budget_fraction": 0.25,
+        "gate_signal_policy": "zdt1_hv_or_plateau",
+        "gate_min_hypervolume": 11.05,
+        "gate_late_improvement_floor": 8
+      }
+    },
+    "pilot_then_canonical_v2": {
+      "__local_baseline__": "zdt1_two_stage_gate",
+      "algorithm_options": {
+        "gate_fast_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "gate_canonical_profile": "configs/local_profiles/zdt1_diversity_injection.json",
+        "gate_pilot_budget_fraction": 0.33,
+        "gate_signal_policy": "zdt1_front_plateau",
+        "gate_late_improvement_floor": 10,
+        "gate_front_size_floor": 28,
+        "gate_spread_ceiling": 0.5
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "always_canonical",
+      "always_fast",
+      "pilot_then_canonical_v1",
+      "pilot_then_canonical_v2"
+    ]
+  },
+  "seeds": [7601, 7602, 7603, 7604, 7605, 7606, 7607, 7608, 7609, 7610],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Confirm only. Keep a smart gate only if it stays near canonical HV, improves on fast-only, and still lowers average total evaluations."
+}

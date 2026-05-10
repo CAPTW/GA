@@ -1,0 +1,83 @@
+{
+  "study_name": "tsp_policy_router_train_study",
+  "description": "Train-side TSP fixed-policy labeling pass. Compare none, low-diversity injection, and decay mutation on a small hard-case train block.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_diversity_injection.json",
+  "cases": [
+    {
+      "case_id": "cluster_bridge_12",
+      "note": "two dense clusters plus one bridge city; small bridge-heavy case where trigger-like profiles can overreact",
+      "overrides": {
+        "genome_length": 12,
+        "problem_options": {
+          "num_cities": 12,
+          "instance_name": "cluster_bridge_12",
+          "instance_source": "local_tsp_router_train",
+          "coordinates": [[0.0, 0.0], [3.0, 5.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0], [68.0, 0.0], [72.0, 4.0], [66.0, -5.0], [75.0, -2.0], [70.0, 7.0], [36.0, 18.0]]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "note": "near-collinear corridor with one hook outlier; expected to be tie-heavy",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_router_train",
+          "coordinates": [[0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0], [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0], [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]]
+        }
+      }
+    },
+    {
+      "case_id": "ring_chord_20",
+      "note": "symmetric ring with inner chords; trigger-friendly low-anisotropy case",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "ring_chord_20",
+          "instance_source": "local_tsp_router_train",
+          "coordinates": [[40.0, 0.0], [38.0, 15.0], [29.0, 29.0], [15.0, 38.0], [0.0, 40.0], [-15.0, 38.0], [-29.0, 29.0], [-38.0, 15.0], [-40.0, 0.0], [-38.0, -15.0], [-29.0, -29.0], [-15.0, -38.0], [0.0, -40.0], [15.0, -38.0], [29.0, -29.0], [38.0, -15.0], [0.0, 0.0], [10.0, 12.0], [-12.0, 10.0], [0.0, -14.0]]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_detour_18",
+      "note": "long corridor with two detours; clean decay-friendly anisotropic case",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "corridor_detour_18",
+          "instance_source": "local_tsp_router_train",
+          "coordinates": [[0.0, 3.0], [6.0, -4.0], [12.0, 5.0], [18.0, -6.0], [24.0, 3.0], [30.0, -4.0], [36.0, 5.0], [42.0, -6.0], [48.0, 3.0], [54.0, -4.0], [60.0, 5.0], [66.0, -6.0], [72.0, 3.0], [78.0, -4.0], [84.0, 5.0], [90.0, -6.0], [40.0, 18.0], [72.0, 20.0]]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1,
+    "algorithm_options": {
+      "diversity_threshold": 0.15,
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5,
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "decay_end_rate": 0.02
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "low_diversity_injection", "decay_mutation"],
+    "generations": [36, 60]
+  },
+  "seeds": [301, 302, 303, 304, 305],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Small train block for the TSP instance-aware router. Stay on reduced/current focused budgets only."
+}

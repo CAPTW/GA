@@ -1,0 +1,12 @@
+{
+  "suite_name": "onemax_operator_compare_10seeds",
+  "matrix": {
+    "base_config": "configs/onemax_baseline.json",
+    "seed_start": 7,
+    "seeds": 10,
+    "label_template": "onemax_{selection}",
+    "axes": {
+      "selection": ["tournament", "rank"]
+    }
+  }
+}

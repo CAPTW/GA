@@ -1,0 +1,150 @@
+{
+  "study_name": "tsp_canonical_default_confirm",
+  "description": "Holdout confirm for the TSP canonical local default freeze. Re-check the current preferred fixed stack against the leading simpler alternatives on rescue-target and anti-case holdouts.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_fixed_stack_holdout",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0],
+            [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target holdout",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_fixed_stack_holdout",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-3.0, 5.0], [6.0, -3.0], [-5.0, -4.0], [2.0, 8.0],
+            [52.0, 22.0], [70.0, 0.0], [74.0, 5.0], [68.0, -6.0], [78.0, -2.0], [71.0, 8.0],
+            [36.0, 12.0], [44.0, -10.0], [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_fixed_stack_holdout",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "near-collinear corridor anti-case",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_fixed_stack_holdout",
+          "coordinates": [
+            [0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0],
+            [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0],
+            [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "none": {
+      "algorithm": "ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "decay": {
+      "algorithm": "ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "decay_mutation",
+        "adaptive_mutation_min_rate": 0.02,
+        "adaptive_mutation_max_rate": 0.2,
+        "decay_end_rate": 0.02
+      }
+    },
+    "seeded_swap_seed25": {
+      "algorithm": "hybrid_ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.25,
+        "local_search_strategy": "none"
+      }
+    },
+    "seeded_swap_seed50": {
+      "algorithm": "hybrid_ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "seeded_inversion_seed25": {
+      "algorithm": "hybrid_ga",
+      "mutation": "inversion",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.25,
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "none",
+      "decay",
+      "seeded_swap_seed25",
+      "seeded_swap_seed50",
+      "seeded_inversion_seed25"
+    ],
+    "generations": [28, 45]
+  },
+  "seeds": [991, 992, 993, 994, 995, 996, 997, 998, 999, 1000],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Holdout confirm only. Freeze the canonical TSP local default only if the simpler fixed-stack candidate stays level with the current preferred rule on both rescue-target and anti-case holdouts."
+}

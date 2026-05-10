@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "candidate_id": "example_zdt1_spread_candidate_note_only",
+  "problem": "zdt1",
+  "target_id": "zdt1_fast_spread_safety_fail",
+  "hypothesis_id": "zdt1_fast_spread_mechanism_population_generation_candidate",
+  "baseline_snapshot_path": "artifacts/local_baseline_snapshot.json",
+  "baseline_guard_study": "local_baseline_guard_zdt1",
+  "candidate_study": "zdt1_spread_candidate_boundary_confirm",
+  "existing_output_dir": "outputs/local_studies/20260418T115930Z_zdt1_spread_candidate_boundary_confirm",
+  "candidate_profile_or_overrides": {
+    "baseline_variant": "current_fast",
+    "candidate_variant": "spread_pg_pop41_gen88",
+    "quality_variant": "quality_first",
+    "population_size": 41,
+    "generations": 88,
+    "algorithm_options": {
+      "adaptation_cooldown": 3,
+      "refresh_fraction": 0.1
+    }
+  },
+  "allowed_budget_policy": "same_or_lower_than_current_fast",
+  "expected_primary_metric": "spread_fail_rate",
+  "expected_non_regression_metrics": [
+    "overall_hv_mean_loss_pct_vs_q",
+    "overall_hv_p90_loss_pct_vs_q",
+    "joint_safety_fail_rate",
+    "pareto_ratio_delta_mean",
+    "stable_slice_non_regression_score",
+    "normal_slice_non_regression_score"
+  ],
+  "stress_slices_to_check": [
+    "spread_stress",
+    "joint_non_regression",
+    "stable_contrast",
+    "normal_holdout"
+  ],
+  "seed_policy": {
+    "mode": "use_existing_output",
+    "seed_blocks": ["A", "B"],
+    "holdout": true
+  },
+  "decision_policy": {
+    "allow_stress_slice_note_only": true,
+    "stable_normal_non_regression_required": true,
+    "joint_non_regression_required": true,
+    "hv_p90_max_worsen": 0.05
+  },
+  "notes": "Stress-slice gain is real, but this candidate must survive stable/normal non-regression before any same-name fast replacement review.",
+  "expected_decision_label": "note_only_stress_slice",
+  "baseline_variant": "current_fast",
+  "candidate_variant": "spread_pg_pop41_gen88",
+  "quality_variant": "quality_first"
+}

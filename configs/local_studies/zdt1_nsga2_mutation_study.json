@@ -1,0 +1,20 @@
+{
+  "study_name": "zdt1_nsga2_mutation_study",
+  "description": "Check NSGA-II mutation_rate sensitivity on the small ZDT1 preset.",
+  "problem": "zdt1",
+  "base_preset": "zdt1_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80
+  },
+  "sweep": {
+    "mutation_rate": [0.1, 0.2, 0.3]
+  },
+  "seeds": [21, 22, 23],
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume",
+    "comparison_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Small local NSGA-II sweep, usually under a few minutes on a laptop."
+}

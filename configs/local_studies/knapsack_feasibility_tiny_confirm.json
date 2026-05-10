@@ -1,0 +1,37 @@
+{
+  "study_name": "knapsack_feasibility_tiny_confirm",
+  "description": "Tiny knapsack confirm to decide whether feasibility-aware mutation is worth another pass or should be parked.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptation_cooldown": 3,
+      "feasible_ratio_threshold": 0.6,
+      "feasible_ratio_recovery_threshold": 0.65,
+      "violation_plateau_window": 5,
+      "violation_plateau_epsilon": 0.0025,
+      "mutation_cap": 0.06,
+      "mutation_boost_multiplier": 1.5,
+      "refresh_fraction": 0.25,
+      "stagnation_window": 5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "stagnation_restart",
+      "feasibility_aware_mutation_v1",
+      "feasibility_aware_mutation_v3"
+    ]
+  },
+  "seeds": [751, 752, 753, 754, 755],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Tiny knapsack confirm for a park-or-continue decision. If the gap stays small, park the adaptive branch."
+}

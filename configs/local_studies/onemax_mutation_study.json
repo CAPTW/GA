@@ -1,0 +1,20 @@
+{
+  "study_name": "onemax_mutation_study",
+  "description": "Check how mutation_rate changes target reachability and convergence speed on small onemax.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "generations": 40,
+    "population_size": 40
+  },
+  "sweep": {
+    "mutation_rate": [0.01, 0.015625, 0.03]
+  },
+  "seeds": [7, 8, 9],
+  "primary_metric": "generations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness",
+    "comparison_metric": "generations_to_target"
+  },
+  "runtime_budget_note": "Small local sweep, usually under a minute on a laptop."
+}

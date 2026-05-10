@@ -1,0 +1,36 @@
+{
+  "study_name": "tsp_composite_trigger_focused_study",
+  "description": "Coarse TSP study for composite diversity-collapse triggers under the same evaluation budget.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "log_every": 1,
+    "algorithm_options": {
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 5,
+      "stagnation_window": 10,
+      "stagnation_boost_factor": 1.5,
+      "improvement_epsilon": 0.5,
+      "diversity_slope_threshold": 0.0
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection",
+      "composite_trigger_v1",
+      "composite_trigger_v2",
+      "composite_trigger_v3"
+    ],
+    "algorithm_options.diversity_threshold": [0.06, 0.08, 0.1, 0.12]
+  },
+  "seeds": [121, 122, 123, 124],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Coarse TSP trigger redesign study. Composite triggers should beat the simple threshold only if collapse and stagnation line up."
+}

@@ -1,0 +1,67 @@
+{
+  "study_name": "zdt1_stress_refresh_suite",
+  "description": "Refresh the small ZDT1 stress suite against the current hardened Q/F defaults. Keep the current protocol fixed, and mine the spread/joint safety failures that still explain why final safety routes directly to Q.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "budget_first": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "plot_name_suffix": "_refresh"
+    },
+    "stress_suite": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "budget_band_label": "current_hardened_qf_split",
+      "catalog_top_overall": 4,
+      "catalog_top_group": 2,
+      "hv_boundary_pct": 0.5,
+      "protocol_note": "ZDT1 still keeps the exploratory-vs-final split: hardened F for cheap HV sanity, Q for final spread and Pareto safety.",
+      "plot_file_names": {
+        "hv_tail_distribution": "plot_currentF_hv_tail_refresh.png",
+        "spread_safety_tail": "plot_spread_safety_tail_refresh.png",
+        "case_group_hv_loss": "plot_case_group_vs_hv_loss_refresh.png"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first"]
+  },
+  "seeds": [8212, 8214, 8218, 8219, 8220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Stress refresh only. Keep the current hardened ZDT1 defaults fixed and use the current safety-fail slice to freeze the next optimization targets."
+}

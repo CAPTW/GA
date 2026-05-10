@@ -1,0 +1,40 @@
+{
+  "run_name": "knapsack_repair_local_experimental",
+  "problem": "knapsack",
+  "algorithm": "hybrid_ga",
+  "representation": "bit",
+  "selection": "tournament",
+  "crossover": "one_point",
+  "mutation": "bit_flip",
+  "population_size": 60,
+  "genome_length": 20,
+  "generations": 80,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.02,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 11,
+  "maximize": true,
+  "log_every": 1,
+  "problem_options": {
+    "num_items": 20,
+    "seed": 5,
+    "weight_scale": [
+      1.0,
+      20.0
+    ],
+    "value_scale": [
+      1.0,
+      30.0
+    ],
+    "capacity": null,
+    "penalty_factor": 20.0
+  },
+  "algorithm_options": {
+    "adaptive_policy": "none",
+    "init_strategy": "none",
+    "seed_fraction": 0.0,
+    "repair_strategy": "knapsack_greedy_fill",
+    "local_search_strategy": "none"
+  }
+}

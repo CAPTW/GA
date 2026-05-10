@@ -1,0 +1,140 @@
+{
+  "study_name": "knapsack_seeded_repair_anatomy_study",
+  "description": "Factorized knapsack seeding/repair anatomy. Separate seeding from repair, keep the comparator narrow, and ask whether the structural gain is really coming from seeding, repair, or both.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "cases": [
+    {
+      "case_id": "uncorrelated_small_a",
+      "group": "uncorrelated_small",
+      "note": "uncorrelated local family",
+      "overrides": {
+        "genome_length": 20,
+        "__study_metadata__": {
+          "family_label": "uncorrelated_small",
+          "capacity_ratio": 0.37,
+          "correlation_note": "uncorrelated"
+        },
+        "problem_options": {
+          "num_items": 20,
+          "instance_name": "uncorrelated_small_a",
+          "instance_source": "local_knapsack_family_suite",
+          "weights": [3, 8, 5, 11, 6, 14, 7, 9, 4, 13, 12, 10, 2, 15, 1, 16, 5, 7, 9, 6],
+          "values": [18, 7, 20, 9, 16, 15, 11, 14, 8, 26, 13, 17, 5, 24, 4, 21, 19, 12, 10, 22],
+          "capacity": 60.0,
+          "penalty_factor": 20.0
+        }
+      }
+    },
+    {
+      "case_id": "subset_sum_like_small_a",
+      "group": "subset_sum_like_small",
+      "note": "subset-sum-like local family",
+      "overrides": {
+        "genome_length": 20,
+        "__study_metadata__": {
+          "family_label": "subset_sum_like_small",
+          "capacity_ratio": 0.26,
+          "correlation_note": "subset_sum_like"
+        },
+        "problem_options": {
+          "num_items": 20,
+          "instance_name": "subset_sum_like_small_a",
+          "instance_source": "local_knapsack_family_suite",
+          "weights": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+          "values": [4.6, 5.1, 6.2, 7.1, 8.4, 9.0, 10.3, 11.2, 12.0, 13.5, 14.2, 15.1, 16.4, 17.0, 18.3, 19.1, 20.5, 21.2, 22.0, 23.4],
+          "capacity": 70.0,
+          "penalty_factor": 20.0
+        }
+      }
+    },
+    {
+      "case_id": "tight_capacity_small_a",
+      "group": "tight_capacity_small",
+      "note": "tight-capacity local family",
+      "overrides": {
+        "genome_length": 20,
+        "__study_metadata__": {
+          "family_label": "tight_capacity_small",
+          "capacity_ratio": 0.18,
+          "correlation_note": "mixed_tight_capacity"
+        },
+        "problem_options": {
+          "num_items": 20,
+          "instance_name": "tight_capacity_small_a",
+          "instance_source": "local_knapsack_family_suite",
+          "weights": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 4, 6, 8, 9, 10, 12, 14, 16, 18, 20],
+          "values": [3, 4, 9, 13, 22, 25, 32, 35, 43, 53, 7, 10, 13, 14, 16, 18, 21, 24, 27, 30],
+          "capacity": 48.0,
+          "penalty_factor": 20.0
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "mutation_rate": 0.02
+  },
+  "variant_overrides": {
+    "greedy_local_search": {
+      "__local_baseline__": "knapsack_greedy_local_search",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "none": {
+      "algorithm": "ga",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "seeded_only": {
+      "algorithm": "hybrid_ga",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "knapsack_greedy_mix",
+        "seed_fraction": 0.5,
+        "repair_strategy": "none",
+        "local_search_strategy": "none"
+      }
+    },
+    "repair_only": {
+      "algorithm": "hybrid_ga",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "none",
+        "seed_fraction": 0.0,
+        "repair_strategy": "knapsack_greedy_fill",
+        "local_search_strategy": "none"
+      }
+    },
+    "seeded_repair": {
+      "algorithm": "hybrid_ga",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "knapsack_greedy_mix",
+        "seed_fraction": 0.5,
+        "repair_strategy": "knapsack_greedy_fill",
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "greedy_local_search",
+      "none",
+      "seeded_only",
+      "repair_only",
+      "seeded_repair"
+    ]
+  },
+  "seeds": [2501, 2502, 2503, 2504],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Factorized seeding and repair anatomy only. No new heavy hybrid family; keep extra evaluations at zero."
+}

@@ -1,0 +1,25 @@
+{
+  "study_name": "zdt1_default_note_recheck",
+  "description": "Tiny ZDT1 recheck for the current 0.55 local default versus the nearby 0.60 threshold note.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 2,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "refresh_fraction": 0.2,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.55, 0.6],
+    "generations": [60, 80]
+  },
+  "seeds": [521, 522, 523, 524, 525],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Tiny freeze recheck only. Do not promote a new ZDT1 local rule from this pass."
+}

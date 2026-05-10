@@ -1,0 +1,92 @@
+{
+  "study_name": "zdt1_budget_frontier_study",
+  "description": "Budget-efficiency frontier for the canonical ZDT1 local default. Compare generation cuts, population cuts, and a single hypervolume-plateau early-stop wrapper.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "current_default": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "generations_075": {
+      "population_size": 60,
+      "generations": 60,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "generations_050": {
+      "population_size": 60,
+      "generations": 40,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "population_075": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "population_050": {
+      "population_size": 30,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "early_stop_plateau": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 12,
+        "early_stop_min_generation": 48,
+        "early_stop_epsilon": 0.01
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "current_default",
+      "generations_075",
+      "generations_050",
+      "population_075",
+      "population_050",
+      "early_stop_plateau"
+    ]
+  },
+  "seeds": [5101, 5102, 5103, 5104, 5105],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Budget-efficiency coarse pass only. Keep the ZDT1 canonical default unless a cheaper generation cut, population cut, or one simple HV-plateau early stop stays level on HV without clearly worse spread or Pareto-ratio."
+}

@@ -1,0 +1,178 @@
+{
+  "study_name": "tsp_budget_frontier_study",
+  "description": "Budget-efficiency frontier for the canonical TSP local default. Compare generation cuts, population cuts, and a single progress-plateau early-stop wrapper across rescue-target and anti-case holdouts.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_budget_frontier",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0],
+            [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target holdout",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_budget_frontier",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-3.0, 5.0], [6.0, -3.0], [-5.0, -4.0], [2.0, 8.0],
+            [52.0, 22.0], [70.0, 0.0], [74.0, 5.0], [68.0, -6.0], [78.0, -2.0], [71.0, 8.0],
+            [36.0, 12.0], [44.0, -10.0], [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_budget_frontier",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "near-collinear corridor anti-case",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_budget_frontier",
+          "coordinates": [
+            [0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0],
+            [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0],
+            [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "current_default": {
+      "population_size": 40,
+      "generations": 45,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "generations_075": {
+      "population_size": 40,
+      "generations": 33,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "generations_050": {
+      "population_size": 40,
+      "generations": 22,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "population_075": {
+      "population_size": 30,
+      "generations": 45,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "population_050": {
+      "population_size": 20,
+      "generations": 45,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "balanced_075": {
+      "population_size": 34,
+      "generations": 39,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "early_stop_plateau": {
+      "population_size": 40,
+      "generations": 45,
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 10,
+        "early_stop_min_generation": 18,
+        "early_stop_epsilon": 0.5
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "current_default",
+      "generations_075",
+      "generations_050",
+      "population_075",
+      "population_050",
+      "balanced_075",
+      "early_stop_plateau"
+    ]
+  },
+  "seeds": [4101, 4102, 4103, 4104, 4105],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Budget-efficiency coarse pass only. Keep the TSP canonical default unless a cheaper fixed cut or a single simple early-stop wrapper stays close on both rescue-target and anti-case cases."
+}

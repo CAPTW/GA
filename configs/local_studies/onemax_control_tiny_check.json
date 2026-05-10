@@ -1,0 +1,36 @@
+{
+  "study_name": "onemax_control_tiny_check",
+  "description": "Tiny OneMax control rerun. Keep the fixed baseline in place while the pass focuses on ZDT1 default anatomy.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "low_diversity_injection": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.7,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    }
+  },
+  "shared_overrides": {
+    "population_size": 30,
+    "generations": 40,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "low_diversity_injection"]
+  },
+  "seeds": [1261, 1262, 1263, 1264, 1265],
+  "budget_ceiling": 1260,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Tiny control-only check. OneMax should still prefer the fixed baseline even when the ZDT1-style trigger is present."
+}

@@ -1,0 +1,444 @@
+{
+  "suite_name": "external_benchmark_confirm",
+  "default_seeds": 10,
+  "entries": [
+    {
+      "entry_id": "bitstring_leading_ones_128",
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "instance_or_family": "leading_ones_128",
+      "benchmark_source": "synthetic_bitstring",
+      "validated_internal_range": "32 / 64 / 128",
+      "benchmark": {
+        "synthetic_family": "leading_ones"
+      },
+      "seed_start": 5100,
+      "methods": [
+        {
+          "label": "official_pure_ga",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "hill_climb",
+          "kind": "baseline",
+          "family": "hill_climb",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "mutation_only_ea",
+          "kind": "override",
+          "solver_family": "pure-ga",
+          "overrides": {
+            "crossover_rate": 0.0,
+            "run_name": "leading_ones_mutation_only_ea"
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "leadingones_hill_vs_pure_ga_fitness",
+          "left": "hill_climb",
+          "right": "official_pure_ga",
+          "metric": "final_best_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "leadingones_mutation_only_vs_pure_ga_fitness",
+          "left": "mutation_only_ea",
+          "right": "official_pure_ga",
+          "metric": "final_best_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "bitstring_trap4_128",
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "instance_or_family": "trap4_128",
+      "benchmark_source": "synthetic_bitstring",
+      "validated_internal_range": "32 / 64 / 128",
+      "benchmark": {
+        "synthetic_family": "trap",
+        "synthetic_options": {
+          "trap_block_size": 4
+        }
+      },
+      "seed_start": 5200,
+      "methods": [
+        {
+          "label": "official_pure_ga",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "hill_climb",
+          "kind": "baseline",
+          "family": "hill_climb",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "mutation_only_ea",
+          "kind": "override",
+          "solver_family": "pure-ga",
+          "overrides": {
+            "crossover_rate": 0.0,
+            "run_name": "trap_mutation_only_ea"
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "trap_hill_vs_pure_ga_fitness",
+          "left": "hill_climb",
+          "right": "official_pure_ga",
+          "metric": "final_best_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "trap_mutation_only_vs_pure_ga_fitness",
+          "left": "mutation_only_ea",
+          "right": "official_pure_ga",
+          "metric": "final_best_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "knapsack_kplib_uncorrelated_50",
+      "problem": "knapsack",
+      "size": 50,
+      "preset": "configs/presets/knapsack_medium.json",
+      "instance_or_family": "kplib_uncorrelated_n50_s000",
+      "benchmark_source": "kplib",
+      "validated_internal_range": "20 / 30 / 80",
+      "benchmark": {
+        "instance_id": "kplib_uncorrelated_50_s000"
+      },
+      "seed_start": 5300,
+      "methods": [
+        {
+          "label": "official_pure_ga",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "greedy_local_search",
+          "kind": "baseline",
+          "family": "greedy_local_search",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "seed_repair_hybrid",
+          "kind": "override",
+          "solver_family": "hybrid-ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.5,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "kplib50_greedy_vs_pure_ga",
+          "left": "greedy_local_search",
+          "right": "official_pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "kplib50_greedy_vs_seedrepair",
+          "left": "greedy_local_search",
+          "right": "seed_repair_hybrid",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "knapsack_kplib_strongly_correlated_100",
+      "problem": "knapsack",
+      "size": 100,
+      "preset": "configs/presets/knapsack_large.json",
+      "instance_or_family": "kplib_strongly_correlated_n100_s000",
+      "benchmark_source": "kplib",
+      "validated_internal_range": "20 / 30 / 80",
+      "benchmark": {
+        "instance_id": "kplib_strongly_correlated_100_s000"
+      },
+      "seed_start": 5400,
+      "methods": [
+        {
+          "label": "official_pure_ga",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "greedy_local_search",
+          "kind": "baseline",
+          "family": "greedy_local_search",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "seed_repair_hybrid",
+          "kind": "override",
+          "solver_family": "hybrid-ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.5,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "kplib100_greedy_vs_pure_ga",
+          "left": "greedy_local_search",
+          "right": "official_pure_ga",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "kplib100_greedy_vs_seedrepair",
+          "left": "greedy_local_search",
+          "right": "seed_repair_hybrid",
+          "metric": "best_feasible_fitness",
+          "objective": "max"
+        }
+      ]
+    },
+    {
+      "entry_id": "tsp_tsplib_ulysses22",
+      "problem": "tsp",
+      "size": 22,
+      "preset": "configs/presets/tsp_medium.json",
+      "instance_or_family": "tsplib_ulysses22",
+      "benchmark_source": "tsplib",
+      "validated_internal_range": "10 / 20 / 50",
+      "benchmark": {
+        "instance_id": "tsplib_ulysses22"
+      },
+      "seed_start": 5500,
+      "methods": [
+        {
+          "label": "official_pure_ga",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "nearest_neighbor_2opt",
+          "kind": "baseline",
+          "family": "nearest_neighbor_2opt",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "official_hybrid",
+          "kind": "preset",
+          "preset": "configs/presets/tsp_medium_hybrid.json",
+          "solver_family": "hybrid-ga"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "tsplib22_baseline_vs_pure_ga",
+          "left": "nearest_neighbor_2opt",
+          "right": "official_pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsplib22_hybrid_vs_baseline",
+          "left": "official_hybrid",
+          "right": "nearest_neighbor_2opt",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsplib22_hybrid_vs_pure_ga",
+          "left": "official_hybrid",
+          "right": "official_pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "tsp_tsplib_berlin52",
+      "problem": "tsp",
+      "size": 52,
+      "preset": "configs/presets/tsp_large.json",
+      "instance_or_family": "tsplib_berlin52",
+      "benchmark_source": "tsplib",
+      "validated_internal_range": "10 / 20 / 50",
+      "benchmark": {
+        "instance_id": "tsplib_berlin52"
+      },
+      "seed_start": 5600,
+      "methods": [
+        {
+          "label": "official_pure_ga",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "nearest_neighbor_2opt",
+          "kind": "baseline",
+          "family": "nearest_neighbor_2opt",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "experimental_large_hybrid",
+          "kind": "override",
+          "solver_family": "hybrid-ga",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "tsplib52_baseline_vs_pure_ga",
+          "left": "nearest_neighbor_2opt",
+          "right": "official_pure_ga",
+          "metric": "final_best_distance",
+          "objective": "min"
+        },
+        {
+          "comparison_id": "tsplib52_baseline_vs_large_hybrid",
+          "left": "nearest_neighbor_2opt",
+          "right": "experimental_large_hybrid",
+          "metric": "final_best_distance",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "zdt2_20",
+      "problem": "zdt1",
+      "size": 20,
+      "preset": "configs/presets/zdt1_medium.json",
+      "instance_or_family": "zdt2_20",
+      "benchmark_source": "zdt_family",
+      "validated_internal_range": "10 / 20 / 50",
+      "benchmark": {
+        "synthetic_family": "zdt2"
+      },
+      "seed_start": 5700,
+      "methods": [
+        {
+          "label": "nsga2_preset",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "random_archive",
+          "kind": "baseline",
+          "family": "random_archive",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "mutation_archive",
+          "kind": "baseline",
+          "family": "mutation_archive",
+          "solver_family": "baseline"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "zdt2_nsga2_vs_random_hv",
+          "left": "nsga2_preset",
+          "right": "random_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt2_nsga2_vs_mutation_hv",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt2_nsga2_vs_mutation_spread",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "spread",
+          "objective": "min"
+        }
+      ]
+    },
+    {
+      "entry_id": "zdt3_50",
+      "problem": "zdt1",
+      "size": 50,
+      "preset": "configs/presets/zdt1_large.json",
+      "instance_or_family": "zdt3_50",
+      "benchmark_source": "zdt_family",
+      "validated_internal_range": "10 / 20 / 50",
+      "benchmark": {
+        "synthetic_family": "zdt3"
+      },
+      "seed_start": 5800,
+      "methods": [
+        {
+          "label": "nsga2_preset",
+          "kind": "base_preset",
+          "solver_family": "pure-ga"
+        },
+        {
+          "label": "random_archive",
+          "kind": "baseline",
+          "family": "random_archive",
+          "solver_family": "baseline"
+        },
+        {
+          "label": "mutation_archive",
+          "kind": "baseline",
+          "family": "mutation_archive",
+          "solver_family": "baseline"
+        }
+      ],
+      "comparisons": [
+        {
+          "comparison_id": "zdt3_nsga2_vs_random_hv",
+          "left": "nsga2_preset",
+          "right": "random_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt3_nsga2_vs_mutation_hv",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "hypervolume",
+          "objective": "max"
+        },
+        {
+          "comparison_id": "zdt3_nsga2_vs_mutation_spread",
+          "left": "nsga2_preset",
+          "right": "mutation_archive",
+          "metric": "spread",
+          "objective": "min"
+        }
+      ]
+    }
+  ]
+}

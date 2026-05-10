@@ -1,0 +1,29 @@
+{
+  "suite_name": "release_candidate_regression",
+  "entries": [
+    {
+      "label": "onemax_rc",
+      "config": "configs/onemax_baseline.json",
+      "seeds": 5,
+      "seed_start": 7
+    },
+    {
+      "label": "tsp_rc",
+      "config": "configs/tsp_baseline.json",
+      "seeds": 3,
+      "seed_start": 3
+    },
+    {
+      "label": "knapsack_rc",
+      "config": "configs/knapsack_baseline.json",
+      "seeds": 3,
+      "seed_start": 11
+    },
+    {
+      "label": "zdt1_rc",
+      "config": "configs/zdt1_nsga2.json",
+      "seeds": 3,
+      "seed_start": 21
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "run_name": "tsp_local_diversity_injection",
+  "problem": "tsp",
+  "algorithm": "ga",
+  "representation": "permutation",
+  "selection": "tournament",
+  "crossover": "order",
+  "mutation": "swap",
+  "population_size": 40,
+  "genome_length": 10,
+  "generations": 60,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.05,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 3,
+  "maximize": true,
+  "log_every": 1,
+  "problem_options": {
+    "num_cities": 10,
+    "seed": 11,
+    "bounds": [
+      0.0,
+      100.0
+    ],
+    "return_to_start": true
+  },
+  "algorithm_options": {
+    "adaptive_policy": "low_diversity_injection",
+    "diversity_threshold": 0.15,
+    "refresh_fraction": 0.05,
+    "adaptation_cooldown": 4,
+    "stagnation_boost_factor": 1.5
+  }
+}

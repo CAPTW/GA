@@ -1,0 +1,19 @@
+{
+  "study_name": "zdt1_nsga2_population_study",
+  "description": "Compare hypervolume and Pareto coverage across a few NSGA-II population sizes.",
+  "problem": "zdt1",
+  "base_preset": "zdt1_small",
+  "shared_overrides": {
+    "generations": 80
+  },
+  "sweep": {
+    "population_size": [40, 80, 120]
+  },
+  "seeds": [21, 22, 23],
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume",
+    "comparison_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Small local NSGA-II sweep, usually under a few minutes on a laptop."
+}

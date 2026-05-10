@@ -1,0 +1,33 @@
+{
+  "run_name": "tsp_medium_hybrid_demo",
+  "problem": "tsp",
+  "algorithm": "hybrid_ga",
+  "representation": "permutation",
+  "selection": "tournament",
+  "crossover": "order",
+  "mutation": "swap",
+  "population_size": 50,
+  "genome_length": 20,
+  "generations": 80,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.05,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 3,
+  "maximize": true,
+  "log_every": 2,
+  "algorithm_options": {
+    "init_strategy": "tsp_nearest_neighbor_mix",
+    "seed_fraction": 0.5,
+    "local_search_strategy": "tsp_2opt",
+    "local_search_interval": 1,
+    "local_search_candidates": 2,
+    "local_search_steps": 12
+  },
+  "problem_options": {
+    "num_cities": 20,
+    "seed": 11,
+    "bounds": [0.0, 100.0],
+    "return_to_start": true
+  }
+}

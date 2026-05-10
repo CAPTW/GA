@@ -1,0 +1,27 @@
+{
+  "study_name": "onemax_control_adaptive_check",
+  "description": "Control check for onemax: fixed mutation against the two most plausible adaptive variants at the same budget.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.005,
+      "adaptive_mutation_max_rate": 0.08,
+      "stagnation_window": 5,
+      "stagnation_boost_factor": 3.0,
+      "refresh_fraction": 0.25,
+      "diversity_threshold": 0.15,
+      "adaptation_cooldown": 5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "stagnation_boost", "low_diversity_injection"]
+  },
+  "seeds": [7, 8, 9, 10, 11],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Quick onemax control check. Adaptive should not be promoted unless it clearly beats the fixed baseline."
+}

@@ -1,0 +1,155 @@
+{
+  "suite_name": "ga_benchmark_confirm_10seeds",
+  "entries": [
+    {
+      "label": "onemax_ps80_g40_mr0.015625",
+      "config": "configs/benchmarks/base_onemax.json",
+      "seed_start": 1001,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "onemax_ps80_g40_mr0.015625",
+        "population_size": 80,
+        "generations": 40,
+        "mutation_rate": 0.015625
+      }
+    },
+    {
+      "label": "onemax_ps80_g100_mr0.015625",
+      "config": "configs/benchmarks/base_onemax.json",
+      "seed_start": 1011,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "onemax_ps80_g100_mr0.015625",
+        "population_size": 80,
+        "generations": 100,
+        "mutation_rate": 0.015625
+      }
+    },
+    {
+      "label": "onemax_ps24_g100_mr0.015625",
+      "config": "configs/benchmarks/base_onemax.json",
+      "seed_start": 1021,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "onemax_ps24_g100_mr0.015625",
+        "population_size": 24,
+        "generations": 100,
+        "mutation_rate": 0.015625
+      }
+    },
+    {
+      "label": "knapsack_ps80_g120_pf20",
+      "config": "configs/benchmarks/base_knapsack.json",
+      "seed_start": 2001,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "knapsack_ps80_g120_pf20",
+        "population_size": 80,
+        "generations": 120,
+        "problem_options": {
+          "penalty_factor": 20
+        }
+      }
+    },
+    {
+      "label": "knapsack_ps80_g120_pf1000",
+      "config": "configs/benchmarks/base_knapsack.json",
+      "seed_start": 2011,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "knapsack_ps80_g120_pf1000",
+        "population_size": 80,
+        "generations": 120,
+        "problem_options": {
+          "penalty_factor": 1000
+        }
+      }
+    },
+    {
+      "label": "knapsack_ps30_g120_pf1000",
+      "config": "configs/benchmarks/base_knapsack.json",
+      "seed_start": 2021,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "knapsack_ps30_g120_pf1000",
+        "population_size": 30,
+        "generations": 120,
+        "problem_options": {
+          "penalty_factor": 1000
+        }
+      }
+    },
+    {
+      "label": "tsp_ps50_g80_mr0.05",
+      "config": "configs/benchmarks/base_tsp.json",
+      "seed_start": 3001,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "tsp_ps50_g80_mr0.05",
+        "population_size": 50,
+        "generations": 80,
+        "mutation_rate": 0.05
+      }
+    },
+    {
+      "label": "tsp_ps50_g80_mr0.2",
+      "config": "configs/benchmarks/base_tsp.json",
+      "seed_start": 3011,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "tsp_ps50_g80_mr0.2",
+        "population_size": 50,
+        "generations": 80,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "tsp_ps20_g80_mr0.05",
+      "config": "configs/benchmarks/base_tsp.json",
+      "seed_start": 3021,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "tsp_ps20_g80_mr0.05",
+        "population_size": 20,
+        "generations": 80,
+        "mutation_rate": 0.05
+      }
+    },
+    {
+      "label": "zdt1_ps80_g120_mr0.2",
+      "config": "configs/benchmarks/base_zdt1.json",
+      "seed_start": 4001,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_ps80_g120_mr0.2",
+        "population_size": 80,
+        "generations": 120,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "zdt1_ps30_g120_mr0.2",
+      "config": "configs/benchmarks/base_zdt1.json",
+      "seed_start": 4011,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_ps30_g120_mr0.2",
+        "population_size": 30,
+        "generations": 120,
+        "mutation_rate": 0.2
+      }
+    },
+    {
+      "label": "zdt1_ps80_g120_mr0.08",
+      "config": "configs/benchmarks/base_zdt1.json",
+      "seed_start": 4021,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_ps80_g120_mr0.08",
+        "population_size": 80,
+        "generations": 120,
+        "mutation_rate": 0.08
+      }
+    }
+  ]
+}

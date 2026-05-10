@@ -1,0 +1,67 @@
+{
+  "study_name": "zdt1_sequential_compare_study",
+  "description": "ZDT1 paired-seed sequential compare. Reuse the current quality-first and budget-first profiles, then ask whether HV plus Pareto-shape safety can stop at 3->5->8->10 paired seeds.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "budget_first": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05
+    },
+    "sequential_compare": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "seed_stages": [3, 5, 8, 10],
+      "modes": ["exploratory", "final_safety"],
+      "bootstrap_seed": 7419,
+      "bootstrap_replicates": 500,
+      "exploratory_hv_tolerance_pct": 0.5,
+      "exploratory_reject_hv_pct": 1.0,
+      "exploratory_joint_safety_fail_rate": 0.34,
+      "final_hv_tolerance_pct": 0.25,
+      "final_reject_hv_pct": 0.5,
+      "final_joint_safety_fail_rate": 0.1,
+      "final_reject_joint_safety_fail_rate": 0.25
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first"]
+  },
+  "seeds": [9121, 9122, 9123, 9124, 9125, 9126, 9127, 9128, 9129, 9130],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Sequential compare only. Reuse the current ZDT1 Q/F split and ask whether paired seeds can stop at 3/5 before the old 10-seed safety confirm."
+}

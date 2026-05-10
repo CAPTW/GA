@@ -1,0 +1,26 @@
+{
+  "study_name": "tsp_diversity_threshold_focused_study",
+  "description": "Coarse TSP study for low-diversity injection threshold under the same evaluation budget.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "refresh_fraction": 0.1,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.08, 0.1, 0.12, 0.15, 0.2]
+  },
+  "seeds": [31, 32, 33, 34],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Focused TSP threshold sweep for the diversity-injection policy, usually well under two minutes on a laptop."
+}

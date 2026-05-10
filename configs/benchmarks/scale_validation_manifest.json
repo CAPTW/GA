@@ -1,0 +1,17 @@
+{
+  "suite_name": "ga_scale_validation",
+  "entries": [
+    {"label": "onemax_small_scale", "config": "configs/presets/onemax_small.json", "seed_start": 101, "seeds": 5},
+    {"label": "onemax_medium_scale", "config": "configs/presets/onemax_medium.json", "seed_start": 111, "seeds": 5},
+    {"label": "onemax_large_scale", "config": "configs/presets/onemax_large.json", "seed_start": 121, "seeds": 5},
+    {"label": "knapsack_small_scale", "config": "configs/presets/knapsack_small.json", "seed_start": 201, "seeds": 5},
+    {"label": "knapsack_medium_scale", "config": "configs/presets/knapsack_medium.json", "seed_start": 211, "seeds": 5},
+    {"label": "knapsack_large_scale", "config": "configs/presets/knapsack_large.json", "seed_start": 221, "seeds": 5},
+    {"label": "tsp_small_scale", "config": "configs/presets/tsp_small.json", "seed_start": 301, "seeds": 5},
+    {"label": "tsp_medium_scale", "config": "configs/presets/tsp_medium.json", "seed_start": 311, "seeds": 5},
+    {"label": "tsp_large_scale", "config": "configs/presets/tsp_large.json", "seed_start": 321, "seeds": 5},
+    {"label": "zdt1_small_scale", "config": "configs/presets/zdt1_small.json", "seed_start": 401, "seeds": 5},
+    {"label": "zdt1_medium_scale", "config": "configs/presets/zdt1_medium.json", "seed_start": 411, "seeds": 5},
+    {"label": "zdt1_large_scale", "config": "configs/presets/zdt1_large.json", "seed_start": 421, "seeds": 5}
+  ]
+}

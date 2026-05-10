@@ -1,0 +1,27 @@
+{
+  "study_name": "onemax_control_hardcase_check",
+  "description": "Small control check: keep onemax as a fixed-baseline problem while reusing one trigger candidate from the TSP hard-case pass.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "diversity_threshold": 0.15,
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection"
+    ]
+  },
+  "seeds": [81, 82, 83, 84, 85],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control-only pass. If the trigger variant does not beat the fixed baseline again, stop adaptive work on onemax here."
+}

@@ -1,0 +1,38 @@
+{
+  "study_name": "onemax_control_ranking_check",
+  "description": "Tiny onemax control for the ranking-fidelity pass. Confirm that cheap-screening logic is still unnecessary on the trivial control problem.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "genome_length": 32,
+    "mutation_rate": 0.02,
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "fast_budget_variant": {
+      "generations": 24,
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "none",
+      "fast_budget_variant"
+    ]
+  },
+  "seeds": [9401, 9402, 9403, 9404, 9405],
+  "budget_ceiling": 1320,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control only. Do not promote a triage workflow on onemax unless the fast budget variant unexpectedly changes the ranking story."
+}

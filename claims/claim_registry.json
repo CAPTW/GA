@@ -1,0 +1,934 @@
+{
+    "registry_schema_version":  1,
+    "claims":  [
+                   {
+                       "claim_id":  "onemax_internal_hill_climb_default",
+                       "label":  "Hill climb remains the practical default for validated internal onemax sizes.",
+                       "status":  "official",
+                       "evidence_scope":  "internal",
+                       "problem_family":  "onemax",
+                       "validated_ranges":  [
+                                                "internal validated sizes 32 / 64 / 128",
+                                                "CI gate uses the representative large ablation row at length 128"
+                                            ],
+                       "comparators":  [
+                                           "pure_ga",
+                                           "mutation_only_ea"
+                                       ],
+                       "metrics":  [
+                                       "evaluations_to_target",
+                                       "success_rate_to_target"
+                                   ],
+                       "pass_condition":  "Representative internal ablation keeps hill_climb ahead of pure_ga on evaluations-to-target.",
+                       "warning_threshold":  "If the mean advantage stays positive but the CI overlaps zero or significance weakens, mark WARN.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/ablation_summary.json",
+                                                    "outputs/benchmark_summary/baseline_comparison_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/solver_choice_guide.md",
+                                             "docs/ablation_and_claims.md"
+                                         ],
+                       "notes":  "This is an internal official claim only. Broad bitstring generalization is handled separately by family-conditioned external claims.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier2"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "ablation_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "onemax128_hill_vs_pure_ga_evals"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "metric",
+                                                                "left",
+                                                                "right",
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "bitstring_monotone_hill_climb_default",
+                       "label":  "Hill climb remains the family-conditional practical default on the tested monotone bitstring subset (OneMax, LeadingOnes).",
+                       "status":  "family_conditional",
+                       "evidence_scope":  "family_conditional",
+                       "problem_family":  "bitstring_monotone",
+                       "validated_ranges":  [
+                                                "synthetic OneMax length 128 representative row",
+                                                "synthetic LeadingOnes length 128 representative row"
+                                            ],
+                       "comparators":  [
+                                           "official_pure_ga",
+                                           "mutation_only_ea"
+                                       ],
+                       "metrics":  [
+                                       "evaluations_to_target",
+                                       "final_best_fitness"
+                                   ],
+                       "pass_condition":  "OneMax representative row keeps hill_climb ahead on evaluations-to-target and LeadingOnes keeps hill_climb ahead on final best fitness.",
+                       "warning_threshold":  "If only one monotone family row remains positive or significance weakens, mark WARN instead of PASS.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json",
+                                                    "outputs/benchmark_summary/external_benchmark_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_validity.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "This is intentionally narrower than \u0027all bitstring problems\u0027. Deceptive and multimodal families are tracked separately.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "onemax_hill_vs_pure_evals"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "metric",
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      },
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "leadingones_hill_vs_pure_fitness"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "metric",
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "bitstring_deceptive_trap_pure_ga_may_be_better",
+                       "label":  "A representative pure GA path may outperform hill climb on the tested deceptive trap subset.",
+                       "status":  "family_conditional",
+                       "evidence_scope":  "family_conditional",
+                       "problem_family":  "bitstring_deceptive",
+                       "validated_ranges":  [
+                                                "synthetic concatenated trap representative row"
+                                            ],
+                       "comparators":  [
+                                           "hill_climb",
+                                           "mutation_only_ea"
+                                       ],
+                       "metrics":  [
+                                       "final_best_fitness"
+                                   ],
+                       "pass_condition":  "Trap representative row keeps official pure GA ahead of hill_climb and mutation_only_ea on final best fitness.",
+                       "warning_threshold":  "If only one comparator remains positive or the CI overlaps zero, mark WARN.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json",
+                                                    "outputs/benchmark_summary/external_benchmark_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_validity.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "The wording stays narrow on purpose: a tested deceptive family may favor pure GA, not all deceptive problems.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "trap_pure_vs_hill_fitness"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      },
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "trap_pure_vs_mutation_fitness"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "bitstring_jump_rule_insufficient",
+                       "label":  "The tested Jump_k row is still too narrow to support a stable solver default.",
+                       "status":  "experimental",
+                       "evidence_scope":  "family_conditional",
+                       "problem_family":  "bitstring_multimodal",
+                       "validated_ranges":  [
+                                                "synthetic Jump_k representative row"
+                                            ],
+                       "comparators":  [
+                                           "hill_climb",
+                                           "official_pure_ga",
+                                           "mutation_only_ea"
+                                       ],
+                       "metrics":  [
+                                       "final_best_fitness"
+                                   ],
+                       "pass_condition":  "Jump_k representative row remains inconclusive rather than flipping into a stable default recommendation.",
+                       "warning_threshold":  "If one solver starts showing a stable positive CI, review the docs and possibly promote or demote the rule.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "Report-only. It is more important to avoid overclaiming than to force a stable Jump_k default from one representative row.",
+                       "governance":  {
+                                          "mode":  "report_only",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "jump_pure_vs_hill_fitness"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003e=",
+                                                              "value":  0.1
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e=",
+                                                              "value":  -1.0
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_high",
+                                                              "op":  "\u003c=",
+                                                              "value":  1.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003e=",
+                                                              "value":  0.05
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "knapsack_uncorrelated_greedy_default",
+                       "label":  "Greedy local search remains the family-conditional practical default on the tested uncorrelated knapsack subset.",
+                       "status":  "family_conditional",
+                       "evidence_scope":  "family_conditional",
+                       "problem_family":  "knapsack_uncorrelated",
+                       "validated_ranges":  [
+                                                "kplib uncorrelated n=50 representative instance"
+                                            ],
+                       "comparators":  [
+                                           "official_pure_ga",
+                                           "random_sampling"
+                                       ],
+                       "metrics":  [
+                                       "best_feasible_fitness",
+                                       "feasible_rate"
+                                   ],
+                       "pass_condition":  "Uncorrelated family representative row keeps greedy_local_search ahead of the official pure GA path on feasible quality.",
+                       "warning_threshold":  "If greedy keeps a positive mean but loses significance or the CI overlaps zero, mark WARN.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json",
+                                                    "outputs/benchmark_summary/external_benchmark_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_validity.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "This claim is intentionally limited to the tested uncorrelated family slice, not all knapsack instances.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "kplib_uncorr50_greedy_vs_pure"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "knapsack_correlated_seed_repair_worth_trying",
+                       "label":  "Seed-repair hybrid remains a family-conditional worth-trying path on the tested correlated knapsack subsets.",
+                       "status":  "family_conditional",
+                       "evidence_scope":  "family_conditional",
+                       "problem_family":  "knapsack_correlated",
+                       "validated_ranges":  [
+                                                "kplib weakly correlated n=50 representative instance",
+                                                "kplib strongly correlated n=100 representative instance"
+                                            ],
+                       "comparators":  [
+                                           "greedy_local_search",
+                                           "official_pure_ga"
+                                       ],
+                       "metrics":  [
+                                       "best_feasible_fitness",
+                                       "runtime_seconds"
+                                   ],
+                       "pass_condition":  "Weakly and strongly correlated representative rows keep seed_repair_hybrid ahead of greedy_local_search on feasible quality under matched evaluation budgets.",
+                       "warning_threshold":  "If only one correlated family remains positive or the CI overlaps zero, mark WARN.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json",
+                                                    "outputs/benchmark_summary/ablation_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_validity.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md",
+                                             "docs/hybrid_vs_baselines.md"
+                                         ],
+                       "notes":  "This is not a broad external-wide knapsack default. It is a family-conditioned \u0027worth trying\u0027 rule with explicit runtime cost.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "kplib_weak50_seedrepair_vs_greedy"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      },
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "kplib_strong100_seedrepair_vs_greedy"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "knapsack_subset_sum_experimental",
+                       "label":  "The tested subset-sum-like knapsack slice remains experimental.",
+                       "status":  "experimental",
+                       "evidence_scope":  "family_conditional",
+                       "problem_family":  "knapsack_structured",
+                       "validated_ranges":  [
+                                                "kplib subset-sum n=100 representative instance"
+                                            ],
+                       "comparators":  [
+                                           "greedy_local_search"
+                                       ],
+                       "metrics":  [
+                                       "best_feasible_fitness",
+                                       "runtime_seconds"
+                                   ],
+                       "pass_condition":  "Subset-sum representative row may stay positive, but it remains report-only until more structured families agree.",
+                       "warning_threshold":  "If the row turns negative or disappears, keep it experimental but note the drift.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "The evidence is intentionally treated as exploratory so docs do not overstate structured-family support.",
+                       "governance":  {
+                                          "mode":  "report_only",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "kplib_subset100_seedrepair_vs_greedy"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_diff_ci_high",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "tsp_external_nn2opt_default",
+                       "label":  "Nearest-neighbor + 2-opt remains the externally supported practical default on the tested TSPLIB subset.",
+                       "status":  "official",
+                       "evidence_scope":  "external",
+                       "problem_family":  "tsp",
+                       "validated_ranges":  [
+                                                "TSPLIB ulysses22 representative medium-like instance",
+                                                "TSPLIB berlin52 representative large-like instance"
+                                            ],
+                       "comparators":  [
+                                           "official_pure_ga",
+                                           "official_hybrid"
+                                       ],
+                       "metrics":  [
+                                       "final_best_distance",
+                                       "runtime_seconds"
+                                   ],
+                       "pass_condition":  "Nearest-neighbor + 2-opt keeps lower route distance than the official pure GA path on both representative TSPLIB instances.",
+                       "warning_threshold":  "If only one representative TSPLIB instance remains positive or significance weakens, mark WARN.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json",
+                                                    "outputs/benchmark_summary/external_benchmark_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_validity.md",
+                                             "docs/external_family_solver_guide.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "This is the external practical default. The medium hybrid path remains internal-only and is tracked separately.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "tsplib22_baseline_vs_pure_ga"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      },
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "tsplib52_baseline_vs_pure_ga"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "tsp_medium_hybrid_internal_quality_first",
+                       "label":  "The validated internal medium TSP hybrid remains a narrow quality-first path.",
+                       "status":  "official",
+                       "evidence_scope":  "internal",
+                       "problem_family":  "tsp_medium_internal",
+                       "validated_ranges":  [
+                                                "internal medium size 20 representative ablation rows"
+                                            ],
+                       "comparators":  [
+                                           "nearest_neighbor_2opt",
+                                           "pure_ga"
+                                       ],
+                       "metrics":  [
+                                       "final_best_distance",
+                                       "runtime_seconds",
+                                       "extra_evaluations_from_hybrid"
+                                   ],
+                       "pass_condition":  "Official internal hybrid stays ahead of pure GA and retains a statistically supported distance edge over the cheap baseline at size 20.",
+                       "warning_threshold":  "If it still beats pure GA but loses the baseline edge, mark WARN and keep the path internal-only.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/ablation_summary.json",
+                                                    "outputs/benchmark_summary/hybrid_comparison_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/ablation_and_claims.md",
+                                             "docs/hybrid_vs_baselines.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "This path is deliberately narrow. Even when it passes internally, it is not promoted to an external practical default.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier2"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "ablation_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "tsp20_official_vs_pure_ga_distance"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      },
+                                      {
+                                          "summary_stem":  "ablation_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "tsp20_official_vs_baseline_distance"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "zdt_external_nsga2_over_random_archive",
+                       "label":  "Pure NSGA-II remains the externally supported default path over random archive on the tested ZDT subset.",
+                       "status":  "official",
+                       "evidence_scope":  "external",
+                       "problem_family":  "zdt_family",
+                       "validated_ranges":  [
+                                                "ZDT2 representative row",
+                                                "ZDT3 representative row"
+                                            ],
+                       "comparators":  [
+                                           "random_archive",
+                                           "mutation_archive"
+                                       ],
+                       "metrics":  [
+                                       "hypervolume",
+                                       "pareto_ratio",
+                                       "spread"
+                                   ],
+                       "pass_condition":  "NSGA-II keeps higher hypervolume than random_archive on the tested ZDT2 and ZDT3 rows.",
+                       "warning_threshold":  "If only one tested ZDT family row remains positive or the CI overlaps zero, mark WARN.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/external_family_summary.json",
+                                                    "outputs/benchmark_summary/external_benchmark_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/external_validity.md",
+                                             "docs/ablation_and_claims.md",
+                                             "docs/solver_choice_guide.md"
+                                         ],
+                       "notes":  "The external claim is deliberately tied to the tested ZDT subset and to hypervolume-over-random support rather than a single scalar winner across all metrics.",
+                       "governance":  {
+                                          "mode":  "ci_gated",
+                                          "tier":  "tier3"
+                                      },
+                       "checks":  [
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "zdt2_nsga2_vs_random_hv"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      },
+                                      {
+                                          "summary_stem":  "external_family_summary",
+                                          "rowset":  "comparison_rows",
+                                          "match":  {
+                                                        "comparison_id":  "zdt3_nsga2_vs_random_hv"
+                                                    },
+                                          "pass_if":  [
+                                                          {
+                                                              "field":  "p_value",
+                                                              "op":  "\u003c=",
+                                                              "value":  0.05
+                                                          },
+                                                          {
+                                                              "field":  "oriented_diff_ci_low",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "warn_if":  [
+                                                          {
+                                                              "field":  "oriented_mean_diff",
+                                                              "op":  "\u003e",
+                                                              "value":  0.0
+                                                          }
+                                                      ],
+                                          "report_fields":  [
+                                                                "p_value",
+                                                                "oriented_mean_diff",
+                                                                "oriented_diff_ci_low",
+                                                                "oriented_diff_ci_high"
+                                                            ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "claim_id":  "zdt_large_tradeoff_note",
+                       "label":  "Large ZDT1 still requires a metric-priority tradeoff note rather than a one-best claim.",
+                       "status":  "experimental",
+                       "evidence_scope":  "internal",
+                       "problem_family":  "zdt1_large",
+                       "validated_ranges":  [
+                                                "internal large size 50"
+                                            ],
+                       "comparators":  [
+                                           "zdt1_large.json",
+                                           "zdt1_large_hv.json",
+                                           "zdt1_large_coverage.json"
+                                       ],
+                       "metrics":  [
+                                       "hypervolume",
+                                       "pareto_ratio",
+                                       "spread",
+                                       "front_size"
+                                   ],
+                       "pass_condition":  "Large ZDT remains documented as a metric-priority tradeoff instead of a one-size-fits-all winner.",
+                       "warning_threshold":  "If docs start phrasing large ZDT as a scalar one-best preset, review manually.",
+                       "source_summary_paths":  [
+                                                    "outputs/benchmark_summary/large_gap_closure_summary.json",
+                                                    "outputs/benchmark_summary/ablation_summary.json"
+                                                ],
+                       "doc_locations":  [
+                                             "README.md",
+                                             "docs/large_preset_decision_guide.md",
+                                             "docs/solver_choice_guide.md",
+                                             "docs/ablation_and_claims.md"
+                                         ],
+                       "notes":  "Report-only note claim. Governance here is primarily about preventing claim creep in docs.",
+                       "governance":  {
+                                          "mode":  "report_only",
+                                          "tier":  "tier4"
+                                      },
+                       "checks":  [
+
+                                  ]
+                   }
+               ]
+}

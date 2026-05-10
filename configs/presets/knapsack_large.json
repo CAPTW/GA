@@ -1,0 +1,33 @@
+{
+  "run_name": "knapsack_large",
+  "problem": "knapsack",
+  "algorithm": "ga",
+  "representation": "bit",
+  "selection": "tournament",
+  "crossover": "one_point",
+  "mutation": "bit_flip",
+  "population_size": 80,
+  "genome_length": 80,
+  "generations": 120,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.02,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 11,
+  "maximize": true,
+  "log_every": 2,
+  "problem_options": {
+    "num_items": 80,
+    "seed": 5,
+    "weight_scale": [
+      1.0,
+      20.0
+    ],
+    "value_scale": [
+      1.0,
+      30.0
+    ],
+    "capacity": null,
+    "penalty_factor": 20.0
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "study_name": "local_baseline_guard_onemax",
+  "description": "Tiny OneMax baseline guard. Reconfirm that the fixed none control remains enough and that no active optimization target exists here.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "early_stop_reference": {
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 6,
+        "early_stop_min_generation": 10,
+        "early_stop_epsilon": 0.0
+      }
+    }
+  },
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 25,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "early_stop_reference"]
+  },
+  "seeds": [8401],
+  "budget_ceiling": 1040,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Baseline guard only. Keep OneMax as a clean control branch with no active target."
+}

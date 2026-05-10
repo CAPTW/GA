@@ -1,0 +1,28 @@
+{
+  "study_name": "zdt1_targeted_confirm_study",
+  "description": "Confirm the current ZDT1 diversity-injection profile against a disabled baseline and nearby refresh settings.",
+  "problem": "zdt1",
+  "base_preset": "zdt1_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "diversity_threshold": 0.55,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.0, 0.35, 0.55],
+    "algorithm_options.refresh_fraction": [0.1, 0.2]
+  },
+  "seeds": [251, 252, 253, 254, 255, 256, 257, 258, 259, 260],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Stage-2 ZDT1 confirm. Compare the old 0.55 region against the new 0.35 coarse winner and keep only the setting that preserves hypervolume without a large spread penalty."
+}

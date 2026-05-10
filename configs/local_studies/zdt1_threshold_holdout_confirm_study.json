@@ -1,0 +1,26 @@
+{
+  "study_name": "zdt1_threshold_holdout_confirm_study",
+  "description": "Holdout confirm for the ZDT1 threshold-by-budget rule candidates.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 2,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "refresh_fraction": 0.2,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "generations": [72, 80, 100],
+    "algorithm_options.diversity_threshold": [0.0, 0.55, 0.6]
+  },
+  "seeds": [291, 292, 293, 294, 295, 296, 297, 298, 299, 300],
+  "budget_ceiling": 18120,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Holdout confirm for the simplest ZDT1 budget-conditioned threshold rule candidates."
+}

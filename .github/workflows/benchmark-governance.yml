@@ -1,0 +1,62 @@
+name: benchmark-governance
+
+on:
+  workflow_dispatch:
+    inputs:
+      tier:
+        description: Benchmark governance tier to run
+        required: true
+        default: tier2
+        type: choice
+        options:
+          - tier2
+          - tier3
+          - tier4
+  schedule:
+    - cron: "0 1 * * *"
+    - cron: "0 2 * * 1"
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  governance-benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Select tier
+        id: select-tier
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tier=${{ inputs.tier }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 2 * * 1" ]; then
+            echo "tier=tier4" >> "$GITHUB_OUTPUT"
+          else
+            echo "tier=tier2" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run benchmark governance tier
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/benchmark-governance
+          python scripts/run_ci_benchmarks.py --tier "${{ steps.select-tier.outputs.tier }}" --output-root .ci-artifacts/benchmark-governance 2>&1 | tee .ci-artifacts/benchmark-governance/benchmark-governance.log
+      - name: Upload benchmark governance artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-governance-${{ steps.select-tier.outputs.tier }}
+          path: .ci-artifacts/benchmark-governance
+          retention-days: 14

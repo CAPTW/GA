@@ -1,0 +1,21 @@
+{
+  "suite_name": "smoke_baselines_minimal",
+  "entries": [
+    {
+      "label": "onemax_smoke",
+      "config": "configs/smoke/onemax_smoke.json",
+      "seeds": 2,
+      "seed_start": 7
+    },
+    {
+      "label": "tsp_smoke",
+      "config": "configs/smoke/tsp_smoke.json",
+      "seeds": 1
+    },
+    {
+      "label": "zdt1_smoke",
+      "config": "configs/smoke/zdt1_nsga2_smoke.json",
+      "seeds": 1
+    }
+  ]
+}

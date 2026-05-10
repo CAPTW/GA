@@ -1,0 +1,45 @@
+{
+  "study_name": "onemax_control_stress_check",
+  "description": "Tiny OneMax control stress check. Keep the fixed none baseline and use a single seed only to confirm that no extra local protocol complexity is needed.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "early_stop_reference": {
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 6,
+        "early_stop_min_generation": 10,
+        "early_stop_epsilon": 0.0
+      }
+    }
+  },
+  "analysis": {
+    "stress_suite": {
+      "control_variant": "none",
+      "reference_variant": "early_stop_reference",
+      "budget_band_label": "control_check",
+      "protocol_note": "OneMax remains a pure control problem in the local protocol."
+    }
+  },
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 25,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "early_stop_reference"]
+  },
+  "seeds": [8401],
+  "budget_ceiling": 1040,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control-only stress check. Do not widen this branch; only keep the fixed none baseline honest."
+}

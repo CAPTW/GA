@@ -1,0 +1,91 @@
+{
+  "study_name": "tsp_seed_fraction_study",
+  "description": "Tiny fixed-stack seed-fraction probe for TSP. Keep the operator stack fixed and check whether nearest-neighbor seeding alone can reproduce the current trigger signal on one rescue-target and one anti-case.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_diversity_injection.json",
+  "cases": [
+    {
+      "case_id": "cluster_bridge_12",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target coarse case",
+      "overrides": {
+        "genome_length": 12,
+        "problem_options": {
+          "num_cities": 12,
+          "instance_name": "cluster_bridge_12",
+          "instance_source": "local_tsp_fixed_stack",
+          "coordinates": [
+            [0.0, 0.0],
+            [3.0, 5.0],
+            [-4.0, 4.0],
+            [5.0, -3.0],
+            [-5.0, -4.0],
+            [1.0, 7.0],
+            [68.0, 0.0],
+            [72.0, 4.0],
+            [66.0, -5.0],
+            [75.0, -2.0],
+            [70.0, 7.0],
+            [36.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_fixed_stack",
+          "coordinates": [
+            [0.0, 0.0],
+            [6.0, 3.0],
+            [12.0, -2.0],
+            [18.0, 4.0],
+            [24.0, -3.0],
+            [30.0, 5.0],
+            [36.0, -4.0],
+            [42.0, 6.0],
+            [48.0, -5.0],
+            [54.0, 7.0],
+            [60.0, -6.0],
+            [66.0, 8.0],
+            [72.0, -7.0],
+            [78.0, 9.0],
+            [84.0, -8.0],
+            [90.0, 10.0],
+            [96.0, -9.0],
+            [50.0, 20.0],
+            [20.0, 18.0],
+            [76.0, 18.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "algorithm": "hybrid_ga",
+    "mutation": "swap",
+    "log_every": 1,
+    "generations": 45,
+    "algorithm_options": {
+      "adaptive_policy": "none",
+      "init_strategy": "tsp_nearest_neighbor_mix",
+      "local_search_strategy": "none"
+    }
+  },
+  "sweep": {
+    "algorithm_options.seed_fraction": [0.0, 0.25, 0.5]
+  },
+  "seeds": [941, 942, 943, 944, 945],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Tiny fixed-stack seed-fraction study only. Use this to see whether seeding alone explains most of the trigger benefit."
+}

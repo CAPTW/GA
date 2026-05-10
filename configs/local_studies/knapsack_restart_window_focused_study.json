@@ -1,0 +1,25 @@
+{
+  "study_name": "knapsack_restart_window_focused_study",
+  "description": "Coarse knapsack restart-window sweep to check whether the earlier restart gain is real or just noise.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "algorithm_options": {
+      "adaptive_policy": "stagnation_restart",
+      "refresh_fraction": 0.25,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.stagnation_window": [5, 8, 12, 16]
+  },
+  "seeds": [11, 12, 13, 14],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Focused knapsack restart-window sweep. Stop here if the gain stays tiny."
+}

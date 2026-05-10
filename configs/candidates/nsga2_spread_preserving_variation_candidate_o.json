@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "candidate_id": "candidate_o_spread_preserving_variation_light",
+  "candidate_type": "nsga2_operator_quality_variant",
+  "status": "approved_restricted_opt_in",
+  "promotion_status": "approved_restricted_opt_in",
+  "default_changed": false,
+  "base_candidate": "candidate_n_low_g_tail_mutation_light",
+  "mechanism": "spread_preserving_variation_light",
+  "source_hypothesis": "nsga2_spread_preserving_phase0_plan",
+  "operator_change": {
+    "mutation": {
+      "from": "candidate_n low-g tail mutation path",
+      "to": "candidate_n low-g tail mutation path + very light bounded spread-preserving jitter"
+    },
+    "selection": {
+      "from": "candidate_n parent selection path",
+      "to": "unchanged"
+    },
+    "duplicate_handling": {
+      "decision_dedup": true,
+      "duplicate_retry_count": 2,
+      "duplicate_retry_mutation_scale": 1.5,
+      "low_g_tail_mutation_enabled": true,
+      "spread_preserving_variation_enabled": true
+    }
+  },
+  "runtime_selection": {
+    "selection_mode": "explicit_only",
+    "entrypoints": [
+      "scripts/validate_nsga2_spread_preserving_phase0.py",
+      "src/ga_lab/experiment/nsga2_candidate_variants.py"
+    ]
+  },
+  "approval_status": "approved_restricted_opt_in",
+  "approval_type": "restricted_opt_in_experimental_profile",
+  "approval_date": "2026-04-22",
+  "approved_scope": "explicit opt-in experimental profile; local research benchmark; ZDT-family exploratory comparison; candidate comparison harness; evidence generation for future review",
+  "allowed_use": "explicit opt-in experimental profile; local research benchmark; ZDT-family exploratory comparison; candidate comparison harness; evidence generation for future review",
+  "disallowed_use": "default replacement; change request candidate; production optimizer; general MOEA superiority claim; pymoo replacement claim; constrained or industrial optimization without separate validation",
+  "expected_improvement": [
+    "occupied_bins",
+    "spacing",
+    "nondominated_count",
+    "segment_entropy"
+  ],
+  "known_risks": [
+    "ZDT1-specific overfitting risk remains active.",
+    "A spread-preserving jitter may look like objective-space steering if it becomes too strong.",
+    "Low-g gains from candidate_n may be diluted while spread gains remain weak.",
+    "Mutation contract regressions or non-finite objective failures remain blocking risks."
+  ],
+  "required_gates": [
+    "fairness_fail_free",
+    "default_changed_false",
+    "candidate_isolation_pass",
+    "default_drift_audit_pass",
+    "actual_evaluations_match",
+    "spread_parity_diagnostics_present",
+    "zdt1_component_diagnostics_present",
+    "artifact_suffix_required",
+    "local_baseline_guard_pass"
+  ],
+  "zdt1_specific_warning": "This candidate is a ZDT1-specific Phase 0 sanity probe for spread preservation and must not be generalized as a broad MOEA spread improvement claim.",
+  "no_pymoo_operator_clone": true,
+  "source_artifacts": [
+    "artifacts/hypotheses/nsga2_spread_preservation_bottleneck_postmortem.md",
+    "artifacts/hypotheses/nsga2_spread_preserving_phase0_plan.md",
+    "artifacts/nsga2_spread_preserving_planning_report.md",
+    "artifacts/nsga2_spread_parity_report_spread_parity1.md",
+    "artifacts/nsga2_candidate_n_closure_report.md",
+    "artifacts/nsga2_spread_preserving_phase1_report_candidate_o_phase1_zdt1_20260422T042847Z.md",
+    "artifacts/nsga2_spread_preserving_phase2_report_candidate_o_phase2_rerun1.md",
+    "artifacts/nsga2_spread_preserving_phase2_fairness_report_candidate_o_phase2_rerun1.md",
+    "artifacts/nsga2_candidate_o_phase2_default_drift_audit_report.md",
+    "artifacts/reviews/nsga2_candidate_o_opt_in_review.md"
+  ],
+  "risk_summary": "Restricted opt-in only. Remaining risks are persistent pymoo occupied-bins/spacing/nondominated-count/runtime gap, ZDT-family-only evidence scope, low-g component trade-off versus candidate_n, and mixed entropy/gini evidence on spread uniformity.",
+  "rollback_notes": "Disable the candidate_o profile by selecting a different runner/config path or reverting this config metadata change. The default NSGA-II path remains unaffected because candidate_o is explicit opt-in only and default_changed stays false.",
+  "next_review_required_before": "Any change-request review, default-promotion discussion, product claim, constrained or industrial use, DTLZ/WFG generalization claim, or broader benchmark-scope approval.",
+  "notes": [
+    "This candidate is approved only for a restricted opt-in experimental profile.",
+    "It must not perform direct objective-space repair or segment-targeted steering.",
+    "Selecting this candidate still requires explicit runner invocation and must not affect the default NSGA-II path.",
+    "This candidate is not approved for CR, default replacement, product use, or broad MOEA superiority claims."
+  ]
+}

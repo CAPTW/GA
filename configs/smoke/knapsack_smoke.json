@@ -1,0 +1,27 @@
+{
+  "run_name": "knapsack_smoke",
+  "problem": "knapsack",
+  "algorithm": "ga",
+  "representation": "bit",
+  "selection": "tournament",
+  "crossover": "one_point",
+  "mutation": "bit_flip",
+  "population_size": 30,
+  "genome_length": 16,
+  "generations": 25,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.05,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 11,
+  "maximize": true,
+  "log_every": 2,
+  "problem_options": {
+    "num_items": 16,
+    "seed": 9,
+    "weight_scale": [1.0, 12.0],
+    "value_scale": [1.0, 18.0],
+    "capacity": 60.0,
+    "penalty_factor": 20.0
+  }
+}

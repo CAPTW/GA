@@ -1,0 +1,25 @@
+{
+  "suite_name": "ci_benchmark_smoke",
+  "entries": [
+    {
+      "label": "onemax_smoke",
+      "config": "configs/onemax_baseline.json",
+      "seeds": 1
+    },
+    {
+      "label": "tsp_smoke",
+      "config": "configs/tsp_baseline.json",
+      "seeds": 1
+    },
+    {
+      "label": "knapsack_smoke",
+      "config": "configs/knapsack_baseline.json",
+      "seeds": 1
+    },
+    {
+      "label": "zdt1_smoke",
+      "config": "configs/zdt1_nsga2.json",
+      "seeds": 1
+    }
+  ]
+}

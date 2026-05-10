@@ -1,0 +1,19 @@
+{
+  "study_name": "knapsack_population_study",
+  "description": "Compare small knapsack feasible-quality tradeoffs across a few population sizes.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "generations": 80
+  },
+  "sweep": {
+    "population_size": [40, 80, 120]
+  },
+  "seeds": [11, 12, 13],
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness",
+    "comparison_metric": "best_feasible_fitness"
+  },
+  "runtime_budget_note": "Small local sweep, usually under two minutes on a laptop."
+}

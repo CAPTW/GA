@@ -1,0 +1,36 @@
+{
+  "study_name": "zdt1_default_tiny_freeze_check",
+  "description": "Tiny ZDT1 freeze note only. Reconfirm that the simplified 0.55 / 0.10 / cooldown=4 profile remains the canonical local default while the pass focuses on knapsack anatomy.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "current_default": {},
+    "threshold_060_note": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.6,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    }
+  },
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "current_default", "threshold_060_note"],
+    "generations": [72, 80]
+  },
+  "seeds": [2801, 2802, 2803],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Tiny ZDT1 freeze sanity only. No new adaptive family; just hold the simplified canonical default in place."
+}

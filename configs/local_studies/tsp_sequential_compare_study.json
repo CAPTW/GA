@@ -1,0 +1,140 @@
+{
+  "study_name": "tsp_sequential_compare_study",
+  "description": "TSP paired-seed sequential compare. Reuse the current Q/F split on the existing rescue-target and anti-case holdout cases, then ask whether a 3->5->8->10 paired-seed protocol can stop early without over-claiming confidence.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_seed_budget",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0],
+            [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target holdout",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_seed_budget",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-3.0, 5.0], [6.0, -3.0], [-5.0, -4.0], [2.0, 8.0],
+            [52.0, 22.0], [70.0, 0.0], [74.0, 5.0], [68.0, -6.0], [78.0, -2.0], [71.0, 8.0],
+            [36.0, 12.0], [44.0, -10.0], [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_seed_budget",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "near-collinear corridor anti-case",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_seed_budget",
+          "coordinates": [
+            [0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0],
+            [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0],
+            [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 40,
+      "generations": 45,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "budget_first": {
+      "population_size": 35,
+      "generations": 38,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0]
+    },
+    "sequential_compare": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "seed_stages": [3, 5, 8, 10],
+      "modes": ["exploratory", "quality_sensitive"],
+      "bootstrap_seed": 7319,
+      "bootstrap_replicates": 500,
+      "exploratory_accept_tolerance_pct": 1.5,
+      "exploratory_reject_tolerance_pct": 2.5,
+      "exploratory_tail_tolerance_pct": 5.0,
+      "quality_final_tolerance_pct": 0.5,
+      "quality_reject_tolerance_pct": 1.0,
+      "quality_tail_accept_pct": 2.5,
+      "quality_tail_caution_pct": 3.5
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first"]
+  },
+  "seeds": [9101, 9102, 9103, 9104, 9105, 9106, 9107, 9108, 9109, 9110],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Sequential compare only. Reuse the current TSP Q/F split and ask whether paired seeds can stop at 3/5 before the old 10-seed confirm."
+}

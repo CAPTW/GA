@@ -1,0 +1,79 @@
+{
+  "study_name": "tsp_default_tiny_freeze_check",
+  "description": "Tiny TSP freeze check only. Reconfirm that tsp_seeded_swap_local remains the canonical fixed local default while ZDT1 anatomy is the main focus.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_tiny_freeze",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0],
+            [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_tiny_freeze",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    }
+  ],
+  "variant_overrides": {
+    "none": {
+      "algorithm": "ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "decay": {
+      "algorithm": "ga",
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "decay_mutation",
+        "adaptive_mutation_min_rate": 0.02,
+        "adaptive_mutation_max_rate": 0.2,
+        "decay_end_rate": 0.02
+      }
+    },
+    "seeded_swap_default": {}
+  },
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "decay", "seeded_swap_default"],
+    "generations": [28, 45]
+  },
+  "seeds": [1251, 1252, 1253],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Tiny TSP freeze sanity only. No new TSP search in this pass; just re-check the current canonical default against none and decay on one rescue-target and one anti-case instance."
+}

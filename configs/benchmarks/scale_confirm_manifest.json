@@ -1,0 +1,84 @@
+{
+  "suite_name": "ga_scale_confirm",
+  "entries": [
+    {
+      "label": "onemax_large_scale_base_10seeds",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 501,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "onemax_large_scale_base"
+      }
+    },
+    {
+      "label": "onemax_large_scale_pop160_gen120",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 511,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "onemax_large_scale_pop160_gen120",
+        "population_size": 160,
+        "generations": 120
+      }
+    },
+    {
+      "label": "knapsack_large_scale_base_10seeds",
+      "config": "configs/presets/knapsack_large.json",
+      "seed_start": 601,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "knapsack_large_scale_base"
+      }
+    },
+    {
+      "label": "knapsack_large_scale_pop160",
+      "config": "configs/presets/knapsack_large.json",
+      "seed_start": 611,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "knapsack_large_scale_pop160",
+        "population_size": 160
+      }
+    },
+    {
+      "label": "tsp_large_scale_base_10seeds",
+      "config": "configs/presets/tsp_large.json",
+      "seed_start": 701,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "tsp_large_scale_base"
+      }
+    },
+    {
+      "label": "tsp_large_scale_pop100_mut0.02",
+      "config": "configs/presets/tsp_large.json",
+      "seed_start": 711,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "tsp_large_scale_pop100_mut0.02",
+        "population_size": 100,
+        "mutation_rate": 0.02
+      }
+    },
+    {
+      "label": "zdt1_large_scale_base_10seeds",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 801,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_large_scale_base"
+      }
+    },
+    {
+      "label": "zdt1_large_scale_pop160_gen120",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 811,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_large_scale_pop160_gen120",
+        "population_size": 160,
+        "generations": 120
+      }
+    }
+  ]
+}

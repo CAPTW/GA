@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "candidate_id": "example_knapsack_repair_note",
+  "problem": "knapsack",
+  "target_id": "knapsack_repair_boundary_subset_sum_tight_capacity",
+  "hypothesis_id": "keep_narrow_repair_note_only",
+  "baseline_snapshot_path": "artifacts/local_baseline_snapshot.json",
+  "baseline_guard_study": "local_baseline_guard_knapsack",
+  "candidate_study": "knapsack_stress_freeze_check",
+  "existing_output_dir": "outputs/local_studies/20260418T112909Z_knapsack_stress_freeze_check",
+  "candidate_profile_or_overrides": {
+    "baseline_variant": "greedy_local_search",
+    "candidate_variant": "repair_only",
+    "comparison_variants": ["none"],
+    "family_slice": "subset-sum/tight-capacity-like"
+  },
+  "allowed_budget_policy": "narrow_note_family_only",
+  "expected_primary_metric": "best_feasible_fitness",
+  "expected_non_regression_metrics": [
+    "feasible_rate",
+    "generations_to_first_feasible_mean"
+  ],
+  "stress_slices_to_check": [
+    "tight_capacity_small"
+  ],
+  "seed_policy": {
+    "mode": "use_existing_output",
+    "seed_counts": [3]
+  },
+  "decision_policy": {
+    "family_conditioned_only": true,
+    "broad_default_promotion_forbidden": true
+  },
+  "notes": "This manifest keeps the repair_only path explicitly narrow and should close as a note-level candidate rather than a promoted default.",
+  "expected_decision_label": "note_only_stress_slice",
+  "baseline_variant": "greedy_local_search",
+  "candidate_variant": "repair_only",
+  "comparison_variants": [
+    "none"
+  ]
+}

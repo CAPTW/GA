@@ -1,0 +1,33 @@
+{
+  "run_name": "zdt1_local_diversity_injection_fast",
+  "problem": "zdt1",
+  "algorithm": "nsga2",
+  "representation": "real",
+  "selection": "tournament",
+  "crossover": "arithmetic",
+  "mutation": "gaussian",
+  "mutation_options": {
+    "sigma": 0.1
+  },
+  "population_size": 45,
+  "genome_length": 10,
+  "generations": 80,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.2,
+  "elitism": 1,
+  "tournament_size": 2,
+  "seed": 21,
+  "maximize": false,
+  "objective_directions": [
+    false,
+    false
+  ],
+  "log_every": 2,
+  "algorithm_options": {
+    "adaptive_policy": "low_diversity_injection",
+    "diversity_threshold": 0.55,
+    "refresh_fraction": 0.1,
+    "adaptation_cooldown": 3,
+    "stagnation_boost_factor": 1.5
+  }
+}

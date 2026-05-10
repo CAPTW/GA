@@ -1,0 +1,148 @@
+{
+  "study_name": "zdt1_triage_confirm",
+  "description": "10-seed confirm for the ZDT1 ranking-fidelity pass. Re-run the same candidate pool to verify whether fast screening plus top-k canonical confirm is cheaper than all-canonical search while keeping HV, Pareto ratio, and spread sane.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "none__canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "none__fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "threshold_050_refresh010__canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.5,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_050_refresh010__fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.5,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_refresh010__canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_refresh010__fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_060_refresh010__canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.6,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_060_refresh010__fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.6,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_refresh015__canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.15,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_refresh015__fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.15,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_refresh020__canonical": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_refresh020__fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "none__canonical",
+      "none__fast",
+      "threshold_050_refresh010__canonical",
+      "threshold_050_refresh010__fast",
+      "threshold_055_refresh010__canonical",
+      "threshold_055_refresh010__fast",
+      "threshold_060_refresh010__canonical",
+      "threshold_060_refresh010__fast",
+      "threshold_055_refresh015__canonical",
+      "threshold_055_refresh015__fast",
+      "threshold_055_refresh020__canonical",
+      "threshold_055_refresh020__fast"
+    ]
+  },
+  "seeds": [9211, 9212, 9213, 9214, 9215, 9216, 9217, 9218, 9219, 9220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Confirm only. Keep a ZDT1 triage workflow only if fast HV ranking stays close enough to the canonical order to make top-k confirm materially cheaper without obvious Pareto-ratio or spread safety failures."
+}

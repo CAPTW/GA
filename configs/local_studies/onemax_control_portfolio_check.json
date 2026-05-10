@@ -1,0 +1,37 @@
+{
+  "study_name": "onemax_control_portfolio_check",
+  "description": "Tiny OneMax portfolio control check. Reconfirm that single-run none remains enough while a cheap early-stop comparator is only a budget sanity check.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "early_stop_plateau": {
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 6,
+        "early_stop_min_generation": 10,
+        "early_stop_epsilon": 0.0
+      }
+    }
+  },
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 50,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "early_stop_plateau"]
+  },
+  "seeds": [8401, 8402, 8403, 8404, 8405],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control only. Do not promote a OneMax multi-start rule; only check that the fixed baseline still behaves as the control reference."
+}

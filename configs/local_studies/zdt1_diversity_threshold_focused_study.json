@@ -1,0 +1,26 @@
+{
+  "study_name": "zdt1_diversity_threshold_focused_study",
+  "description": "Coarse ZDT1 study for low-diversity injection threshold while keeping the NSGA-II budget matched.",
+  "problem": "zdt1",
+  "base_preset": "zdt1_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "refresh_fraction": 0.2,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.35, 0.45, 0.55, 0.7]
+  },
+  "seeds": [41, 42, 43, 44],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Focused ZDT1 threshold sweep for the diversity-injection policy, usually a few minutes on a laptop."
+}

@@ -1,0 +1,15 @@
+{
+  "suite_name": "baseline_onemax_demo",
+  "suite_kind": "comparison",
+  "default_seeds": 1,
+  "entries": [
+    {
+      "problem": "onemax",
+      "size": 32,
+      "preset": "configs/presets/onemax_small.json",
+      "baselines": ["hill_climb"],
+      "seeds": 1,
+      "seed_start": 7
+    }
+  ]
+}

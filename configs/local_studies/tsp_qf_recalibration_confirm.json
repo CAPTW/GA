@@ -1,0 +1,145 @@
+{
+  "study_name": "tsp_qf_recalibration_confirm",
+  "description": "TSP Q/F recalibration confirm. Recheck the hardened fast profile against the canonical quality-first profile, with the old fast kept only as a legacy reference on holdout seeds.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_qf_recalibration",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0],
+            [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0],
+            [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target holdout",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_qf_recalibration",
+          "coordinates": [
+            [0.0, 0.0], [4.0, 4.0], [-3.0, 5.0], [6.0, -3.0], [-5.0, -4.0], [2.0, 8.0],
+            [52.0, 22.0], [70.0, 0.0], [74.0, 5.0], [68.0, -6.0], [78.0, -2.0], [71.0, 8.0],
+            [36.0, 12.0], [44.0, -10.0], [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_qf_recalibration",
+          "coordinates": [
+            [0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0],
+            [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0],
+            [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0],
+            [20.0, 18.0], [76.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "near-collinear corridor anti-case",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_qf_recalibration",
+          "coordinates": [
+            [0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0],
+            [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0],
+            [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 40,
+      "generations": 45,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "budget_first_legacy": {
+      "population_size": 30,
+      "generations": 45,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "budget_first": {
+      "population_size": 35,
+      "generations": 38,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0, 2.0],
+      "plot_name_suffix": "_recalibrated"
+    },
+    "tsp_fast_tail": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "budget_first_legacy",
+      "candidate_variants": ["budget_first"],
+      "legacy_reference_plot_name": "plot_old_fast_vs_new_fast_tail.png",
+      "legacy_reference_case_group": "anti_case",
+      "variant_order": ["budget_first_legacy", "budget_first"]
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first_legacy", "budget_first"]
+  },
+  "seeds": [9051, 9052, 9053, 9054, 9055, 9056, 9057, 9058, 9059, 9060],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Q/F recalibration confirm only. Keep the candidate set fixed and decide whether the hardened fast profile is stable enough to support a stronger TSP operating note."
+}

@@ -1,0 +1,151 @@
+{
+  "study_name": "knapsack_repair_vs_restart_confirm",
+  "description": "Knapsack repair-vs-restart confirm pass. Compare repair_only with the old restart experimental path and the existing feasibility-aware mutation comparators on the same holdout families.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "cases": [
+    {
+      "case_id": "subset_sum_like_small_b",
+      "group": "subset_sum_like_small",
+      "note": "holdout subset-sum-like local family",
+      "overrides": {
+        "genome_length": 20,
+        "__study_metadata__": {
+          "family_label": "subset_sum_like_small",
+          "capacity_ratio": 0.27,
+          "correlation_note": "subset_sum_like_holdout"
+        },
+        "problem_options": {
+          "num_items": 20,
+          "instance_name": "subset_sum_like_small_b",
+          "instance_source": "local_knapsack_repair_restart_confirm",
+          "weights": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+          "values": [5.3, 6.0, 7.4, 8.1, 9.2, 10.4, 11.0, 12.3, 13.1, 14.5, 15.0, 16.4, 17.2, 18.0, 19.4, 20.1, 21.3, 22.2, 23.0, 24.5],
+          "capacity": 78.0,
+          "penalty_factor": 20.0
+        }
+      }
+    },
+    {
+      "case_id": "tight_capacity_small_b",
+      "group": "tight_capacity_small",
+      "note": "holdout tight-capacity local family",
+      "overrides": {
+        "genome_length": 20,
+        "__study_metadata__": {
+          "family_label": "tight_capacity_small",
+          "capacity_ratio": 0.19,
+          "correlation_note": "mixed_tight_capacity_holdout"
+        },
+        "problem_options": {
+          "num_items": 20,
+          "instance_name": "tight_capacity_small_b",
+          "instance_source": "local_knapsack_repair_restart_confirm",
+          "weights": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21],
+          "values": [4, 8, 11, 13, 16, 20, 23, 25, 28, 31, 5, 9, 12, 15, 18, 22, 24, 27, 30, 33],
+          "capacity": 50.0,
+          "penalty_factor": 20.0
+        }
+      }
+    },
+    {
+      "case_id": "weakly_correlated_small_b",
+      "group": "weakly_correlated_small",
+      "note": "holdout weakly correlated anti-boundary family",
+      "overrides": {
+        "genome_length": 20,
+        "__study_metadata__": {
+          "family_label": "weakly_correlated_small",
+          "capacity_ratio": 0.38,
+          "correlation_note": "weakly_correlated_holdout"
+        },
+        "problem_options": {
+          "num_items": 20,
+          "instance_name": "weakly_correlated_small_b",
+          "instance_source": "local_knapsack_repair_restart_confirm",
+          "weights": [3, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 4, 6, 8, 10, 12, 14, 16, 18],
+          "values": [13, 15, 17, 19, 20, 22, 24, 26, 28, 29, 31, 33, 14, 16, 19, 21, 24, 26, 29, 32],
+          "capacity": 77.0,
+          "penalty_factor": 20.0
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "mutation_rate": 0.02
+  },
+  "variant_overrides": {
+    "greedy_local_search": {
+      "__local_baseline__": "knapsack_greedy_local_search",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "none": {
+      "algorithm": "ga",
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "repair_only": {
+      "algorithm": "hybrid_ga",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "none",
+        "seed_fraction": 0.0,
+        "repair_strategy": "knapsack_greedy_fill",
+        "local_search_strategy": "none"
+      }
+    },
+    "stagnation_restart": {
+      "algorithm": "ga",
+      "algorithm_options": {
+        "adaptive_policy": "stagnation_restart",
+        "stagnation_window": 5,
+        "refresh_fraction": 0.25,
+        "adaptation_cooldown": 4
+      }
+    },
+    "feasibility_aware_mutation_v1": {
+      "algorithm": "ga",
+      "algorithm_options": {
+        "adaptive_policy": "feasibility_aware_mutation_v1",
+        "feasible_ratio_threshold": 0.4,
+        "mutation_boost_multiplier": 2.0,
+        "mutation_cap": 0.08,
+        "adaptation_cooldown": 5
+      }
+    },
+    "feasibility_aware_mutation_v3": {
+      "algorithm": "ga",
+      "algorithm_options": {
+        "adaptive_policy": "feasibility_aware_mutation_v3",
+        "feasible_ratio_threshold": 0.4,
+        "mutation_boost_multiplier": 2.0,
+        "mutation_cap": 0.08,
+        "adaptation_cooldown": 5,
+        "violation_plateau_window": 10
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "greedy_local_search",
+      "none",
+      "repair_only",
+      "stagnation_restart",
+      "feasibility_aware_mutation_v1",
+      "feasibility_aware_mutation_v3"
+    ]
+  },
+  "seeds": [3401, 3402, 3403, 3404, 3405, 3406, 3407, 3408, 3409, 3410],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Confirm only. If repair_only cannot stay ahead of restart and the feasibility-aware comparators on these holdout families, the right answer is to keep knapsack broad guidance parked."
+}

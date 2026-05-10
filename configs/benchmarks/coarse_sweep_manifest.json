@@ -1,0 +1,85 @@
+{
+  "suite_name": "ga_benchmark_coarse",
+  "matrices": [
+    {
+      "base_config": "configs/benchmarks/base_onemax.json",
+      "seed_start": 101,
+      "seeds": 5,
+      "label_template": "onemax_ps{population_size}_g{generations}_mr{mutation_rate}",
+      "axes": {
+        "population_size": [
+          24,
+          80
+        ],
+        "generations": [
+          40,
+          100
+        ],
+        "mutation_rate": [
+          0.015625,
+          0.05
+        ]
+      }
+    },
+    {
+      "base_config": "configs/benchmarks/base_knapsack.json",
+      "seed_start": 201,
+      "seeds": 5,
+      "label_template": "knapsack_ps{population_size}_g{generations}_pf{problem_options_penalty_factor}",
+      "axes": {
+        "population_size": [
+          30,
+          80
+        ],
+        "generations": [
+          60,
+          120
+        ],
+        "problem_options.penalty_factor": [
+          20,
+          1000
+        ]
+      }
+    },
+    {
+      "base_config": "configs/benchmarks/base_tsp.json",
+      "seed_start": 301,
+      "seeds": 5,
+      "label_template": "tsp_ps{population_size}_g{generations}_mr{mutation_rate}",
+      "axes": {
+        "population_size": [
+          20,
+          50
+        ],
+        "generations": [
+          30,
+          80
+        ],
+        "mutation_rate": [
+          0.05,
+          0.2
+        ]
+      }
+    },
+    {
+      "base_config": "configs/benchmarks/base_zdt1.json",
+      "seed_start": 401,
+      "seeds": 5,
+      "label_template": "zdt1_ps{population_size}_g{generations}_mr{mutation_rate}",
+      "axes": {
+        "population_size": [
+          30,
+          80
+        ],
+        "generations": [
+          40,
+          120
+        ],
+        "mutation_rate": [
+          0.08,
+          0.2
+        ]
+      }
+    }
+  ]
+}

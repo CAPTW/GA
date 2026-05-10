@@ -1,0 +1,108 @@
+{
+  "study_name": "zdt1_joint_timing_probe_confirm",
+  "description": "ZDT1 joint-target timing confirmation confirm. Recheck the current fast default and the strongest one-step timing probes against the canonical comparator on the fixed joint-fail slice.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "current_fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "joint_timing_refresh012": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.12,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "joint_timing_cooldown2": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 2,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "zdt1_fast_hardening": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "current_fast",
+      "candidate_variants": [
+        "current_fast",
+        "joint_timing_refresh012",
+        "joint_timing_cooldown2"
+      ],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05
+    },
+    "failure_trace": {
+      "target_id": "zdt1_fast_spread_safety_fail",
+      "secondary_target_id": "zdt1_fast_joint_safety_fail",
+      "quality_variant": "quality_first",
+      "fast_variant": "current_fast",
+      "reference_variants": [
+        "joint_timing_refresh012",
+        "joint_timing_cooldown2"
+      ],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "hv_plateau_slope_threshold": 0.005,
+      "hypothesis_ids": [
+        "zdt1_fast_joint_timing_mismatch_still_plausible",
+        "zdt1_fast_spread_mechanism_population_generation_candidate",
+        "zdt1_fast_spread_mechanism_still_unisolated"
+      ],
+      "hypothesis_probe": {
+        "baseline_variant": "current_fast",
+        "refresh_probe_variant": "joint_timing_refresh012",
+        "cooldown_probe_variant": "joint_timing_cooldown2",
+        "probe_mode": "joint_only",
+        "joint_unisolated_hypothesis_id": "zdt1_fast_joint_mechanism_still_unisolated"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "quality_first",
+      "current_fast",
+      "joint_timing_refresh012",
+      "joint_timing_cooldown2"
+    ]
+  },
+  "seeds": [8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Split-target ZDT1 joint timing probe confirm only. Recheck the current fast default against the strongest one-step timing probes before touching the budget-first default."
+}

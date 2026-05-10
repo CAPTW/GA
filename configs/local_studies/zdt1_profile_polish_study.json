@@ -1,0 +1,21 @@
+{
+  "study_name": "zdt1_profile_polish_study",
+  "description": "Coarse ZDT1 polish study around the confirmed diversity-injection profile.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.5, 0.55, 0.6],
+    "algorithm_options.refresh_fraction": [0.15, 0.2, 0.25],
+    "algorithm_options.adaptation_cooldown": [2, 4]
+  },
+  "seeds": [221, 222, 223, 224],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Coarse ZDT1 polish around the current reusable diversity profile."
+}

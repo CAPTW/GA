@@ -1,0 +1,65 @@
+{
+  "study_name": "zdt1_canonical_default_confirm",
+  "description": "Holdout confirm for the ZDT1 canonical local default freeze. Re-check the previous 0.55 / 0.2 / cooldown=4 profile against the strongest simpler nearby candidates only.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "current_055_020_4": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_045_020_4": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.45,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_010_4": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055_020_6": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 6
+      }
+    }
+  },
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": [
+      "none",
+      "current_055_020_4",
+      "threshold_045_020_4",
+      "threshold_055_010_4",
+      "threshold_055_020_6"
+    ],
+    "generations": [72, 80, 88]
+  },
+  "seeds": [1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240],
+  "budget_ceiling": 15960,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "10-seed holdout confirm. Keep only the strongest coarse candidates: lower threshold, smaller refresh, or longer cooldown. Replace the current default only if one stays level on HV without clearly worse Pareto-ratio/spread across budget bands."
+}

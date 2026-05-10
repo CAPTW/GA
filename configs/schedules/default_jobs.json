@@ -1,0 +1,33 @@
+{
+  "jobs": [
+    {
+      "name": "nightly_benchmark",
+      "job_type": "nightly_benchmark",
+      "cron": "0 2 * * *",
+      "enabled": true,
+      "config": {
+        "output_root": "outputs/nightly"
+      }
+    },
+    {
+      "name": "weekly_report",
+      "job_type": "weekly_report",
+      "cron": "0 9 * * MON",
+      "enabled": true,
+      "config": {
+        "output_dir": "outputs/reports",
+        "lookback_days": 7
+      }
+    },
+    {
+      "name": "release_candidate_regression",
+      "job_type": "release_candidate_regression",
+      "cron": "0 18 * * FRI",
+      "enabled": true,
+      "config": {
+        "manifest": "configs/release_candidate/regression_manifest.json",
+        "output_root": "outputs/release_candidate"
+      }
+    }
+  ]
+}

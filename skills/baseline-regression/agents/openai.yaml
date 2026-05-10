@@ -1,0 +1,4 @@
+interface:
+  display_name: "Baseline Regression"
+  short_description: "Run GA baseline and smoke regressions"
+  default_prompt: "Use $baseline-regression to verify whether a change regressed the GA baselines."

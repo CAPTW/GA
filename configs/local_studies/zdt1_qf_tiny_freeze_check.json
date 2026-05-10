@@ -1,0 +1,42 @@
+{
+  "study_name": "zdt1_qf_tiny_freeze_check",
+  "description": "Tiny ZDT1 Q/F freeze sanity. Reconfirm that the current quality-first and budget-first split stays intact while the pass focuses on TSP fast tail hardening.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "variant_overrides": {
+    "quality_first": {},
+    "budget_first": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "analysis": {
+    "qf_tolerance": {
+      "quality_variant": "quality_first",
+      "fast_variant": "budget_first",
+      "tolerance_bins_pct": [0.1, 0.25, 0.5, 1.0],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "budget_first"]
+  },
+  "seeds": [8921, 8922, 8923],
+  "budget_ceiling": 4920,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Tiny Q/F freeze only. Do not expand the ZDT1 family here; just recheck that the existing quality-first and budget-first split still behaves like the clean local default pair."
+}

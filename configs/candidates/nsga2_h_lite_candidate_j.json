@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "candidate_id": "candidate_j_h_lite_retry2",
+  "candidate_type": "nsga2_operator_variant",
+  "status": "proposed",
+  "promotion_status": "under_validation",
+  "default_changed": false,
+  "base_variant": "candidate_h_uniform_dedup_mutation_boost",
+  "operator_change": {
+    "crossover": {
+      "from": "arithmetic",
+      "to": "uniform"
+    },
+    "duplicate_handling": {
+      "decision_dedup": true,
+      "duplicate_retry_count": 2,
+      "duplicate_retry_mutation_scale": 1.5,
+      "reinitialize_fallback": false
+    }
+  },
+  "runtime_selection": {
+    "selection_mode": "explicit_only",
+    "entrypoints": [
+      "scripts/validate_nsga2_h_lite_candidates.py",
+      "src/ga_lab/experiment/nsga2_candidate_variants.py"
+    ]
+  },
+  "validated_benchmarks": [
+    "pending_h_lite_run"
+  ],
+  "known_risks": [
+    "Two retries may still over-correct on DTLZ-like fronts.",
+    "Candidate_h-lite may remain weaker than external comparators in spacing/count."
+  ],
+  "source_artifacts": [
+    "artifacts/change_requests/nsga2_uniform_crossover_candidate_d_cr.md",
+    "artifacts/nsga2_diversity_candidate_report_diversity_run1.md"
+  ],
+  "notes": [
+    "This file does not change the default NSGA-II operator path.",
+    "Selecting this candidate requires explicit runner or variant invocation."
+  ]
+}

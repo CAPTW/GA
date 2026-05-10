@@ -1,0 +1,26 @@
+{
+  "study_name": "knapsack_feasibility_study",
+  "description": "Compare restart and diversity-injection policies on knapsack to see whether feasibility recovers more reliably under the same budget.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "algorithm_options": {
+      "stagnation_window": 6,
+      "refresh_fraction": 0.25,
+      "diversity_threshold": 0.2,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "stagnation_restart", "low_diversity_injection"]
+  },
+  "seeds": [11, 12, 13],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Small feasibility-focused knapsack study, usually under two minutes on a laptop."
+}

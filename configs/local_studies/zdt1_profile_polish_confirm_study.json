@@ -1,0 +1,23 @@
+{
+  "study_name": "zdt1_profile_polish_confirm_study",
+  "description": "Confirm whether any nearby ZDT1 polish candidate beats the current reusable diversity profile under the same budget.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1,
+    "algorithm_options": {
+      "refresh_fraction": 0.2
+    }
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.0, 0.55, 0.6],
+    "algorithm_options.adaptation_cooldown": [2, 4]
+  },
+  "seeds": [501, 502, 503, 504, 505, 506, 507, 508, 509, 510],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "10-seed confirm for the current reusable ZDT1 profile and the strongest nearby polish candidate. Threshold 0.0 acts as the disabled baseline."
+}

@@ -1,0 +1,25 @@
+{
+  "study_name": "knapsack_restart_confirm_focused_study",
+  "description": "Confirm whether the knapsack restart window has any repeatable gain over an effectively disabled baseline.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "algorithm_options": {
+      "adaptive_policy": "stagnation_restart",
+      "refresh_fraction": 0.25,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.stagnation_window": [12, 999]
+  },
+  "seeds": [51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "10-seed confirm for the small knapsack restart signal."
+}

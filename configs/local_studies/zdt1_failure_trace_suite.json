@@ -1,0 +1,87 @@
+{
+  "study_name": "zdt1_failure_trace_suite",
+  "description": "ZDT1 failure-trace anatomy. Reuse the hardened fast default, the canonical profile, and a narrow legacy/reference set to isolate spread and joint-safety failure trajectories on the current stress slice.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "current_fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "budget_first_legacy": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "micro_refresh012_cooldown3": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.12,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "failure_trace": {
+      "target_id": "zdt1_fast_spread_safety_fail",
+      "secondary_target_id": "zdt1_fast_joint_safety_fail",
+      "quality_variant": "quality_first",
+      "fast_variant": "current_fast",
+      "reference_variants": ["budget_first_legacy", "micro_refresh012_cooldown3"],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "hv_plateau_slope_threshold": 0.005,
+      "hypothesis_ids": [
+        "zdt1_fast_early_front_plateau",
+        "zdt1_fast_late_spread_collapse",
+        "zdt1_fast_refresh_timing_mismatch"
+      ]
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "quality_first",
+      "current_fast",
+      "budget_first_legacy",
+      "micro_refresh012_cooldown3"
+    ]
+  },
+  "seeds": [8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Failure-trace only. Reuse the hardened ZDT1 fast profile and the current stress slice to isolate spread and joint-safety failure timing."
+}

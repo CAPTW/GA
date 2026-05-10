@@ -1,0 +1,41 @@
+{
+  "run_name": "onemax_nested",
+  "problem": {
+    "name": "onemax",
+    "options": {}
+  },
+  "algorithm": {
+    "name": "ga",
+    "options": {}
+  },
+  "representation": {
+    "name": "bit",
+    "options": {}
+  },
+  "operators": {
+    "selection": {
+      "name": "tournament",
+      "options": {
+        "tournament_size": 3
+      }
+    },
+    "crossover": {
+      "name": "one_point",
+      "options": {}
+    },
+    "mutation": {
+      "name": "bit_flip",
+      "options": {}
+    }
+  },
+  "population_size": 80,
+  "genome_length": 64,
+  "generations": 80,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.02,
+  "elitism": 2,
+  "seed": 7,
+  "maximize": true,
+  "target_fitness": 64,
+  "log_every": 1
+}

@@ -1,0 +1,21 @@
+{
+  "study_name": "onemax_control_fixedstack_check",
+  "description": "Tiny Onemax control check for the fixed-stack pass. Keep the problem as a control only and verify that the plain fixed baseline still beats the TSP-inspired trigger candidate.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "population_size": 32,
+    "generations": 40,
+    "log_every": 1
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "low_diversity_injection"]
+  },
+  "seeds": [971, 972, 973, 974, 975],
+  "budget_ceiling": 1344,
+  "primary_metric": "best_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Control-only check. Do not treat this as an Onemax adaptive promotion path."
+}

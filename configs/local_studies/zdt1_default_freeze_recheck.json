@@ -1,0 +1,43 @@
+{
+  "study_name": "zdt1_default_freeze_recheck",
+  "description": "Tiny ZDT1 freeze check. Reconfirm that the current 0.55 diversity-injection profile remains the most honest local default, with 0.60 kept as a note-only nearby alternative.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "threshold_055": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_060": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.6,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    }
+  },
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "threshold_055", "threshold_060"],
+    "generations": [60, 80]
+  },
+  "seeds": [961, 962, 963, 964, 965],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Tiny ZDT1 freeze check only. Keep the 0.55 profile unless 0.60 shows a clearly cleaner low-budget story."
+}

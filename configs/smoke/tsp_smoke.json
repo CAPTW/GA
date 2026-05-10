@@ -1,0 +1,25 @@
+{
+  "run_name": "tsp_smoke",
+  "problem": "tsp",
+  "algorithm": "ga",
+  "representation": "permutation",
+  "selection": "tournament",
+  "crossover": "order",
+  "mutation": "swap",
+  "population_size": 24,
+  "genome_length": 10,
+  "generations": 20,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.25,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 3,
+  "maximize": true,
+  "log_every": 2,
+  "problem_options": {
+    "num_cities": 10,
+    "seed": 11,
+    "bounds": [0.0, 100.0],
+    "return_to_start": true
+  }
+}

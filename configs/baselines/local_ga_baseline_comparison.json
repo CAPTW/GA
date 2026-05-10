@@ -1,0 +1,37 @@
+{
+  "suite_name": "local_ga_baseline_comparison",
+  "suite_kind": "comparison",
+  "default_seeds": 10,
+  "entries": [
+    {
+      "problem": "onemax",
+      "size": 32,
+      "preset": "configs/presets/onemax_small.json",
+      "baselines": [
+        "random_search",
+        "hill_climb"
+      ],
+      "seed_start": 5101
+    },
+    {
+      "problem": "knapsack",
+      "size": 20,
+      "preset": "configs/presets/knapsack_small.json",
+      "baselines": [
+        "random_sampling",
+        "greedy_local_search"
+      ],
+      "seed_start": 5201
+    },
+    {
+      "problem": "tsp",
+      "size": 10,
+      "preset": "configs/presets/tsp_small.json",
+      "baselines": [
+        "random_tours",
+        "nearest_neighbor_2opt"
+      ],
+      "seed_start": 5301
+    }
+  ]
+}

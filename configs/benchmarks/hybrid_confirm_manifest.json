@@ -1,0 +1,107 @@
+{
+  "suite_name": "hybrid_confirm",
+  "suite_kind": "confirm",
+  "default_seeds": 10,
+  "entries": [
+    {
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 7101
+    },
+    {
+      "problem": "knapsack",
+      "size": 20,
+      "preset": "configs/presets/knapsack_small.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_repair",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        }
+      ],
+      "seed_start": 7201
+    },
+    {
+      "problem": "knapsack",
+      "size": 80,
+      "preset": "configs/presets/knapsack_large.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_repair",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        }
+      ],
+      "seed_start": 7211
+    },
+    {
+      "problem": "tsp",
+      "size": 20,
+      "preset": "configs/presets/tsp_medium.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "hybrids": [
+        {
+          "label": "hybrid_memetic_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        }
+      ],
+      "seed_start": 7301
+    },
+    {
+      "problem": "tsp",
+      "size": 50,
+      "preset": "configs/presets/tsp_large.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "hybrids": [
+        {
+          "label": "hybrid_memetic_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        }
+      ],
+      "seed_start": 7311
+    },
+    {
+      "problem": "zdt1",
+      "size": 50,
+      "preset": "configs/presets/zdt1_large.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 7401
+    }
+  ]
+}

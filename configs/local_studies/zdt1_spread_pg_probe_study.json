@@ -1,0 +1,124 @@
+{
+  "study_name": "zdt1_spread_pg_probe_study",
+  "description": "ZDT1 spread-target evidence widening coarse pass. Reuse the current stress suite to test whether spread failures are better reduced by same-budget population-generation contour probes than by timing-only changes.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "current_fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "spread_pg_pop41_gen88": {
+      "population_size": 41,
+      "generations": 88,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "spread_pg_pop44_gen82": {
+      "population_size": 44,
+      "generations": 82,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "spread_pg_pop46_gen78": {
+      "population_size": 46,
+      "generations": 78,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "zdt1_fast_hardening": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "current_fast",
+      "candidate_variants": [
+        "current_fast",
+        "spread_pg_pop41_gen88",
+        "spread_pg_pop44_gen82",
+        "spread_pg_pop46_gen78"
+      ],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05
+    },
+    "failure_trace": {
+      "target_id": "zdt1_fast_spread_safety_fail",
+      "secondary_target_id": "zdt1_fast_joint_safety_fail",
+      "quality_variant": "quality_first",
+      "fast_variant": "current_fast",
+      "reference_variants": [
+        "spread_pg_pop41_gen88",
+        "spread_pg_pop44_gen82",
+        "spread_pg_pop46_gen78"
+      ],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "hv_plateau_slope_threshold": 0.005,
+      "hypothesis_ids": [
+        "zdt1_fast_joint_timing_mismatch_still_plausible",
+        "zdt1_fast_spread_mechanism_population_generation_candidate",
+        "zdt1_fast_spread_mechanism_still_unisolated"
+      ],
+      "hypothesis_probe": {
+        "baseline_variant": "current_fast",
+        "population_generation_probe_variants": [
+          "spread_pg_pop41_gen88",
+          "spread_pg_pop44_gen82",
+          "spread_pg_pop46_gen78"
+        ],
+        "probe_mode": "spread_only"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "quality_first",
+      "current_fast",
+      "spread_pg_pop41_gen88",
+      "spread_pg_pop44_gen82",
+      "spread_pg_pop46_gen78"
+    ]
+  },
+  "seeds": [8212, 8214, 8218, 8219, 8220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Split-target ZDT1 spread probe coarse pass only. Recheck same-budget population-generation contour points on the fixed spread-fail slice before touching the budget-first default."
+}

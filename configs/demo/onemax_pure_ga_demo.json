@@ -1,0 +1,20 @@
+{
+  "run_name": "onemax_pure_ga_demo",
+  "problem": "onemax",
+  "algorithm": "ga",
+  "representation": "bit",
+  "selection": "tournament",
+  "crossover": "one_point",
+  "mutation": "bit_flip",
+  "population_size": 40,
+  "genome_length": 32,
+  "generations": 50,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.015625,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 7,
+  "maximize": true,
+  "target_fitness": 32,
+  "log_every": 1
+}

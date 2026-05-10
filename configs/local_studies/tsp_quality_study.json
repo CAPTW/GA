@@ -1,0 +1,20 @@
+{
+  "study_name": "tsp_quality_study",
+  "description": "Small quality-first sweep for TSP using population_size and tournament_size.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "generations": 60
+  },
+  "sweep": {
+    "population_size": [30, 50],
+    "tournament_size": [2, 3]
+  },
+  "seeds": [3, 4],
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance",
+    "comparison_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Two-axis local sweep, usually under a few minutes on a laptop."
+}

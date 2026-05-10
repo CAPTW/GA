@@ -1,0 +1,80 @@
+name: release-candidate
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev,release]
+      - name: Build wheel and sdist
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/release
+          python -m build 2>&1 | tee .ci-artifacts/release/build.log
+      - name: Twine check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m twine check dist/* 2>&1 | tee .ci-artifacts/release/twine-check.log
+      - name: Portable wheel smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/package_portability_smoke.py \
+            --dist-dir dist \
+            --output-root .ci-artifacts/release/portable-smoke \
+            --output-json .ci-artifacts/release/portable-smoke.json \
+            --output-md .ci-artifacts/release/portable-smoke.md
+      - name: Public API snapshot check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/check_public_api.py 2>&1 | tee .ci-artifacts/release/public-api.log
+      - name: Repo-mode governance checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/check_claim_drift.py \
+            --fail-on FAIL \
+            --output-json .ci-artifacts/release/claim_drift_report.json \
+            --output-md .ci-artifacts/release/claim_drift_report.md \
+            --output-metadata .ci-artifacts/release/run_metadata.json
+          python scripts/render_release_artifacts.py
+      - name: Collect release bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-artifacts/release/bundle
+          cp -r dist .ci-artifacts/release/bundle/dist
+          cp README.md .ci-artifacts/release/bundle/README.md
+          cp -r docs .ci-artifacts/release/bundle/docs
+          cp -r artifacts .ci-artifacts/release/bundle/artifacts
+          find .ci-artifacts/release -maxdepth 4 -type f | sort > .ci-artifacts/release/files.txt
+      - name: Upload release artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-candidate-bundle
+          path: .ci-artifacts/release
+          retention-days: 14

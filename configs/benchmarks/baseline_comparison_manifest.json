@@ -1,0 +1,91 @@
+{
+  "suite_name": "baseline_comparison",
+  "suite_kind": "comparison",
+  "default_seeds": 10,
+  "entries": [
+    {
+      "problem": "onemax",
+      "size": 32,
+      "preset": "configs/presets/onemax_small.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 3101
+    },
+    {
+      "problem": "onemax",
+      "size": 64,
+      "preset": "configs/presets/onemax_medium.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 3111
+    },
+    {
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 3121
+    },
+    {
+      "problem": "knapsack",
+      "size": 20,
+      "preset": "configs/presets/knapsack_small.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "seed_start": 3201
+    },
+    {
+      "problem": "knapsack",
+      "size": 30,
+      "preset": "configs/presets/knapsack_medium.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "seed_start": 3211
+    },
+    {
+      "problem": "knapsack",
+      "size": 80,
+      "preset": "configs/presets/knapsack_large.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "seed_start": 3221
+    },
+    {
+      "problem": "tsp",
+      "size": 10,
+      "preset": "configs/presets/tsp_small.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "seed_start": 3301
+    },
+    {
+      "problem": "tsp",
+      "size": 20,
+      "preset": "configs/presets/tsp_medium.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "seed_start": 3311
+    },
+    {
+      "problem": "tsp",
+      "size": 50,
+      "preset": "configs/presets/tsp_large.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "seed_start": 3321
+    },
+    {
+      "problem": "zdt1",
+      "size": 10,
+      "preset": "configs/presets/zdt1_small.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 3401
+    },
+    {
+      "problem": "zdt1",
+      "size": 20,
+      "preset": "configs/presets/zdt1_medium.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 3411
+    },
+    {
+      "problem": "zdt1",
+      "size": 50,
+      "preset": "configs/presets/zdt1_large.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 3421
+    }
+  ]
+}

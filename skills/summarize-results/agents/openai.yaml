@@ -1,0 +1,4 @@
+interface:
+  display_name: "Summarize Results"
+  short_description: "Turn run directories into concise reports"
+  default_prompt: "Use $summarize-results to turn the latest GA runs into Markdown, JSON, and CSV summaries."

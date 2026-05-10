@@ -1,0 +1,35 @@
+{
+  "study_name": "tsp_budget_sensitivity_study",
+  "description": "TSP mechanism check at a +25% budget tier on a second seed block.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_diversity_injection.json",
+  "shared_overrides": {
+    "generations": 75,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "diversity_threshold": 0.15,
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 4,
+      "stagnation_window": 10,
+      "stagnation_boost_factor": 1.5,
+      "decay_end_rate": 0.02
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection",
+      "decay_mutation",
+      "stagnation_boost"
+    ]
+  },
+  "seeds": [191, 192, 193, 194, 195, 196, 197, 198, 199, 200],
+  "budget_ceiling": 3080,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "TSP budget tier +25%. Reusable local profiles should survive a small budget increase without adding extra evaluations from adaptation."
+}

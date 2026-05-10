@@ -1,0 +1,62 @@
+{
+  "study_name": "zdt1_restart_portfolio_confirm",
+  "description": "10-seed confirm for the ZDT1 restart portfolio frontier. Re-check the strongest merged-archive fast-restart shapes against canonical and fast singles.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "canonical_once": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "fast_once": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "fast_x2_equal_split": {
+      "__local_baseline__": "zdt1_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "portfolio_restart_count": 2,
+        "portfolio_total_budget_factor": 1.0
+      }
+    },
+    "fast_x2_budget075": {
+      "__local_baseline__": "zdt1_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "portfolio_restart_count": 2,
+        "portfolio_total_budget_factor": 0.75
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "canonical_once",
+      "fast_once",
+      "fast_x2_equal_split",
+      "fast_x2_budget075"
+    ]
+  },
+  "seeds": [8601, 8602, 8603, 8604, 8605, 8606, 8607, 8608, 8609, 8610],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Confirm only. Keep a ZDT1 multi-start note only if merged-archive fast restarts improve on fast_once without giving back too much hypervolume or spread to canonical_once."
+}

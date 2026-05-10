@@ -1,0 +1,28 @@
+{
+  "study_name": "zdt1_budget_note_freeze",
+  "description": "Tiny ZDT1 note-freeze check. Keep the current 0.55 diversity threshold as the local reusable default unless 0.60 clearly survives on the same small budget bands.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 2,
+    "algorithm_options": {
+      "refresh_fraction": 0.2,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection"
+    ],
+    "algorithm_options.diversity_threshold": [0.55, 0.6],
+    "generations": [60, 80]
+  },
+  "seeds": [511, 512, 513, 514, 515],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Tiny note-freeze pass only. Use this to keep 0.55 as the default or confirm that 0.60 remains a nearby exploratory threshold rather than a promoted rule."
+}

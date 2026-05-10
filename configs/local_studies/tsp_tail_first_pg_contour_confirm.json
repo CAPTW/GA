@@ -1,0 +1,160 @@
+{
+  "study_name": "tsp_tail_first_pg_contour_confirm",
+  "description": "TSP tail-first contour closeout confirm. Recheck the current fast default and the strongest same-budget contour points against the canonical comparator on the fixed stress suite, prioritizing anti-case p90/p95 over mean loss.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "bridge-spoke rescue-target holdout",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_tail_first_pg_contour_suite",
+          "coordinates": [[0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0], [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0], [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]]
+        }
+      }
+    },
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "group": "rescue_target",
+      "note": "bridge-like rescue-target holdout",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_tail_first_pg_contour_suite",
+          "coordinates": [[0.0, 0.0], [4.0, 4.0], [-3.0, 5.0], [6.0, -3.0], [-5.0, -4.0], [2.0, 8.0], [52.0, 22.0], [70.0, 0.0], [74.0, 5.0], [68.0, -6.0], [78.0, -2.0], [71.0, 8.0], [36.0, 12.0], [44.0, -10.0], [58.0, 10.0]]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "group": "anti_case",
+      "note": "corridor-like anti-case holdout",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_tail_first_pg_contour_suite",
+          "coordinates": [[0.0, 0.0], [6.0, 3.0], [12.0, -2.0], [18.0, 4.0], [24.0, -3.0], [30.0, 5.0], [36.0, -4.0], [42.0, 6.0], [48.0, -5.0], [54.0, 7.0], [60.0, -6.0], [66.0, 8.0], [72.0, -7.0], [78.0, 9.0], [84.0, -8.0], [90.0, 10.0], [96.0, -9.0], [50.0, 20.0], [20.0, 18.0], [76.0, 18.0]]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "near-collinear corridor anti-case",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_tsp_tail_first_pg_contour_suite",
+          "coordinates": [[0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0], [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0], [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 40,
+      "generations": 45,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "current_fast": {
+      "population_size": 40,
+      "generations": 33,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "contour_pg_gen34_pop39": {
+      "population_size": 39,
+      "generations": 34,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "contour_pg_gen35_pop38": {
+      "population_size": 38,
+      "generations": 35,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "analysis": {
+    "tsp_fast_tail": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "current_fast"
+    },
+    "failure_trace": {
+      "target_id": "tsp_fast_anti_case_tail",
+      "quality_variant": "quality_first",
+      "fast_variant": "current_fast",
+      "reference_variants": [
+        "contour_pg_gen34_pop39",
+        "contour_pg_gen35_pop38"
+      ],
+      "collapse_diversity_threshold": 0.12,
+      "major_improvement_min_delta": 1e-09,
+      "hypothesis_ids": [
+        "tsp_anticase_late_refinement_deficit",
+        "tsp_anticase_seed_lockin_secondary"
+      ],
+      "hypothesis_probe": {
+        "baseline_variant": "current_fast",
+        "late_refinement_probe_variant": "contour_pg_gen35_pop38",
+        "population_probe_variant": "contour_pg_gen34_pop39",
+        "contour_probe_variants": [
+          "contour_pg_gen34_pop39",
+          "contour_pg_gen35_pop38"
+        ],
+        "focus_case_group": "anti_case",
+        "preserve_case_group": "rescue_target"
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "quality_first",
+      "current_fast",
+      "contour_pg_gen34_pop39",
+      "contour_pg_gen35_pop38"
+    ]
+  },
+  "seeds": [9051, 9052, 9053, 9054, 9055, 9056, 9057, 9058, 9059, 9060],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Tail-first TSP contour closeout confirm only. Recheck the current fast default against the closest same-budget contour points before touching the budget-first default."
+}

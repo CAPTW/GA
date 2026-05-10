@@ -1,0 +1,76 @@
+{
+  "suite_name": "large_confirm",
+  "entries": [
+    {
+      "label": "onemax_large_default_15seeds",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 12001,
+      "seeds": 15,
+      "overrides": {
+        "run_name": "onemax_large_default_confirm"
+      }
+    },
+    {
+      "label": "onemax_large_legacy_budget_10seeds",
+      "config": "configs/presets/onemax_large.json",
+      "seed_start": 12101,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "onemax_large_legacy_budget_confirm",
+        "population_size": 80,
+        "generations": 40,
+        "mutation_rate": 0.015625,
+        "elitism": 1,
+        "tournament_size": 3
+      }
+    },
+    {
+      "label": "zdt1_large_default_10seeds",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 12201,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_large_default_confirm"
+      }
+    },
+    {
+      "label": "zdt1_large_pop80_gen160_10seeds",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 12301,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_large_pop80_gen160_confirm",
+        "generations": 160
+      }
+    },
+    {
+      "label": "zdt1_large_pop120_gen160_10seeds",
+      "config": "configs/presets/zdt1_large.json",
+      "seed_start": 12401,
+      "seeds": 10,
+      "overrides": {
+        "run_name": "zdt1_large_pop120_gen160_confirm",
+        "population_size": 120,
+        "generations": 160
+      }
+    },
+    {
+      "label": "knapsack_large_default_5seeds",
+      "config": "configs/presets/knapsack_large.json",
+      "seed_start": 12501,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "knapsack_large_default_confirm"
+      }
+    },
+    {
+      "label": "tsp_large_default_5seeds",
+      "config": "configs/presets/tsp_large.json",
+      "seed_start": 12601,
+      "seeds": 5,
+      "overrides": {
+        "run_name": "tsp_large_default_confirm"
+      }
+    }
+  ]
+}

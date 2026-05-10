@@ -1,0 +1,15 @@
+{
+  "run_name": "onemax_smoke",
+  "problem": "onemax",
+  "population_size": 24,
+  "genome_length": 16,
+  "generations": 8,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.05,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 7,
+  "maximize": true,
+  "target_fitness": 16,
+  "log_every": 1
+}

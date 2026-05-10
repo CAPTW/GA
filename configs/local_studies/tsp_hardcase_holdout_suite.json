@@ -1,0 +1,105 @@
+{
+  "study_name": "tsp_hardcase_holdout_suite",
+  "description": "Stage-2 holdout confirm on local TSP hard cases. Keep only the candidates that stayed competitive after the hard-case coarse pass.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_diversity_injection.json",
+  "cases": [
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "note": "two-cluster holdout with two bridge choices; useful for checking whether a trigger really waits for collapse",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_hardcase_holdout",
+          "coordinates": [
+            [0.0, 0.0],
+            [4.0, 4.0],
+            [-3.0, 5.0],
+            [6.0, -3.0],
+            [-5.0, -4.0],
+            [2.0, 8.0],
+            [52.0, 22.0],
+            [70.0, 0.0],
+            [74.0, 5.0],
+            [68.0, -6.0],
+            [78.0, -2.0],
+            [71.0, 8.0],
+            [36.0, 12.0],
+            [44.0, -10.0],
+            [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "note": "long corridor with hook outliers; tie-prone schedules should separate less once collapse timing matters",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_hardcase_holdout",
+          "coordinates": [
+            [0.0, 0.0],
+            [6.0, 3.0],
+            [12.0, -2.0],
+            [18.0, 4.0],
+            [24.0, -3.0],
+            [30.0, 5.0],
+            [36.0, -4.0],
+            [42.0, 6.0],
+            [48.0, -5.0],
+            [54.0, 7.0],
+            [60.0, -6.0],
+            [66.0, 8.0],
+            [72.0, -7.0],
+            [78.0, 9.0],
+            [84.0, -8.0],
+            [90.0, 10.0],
+            [96.0, -9.0],
+            [50.0, 20.0],
+            [20.0, 18.0],
+            [76.0, 18.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "diversity_threshold": 0.15,
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 4,
+      "stagnation_window": 10,
+      "stagnation_boost_factor": 1.5,
+      "decay_end_rate": 0.02,
+      "warmup_generation": 10,
+      "periodic_refresh_every": 4,
+      "collapse_warmup_generation": 5,
+      "improvement_epsilon": 0.5,
+      "post_trigger_nontrivial_improvement": 1.0,
+      "useless_trigger_window": 5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection",
+      "decay_mutation"
+    ],
+    "generations": [36, 60]
+  },
+  "seeds": [401, 402, 403, 404, 405, 406, 407, 408, 409, 410],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Holdout confirm for the reduced/current budget TSP hard-case suite. Keep the current trigger only if it survives harder instances and a fresh seed block."
+}

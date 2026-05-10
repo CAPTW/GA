@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "candidate_id": "example_tsp_pg_contour_rejected",
+  "problem": "tsp",
+  "target_id": "tsp_fast_anti_case_tail",
+  "hypothesis_id": "tsp_anticase_late_refinement_deficit",
+  "baseline_snapshot_path": "artifacts/local_baseline_snapshot.json",
+  "baseline_guard_study": "local_baseline_guard_tsp",
+  "candidate_study": "tsp_extreme_tail_pg_contour_confirm",
+  "existing_output_dir": "outputs/local_studies/20260418T063842Z_tsp_extreme_tail_pg_contour_confirm",
+  "candidate_profile_or_overrides": {
+    "baseline_variant": "current_fast",
+    "candidate_variant": "contour_pg_gen32_pop41",
+    "quality_variant": "quality_first",
+    "population_size": 41,
+    "generations": 32,
+    "algorithm_options": {
+      "seed_fraction": 0.5
+    }
+  },
+  "allowed_budget_policy": "same_or_lower_than_current_fast",
+  "expected_primary_metric": "anti_case_p95_loss_pct_vs_q",
+  "expected_non_regression_metrics": [
+    "anti_case_max_loss_pct_vs_q",
+    "rescue_target_mean_loss_pct_vs_q",
+    "actual_evaluations_used_mean"
+  ],
+  "stress_slices_to_check": [
+    "anti_case",
+    "rescue_target"
+  ],
+  "seed_policy": {
+    "mode": "use_existing_output",
+    "seed_blocks": ["A", "B"]
+  },
+  "decision_policy": {
+    "requires_new_mechanism_hypothesis": true,
+    "new_mechanism_hypothesis": false,
+    "anti_case_p95_min_gain": 0.05,
+    "rescue_mean_max_worsen": 0.05
+  },
+  "notes": "This manifest intentionally models a same-budget PG contour candidate that should not reopen the frozen TSP fast default without a new mechanism hypothesis.",
+  "expected_decision_label": "candidate_requires_new_mechanism_hypothesis",
+  "baseline_variant": "current_fast",
+  "candidate_variant": "contour_pg_gen32_pop41",
+  "quality_variant": "quality_first"
+}

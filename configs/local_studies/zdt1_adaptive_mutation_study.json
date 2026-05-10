@@ -1,0 +1,26 @@
+{
+  "study_name": "zdt1_adaptive_mutation_study",
+  "description": "Compare fixed, decay, and stagnation-boost mutation schedules on small ZDT1 under the same evaluation budget.",
+  "problem": "zdt1",
+  "base_preset": "zdt1_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.08,
+      "adaptive_mutation_max_rate": 0.35,
+      "stagnation_window": 6,
+      "stagnation_boost_factor": 1.75
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "decay_mutation", "stagnation_boost"]
+  },
+  "seeds": [21, 22, 23],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Small adaptive NSGA-II study, usually under a few minutes on a laptop."
+}

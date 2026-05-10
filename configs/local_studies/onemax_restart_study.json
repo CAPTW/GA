@@ -1,0 +1,24 @@
+{
+  "study_name": "onemax_restart_study",
+  "description": "Check whether restart-style adaptation helps onemax recover from stagnation without increasing the evaluation budget.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "algorithm_options": {
+      "stagnation_window": 6,
+      "refresh_fraction": 0.25,
+      "diversity_threshold": 0.18,
+      "adaptation_cooldown": 5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "stagnation_restart", "low_diversity_injection"]
+  },
+  "seeds": [7, 8, 9],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Small restart-focused onemax study, usually under a minute on a laptop."
+}

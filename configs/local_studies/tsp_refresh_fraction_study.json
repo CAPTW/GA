@@ -1,0 +1,27 @@
+{
+  "study_name": "tsp_refresh_fraction_study",
+  "description": "Focused TSP refresh-fraction sweep after narrowing the low-diversity threshold region.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "diversity_threshold": 0.08,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.refresh_fraction": [0.05, 0.1, 0.2, 0.3]
+  },
+  "seeds": [141, 142, 143, 144],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Stage-1 TSP refresh-fraction sweep. Prefer smaller refresh unless larger injections clearly reduce distance at the same budget."
+}

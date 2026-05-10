@@ -1,0 +1,83 @@
+{
+  "study_name": "local_baseline_guard_tsp",
+  "description": "Tiny TSP baseline guard. Reconfirm that the current fast profile stays useful for budget-first runs while anti-case and corridor-like finals still belong on Q.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_seeded_swap_local.json",
+  "cases": [
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "group": "rescue_target",
+      "note": "baseline guard rescue-target row",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_baseline_guard_tsp",
+          "coordinates": [[0.0, 0.0], [4.0, 4.0], [-4.0, 4.0], [5.0, -3.0], [-5.0, -4.0], [1.0, 7.0], [62.0, 0.0], [66.0, 4.0], [60.0, -5.0], [69.0, -2.0], [64.0, 8.0], [33.0, 17.0], [15.0, 22.0], [47.0, 20.0], [22.0, -16.0], [44.0, -12.0], [24.0, 10.0], [52.0, 10.0]]
+        }
+      }
+    },
+    {
+      "case_id": "zigzag_corridor_15",
+      "group": "anti_case",
+      "note": "baseline guard corridor-like anti-case row",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "zigzag_corridor_15",
+          "instance_source": "local_baseline_guard_tsp",
+          "coordinates": [[0.0, 0.0], [8.0, 4.0], [16.0, -3.0], [24.0, 5.0], [32.0, -4.0], [40.0, 6.0], [48.0, -5.0], [56.0, 7.0], [64.0, -6.0], [72.0, 8.0], [80.0, -7.0], [88.0, 9.0], [96.0, -8.0], [104.0, 10.0], [52.0, 22.0]]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 40,
+      "generations": 45,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    },
+    "current_fast": {
+      "population_size": 40,
+      "generations": 33,
+      "mutation": "swap",
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "init_strategy": "tsp_nearest_neighbor_mix",
+        "seed_fraction": 0.5,
+        "local_search_strategy": "none"
+      }
+    }
+  },
+  "analysis": {
+    "tsp_fast_tail": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "current_fast"
+    },
+    "tsp_tail_freeze": {
+      "quality_variant": "quality_first",
+      "fast_variant": "current_fast"
+    }
+  },
+  "sweep": {
+    "study_variant": ["quality_first", "current_fast"]
+  },
+  "seeds": [9052, 9054, 9058],
+  "budget_ceiling": 1880,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Baseline guard only. Confirm the current TSP fast profile still fits the budget-first role and keep anti-case finals on Q."
+}

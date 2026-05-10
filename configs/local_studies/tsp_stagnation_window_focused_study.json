@@ -1,0 +1,26 @@
+{
+  "study_name": "tsp_stagnation_window_focused_study",
+  "description": "Coarse TSP study for stagnation-window sensitivity on the stagnation-boost mutation policy.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "algorithm_options": {
+      "adaptive_policy": "stagnation_boost",
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "stagnation_boost_factor": 2.0
+    }
+  },
+  "sweep": {
+    "algorithm_options.stagnation_window": [4, 6, 10, 14]
+  },
+  "seeds": [31, 32, 33, 34],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Focused TSP stagnation-window sweep for the mutation-boost policy."
+}

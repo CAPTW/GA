@@ -1,0 +1,26 @@
+{
+  "run_name": "zdt1_benchmark_base",
+  "problem": "zdt1",
+  "algorithm": "nsga2",
+  "representation": "real",
+  "selection": "tournament",
+  "crossover": "arithmetic",
+  "mutation": "gaussian",
+  "mutation_options": {
+    "sigma": 0.1
+  },
+  "population_size": 50,
+  "genome_length": 20,
+  "generations": 60,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.1,
+  "elitism": 1,
+  "tournament_size": 2,
+  "seed": 21,
+  "maximize": false,
+  "objective_directions": [
+    false,
+    false
+  ],
+  "log_every": 2
+}

@@ -1,0 +1,27 @@
+{
+  "study_name": "zdt1_refresh_fraction_study",
+  "description": "Focused ZDT1 refresh-fraction sweep after narrowing the low-diversity threshold region.",
+  "problem": "zdt1",
+  "base_preset": "zdt1_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "diversity_threshold": 0.55,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.refresh_fraction": [0.05, 0.1, 0.2]
+  },
+  "seeds": [241, 242, 243, 244],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Stage-1 ZDT1 refresh-fraction sweep. Prefer the smallest injection that keeps the hypervolume advantage without collapsing spread."
+}

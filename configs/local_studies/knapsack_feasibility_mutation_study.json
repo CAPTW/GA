@@ -1,0 +1,38 @@
+{
+  "study_name": "knapsack_feasibility_mutation_study",
+  "description": "Focused knapsack study for feasibility-aware mutation against restart and the static baseline.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptation_cooldown": 3,
+      "feasible_ratio_recovery_threshold": 0.65,
+      "violation_plateau_window": 5,
+      "violation_plateau_epsilon": 0.0025,
+      "mutation_cap": 0.06,
+      "refresh_fraction": 0.25,
+      "stagnation_window": 5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "stagnation_restart",
+      "feasibility_aware_mutation_v1",
+      "feasibility_aware_mutation_v2",
+      "feasibility_aware_mutation_v3"
+    ],
+    "algorithm_options.feasible_ratio_threshold": [0.4, 0.6],
+    "algorithm_options.mutation_boost_multiplier": [1.5, 2.0]
+  },
+  "seeds": [721, 722, 723, 724],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Stage-1 knapsack feasibility sweep. Keep only candidates that actually fire and improve feasible quality without extra evaluations."
+}

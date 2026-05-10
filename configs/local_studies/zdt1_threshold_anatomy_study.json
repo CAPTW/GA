@@ -1,0 +1,65 @@
+{
+  "study_name": "zdt1_threshold_anatomy_study",
+  "description": "Factorized ZDT1 threshold anatomy pass. Keep refresh_fraction=0.2 and cooldown=4 fixed while checking whether 0.55 is the real center of mass for the current local default.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "threshold_045": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.45,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_050": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.5,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_055": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    },
+    "threshold_060": {
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.6,
+        "refresh_fraction": 0.2,
+        "adaptation_cooldown": 4
+      }
+    }
+  },
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": [
+      "none",
+      "threshold_045",
+      "threshold_050",
+      "threshold_055",
+      "threshold_060"
+    ],
+    "generations": [72, 80, 88]
+  },
+  "seeds": [1201, 1202, 1203, 1204],
+  "budget_ceiling": 15960,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Small threshold-only anatomy sweep. Compare on matched budgets only; keep extra adaptation evaluations at zero."
+}

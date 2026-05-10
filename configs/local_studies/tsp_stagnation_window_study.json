@@ -1,0 +1,27 @@
+{
+  "study_name": "tsp_stagnation_window_study",
+  "description": "Focused TSP stagnation-window sweep for the stagnation-boost mutation policy.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_policy": "stagnation_boost",
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.stagnation_window": [5, 10, 15, 20]
+  },
+  "seeds": [151, 152, 153, 154],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Stage-1 TSP stagnation-window sweep. Keep only windows that boost mutation after true plateaus rather than transient noise."
+}

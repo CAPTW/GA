@@ -1,0 +1,23 @@
+{
+  "study_name": "onemax_control_mechanism_check",
+  "description": "Control check for onemax: keep the fixed baseline honest against the most generic schedule-only adaptive candidate.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "shared_overrides": {
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.005,
+      "adaptive_mutation_max_rate": 0.08,
+      "decay_end_rate": 0.01
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "decay_mutation"]
+  },
+  "seeds": [12, 13, 14, 15, 16],
+  "budget_ceiling": 2080,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Small onemax control check. Adaptive should not survive here unless it clearly beats the fixed baseline."
+}

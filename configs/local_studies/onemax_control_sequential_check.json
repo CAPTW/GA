@@ -1,0 +1,47 @@
+{
+  "study_name": "onemax_control_sequential_check",
+  "description": "OneMax sequential control check. Reconfirm that this remains a control-only problem and that a larger sequential ladder is unnecessary.",
+  "problem": "onemax",
+  "base_preset": "onemax_small",
+  "variant_overrides": {
+    "none": {
+      "algorithm_options": {
+        "adaptive_policy": "none"
+      }
+    },
+    "early_stop_reference": {
+      "algorithm_options": {
+        "adaptive_policy": "none",
+        "early_stop_policy": "progress_plateau",
+        "early_stop_window": 6,
+        "early_stop_min_generation": 10,
+        "early_stop_epsilon": 0.0
+      }
+    }
+  },
+  "analysis": {
+    "sequential_compare": {
+      "seed_stages": [1, 3, 5],
+      "control_variant": "none",
+      "reference_variant": "early_stop_reference",
+      "bootstrap_seed": 7619,
+      "bootstrap_replicates": 300,
+      "equivalence_eval_tolerance": 25.0
+    }
+  },
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 25,
+    "log_every": 1
+  },
+  "sweep": {
+    "study_variant": ["none", "early_stop_reference"]
+  },
+  "seeds": [9141, 9142, 9143, 9144, 9145],
+  "budget_ceiling": 1040,
+  "primary_metric": "evaluations_to_target",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Sequential control only. Keep OneMax as the fixed baseline and check whether any seed escalation beyond the first seed is ever worth it."
+}

@@ -1,0 +1,83 @@
+{
+  "study_name": "zdt1_fast_stress_hardening_confirm",
+  "description": "ZDT1 fast default stress-hardening confirm. Recheck the most credible same-budget micro-tweaks against the current fast default and the quality-first comparator on the fixed stress seeds.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "current_fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "micro_refresh015": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.15,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "micro_cooldown3": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "zdt1_fast_hardening": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "current_fast",
+      "candidate_variants": [
+        "current_fast",
+        "micro_refresh015",
+        "micro_cooldown3"
+      ],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "quality_first",
+      "current_fast",
+      "micro_refresh015",
+      "micro_cooldown3"
+    ]
+  },
+  "seeds": [9122, 9124, 9126, 9129, 9130, 9132, 9134, 9136, 9138, 9140],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Stress-hardening confirm only. Recheck the strongest same-budget ZDT1 fast tweaks on the fixed stress seeds before touching the current budget-first default."
+}

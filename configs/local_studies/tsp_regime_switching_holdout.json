@@ -1,0 +1,139 @@
+{
+  "study_name": "tsp_regime_switching_holdout",
+  "description": "Holdout confirm for the local TSP online regime-switching pass. Use only the existing hard holdout cases and compare against fixed decay/trigger policies.",
+  "problem": "tsp",
+  "base_config": "configs/local_profiles/tsp_diversity_injection.json",
+  "cases": [
+    {
+      "case_id": "twin_bridge_holdout_15",
+      "note": "bridge-like holdout where the current trigger already has a narrow edge",
+      "overrides": {
+        "genome_length": 15,
+        "problem_options": {
+          "num_cities": 15,
+          "instance_name": "twin_bridge_holdout_15",
+          "instance_source": "local_tsp_regime_switching_holdout",
+          "coordinates": [
+            [0.0, 0.0],
+            [4.0, 4.0],
+            [-3.0, 5.0],
+            [6.0, -3.0],
+            [-5.0, -4.0],
+            [2.0, 8.0],
+            [52.0, 22.0],
+            [70.0, 0.0],
+            [74.0, 5.0],
+            [68.0, -6.0],
+            [78.0, -2.0],
+            [71.0, 8.0],
+            [36.0, 12.0],
+            [44.0, -10.0],
+            [58.0, 10.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "corridor_hook_holdout_20",
+      "note": "corridor-like holdout where decay usually stays competitive",
+      "overrides": {
+        "genome_length": 20,
+        "problem_options": {
+          "num_cities": 20,
+          "instance_name": "corridor_hook_holdout_20",
+          "instance_source": "local_tsp_regime_switching_holdout",
+          "coordinates": [
+            [0.0, 0.0],
+            [6.0, 3.0],
+            [12.0, -2.0],
+            [18.0, 4.0],
+            [24.0, -3.0],
+            [30.0, 5.0],
+            [36.0, -4.0],
+            [42.0, 6.0],
+            [48.0, -5.0],
+            [54.0, 7.0],
+            [60.0, -6.0],
+            [66.0, 8.0],
+            [72.0, -7.0],
+            [78.0, 9.0],
+            [84.0, -8.0],
+            [90.0, 10.0],
+            [96.0, -9.0],
+            [50.0, 20.0],
+            [20.0, 18.0],
+            [76.0, 18.0]
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "bridge_spoke_holdout_18",
+      "note": "bridge-spoke holdout with bridge score signal",
+      "overrides": {
+        "genome_length": 18,
+        "problem_options": {
+          "num_cities": 18,
+          "instance_name": "bridge_spoke_holdout_18",
+          "instance_source": "local_tsp_regime_switching_holdout",
+          "coordinates": [
+            [0.0, 0.0],
+            [4.0, 4.0],
+            [-4.0, 4.0],
+            [5.0, -3.0],
+            [-5.0, -4.0],
+            [1.0, 7.0],
+            [62.0, 0.0],
+            [66.0, 4.0],
+            [60.0, -5.0],
+            [69.0, -2.0],
+            [64.0, 8.0],
+            [33.0, 17.0],
+            [15.0, 22.0],
+            [47.0, 20.0],
+            [22.0, -16.0],
+            [44.0, -12.0],
+            [24.0, 10.0],
+            [52.0, 10.0]
+          ]
+        }
+      }
+    }
+  ],
+  "shared_overrides": {
+    "log_every": 1,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.02,
+      "adaptive_mutation_max_rate": 0.2,
+      "diversity_threshold": 0.15,
+      "refresh_fraction": 0.05,
+      "adaptation_cooldown": 4,
+      "stagnation_window": 10,
+      "stagnation_boost_factor": 1.5,
+      "decay_end_rate": 0.02,
+      "warmup_generation": 10,
+      "improvement_epsilon": 0.5,
+      "rescue_window": 5,
+      "collapse_warmup_generation": 5,
+      "post_trigger_nontrivial_improvement": 1.0,
+      "useless_trigger_window": 5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": [
+      "none",
+      "low_diversity_injection",
+      "decay_mutation",
+      "switch_controller_v1",
+      "switch_controller_v2"
+    ],
+    "generations": [36, 60]
+  },
+  "seeds": [701, 702, 703, 704, 705, 706, 707, 708, 709, 710],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Holdout confirm for online switching. Keep only reduced/current focused budgets and a fresh seed block."
+}

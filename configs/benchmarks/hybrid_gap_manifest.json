@@ -1,0 +1,259 @@
+{
+  "suite_name": "hybrid_gap",
+  "suite_kind": "comparison",
+  "default_seeds": 10,
+  "entries": [
+    {
+      "problem": "onemax",
+      "size": 32,
+      "preset": "configs/presets/onemax_small.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 6101
+    },
+    {
+      "problem": "onemax",
+      "size": 64,
+      "preset": "configs/presets/onemax_medium.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 6111
+    },
+    {
+      "problem": "onemax",
+      "size": 128,
+      "preset": "configs/presets/onemax_large.json",
+      "baselines": ["random_search", "hill_climb"],
+      "seed_start": 6121
+    },
+    {
+      "problem": "knapsack",
+      "size": 20,
+      "preset": "configs/presets/knapsack_small.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_repair",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "hybrid_memetic_knapsack",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill",
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        }
+      ],
+      "seed_start": 6201
+    },
+    {
+      "problem": "knapsack",
+      "size": 30,
+      "preset": "configs/presets/knapsack_medium.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_repair",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "hybrid_memetic_knapsack",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill",
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        }
+      ],
+      "seed_start": 6211
+    },
+    {
+      "problem": "knapsack",
+      "size": 80,
+      "preset": "configs/presets/knapsack_large.json",
+      "baselines": ["random_sampling", "greedy_local_search"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_repair",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill"
+            }
+          }
+        },
+        {
+          "label": "hybrid_memetic_knapsack",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "knapsack_greedy_mix",
+              "seed_fraction": 0.25,
+              "repair_strategy": "knapsack_greedy_fill",
+              "local_search_strategy": "knapsack_ratio_swap",
+              "local_search_interval": 5,
+              "local_search_candidates": 2,
+              "local_search_steps": 6,
+              "local_search_remove_width": 3,
+              "local_search_add_width": 5
+            }
+          }
+        }
+      ],
+      "seed_start": 6221
+    },
+    {
+      "problem": "tsp",
+      "size": 10,
+      "preset": "configs/presets/tsp_small.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5
+            }
+          }
+        },
+        {
+          "label": "hybrid_memetic_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        }
+      ],
+      "seed_start": 6301
+    },
+    {
+      "problem": "tsp",
+      "size": 20,
+      "preset": "configs/presets/tsp_medium.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5
+            }
+          }
+        },
+        {
+          "label": "hybrid_memetic_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        }
+      ],
+      "seed_start": 6311
+    },
+    {
+      "problem": "tsp",
+      "size": 50,
+      "preset": "configs/presets/tsp_large.json",
+      "baselines": ["random_tours", "nearest_neighbor_2opt"],
+      "hybrids": [
+        {
+          "label": "hybrid_seeded_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5
+            }
+          }
+        },
+        {
+          "label": "hybrid_memetic_tsp",
+          "overrides": {
+            "algorithm": "hybrid_ga",
+            "algorithm_options": {
+              "init_strategy": "tsp_nearest_neighbor_mix",
+              "seed_fraction": 0.5,
+              "local_search_strategy": "tsp_2opt",
+              "local_search_interval": 1,
+              "local_search_candidates": 2,
+              "local_search_steps": 12
+            }
+          }
+        }
+      ],
+      "seed_start": 6321
+    },
+    {
+      "problem": "zdt1",
+      "size": 10,
+      "preset": "configs/presets/zdt1_small.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 6401
+    },
+    {
+      "problem": "zdt1",
+      "size": 20,
+      "preset": "configs/presets/zdt1_medium.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 6411
+    },
+    {
+      "problem": "zdt1",
+      "size": 50,
+      "preset": "configs/presets/zdt1_large.json",
+      "baselines": ["random_archive", "mutation_archive"],
+      "seed_start": 6421
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "study_name": "tsp_stagnation_study",
+  "description": "Compare fixed, restart, and diversity-injection policies on small TSP to see whether premature convergence can be reduced under the same budget.",
+  "problem": "tsp",
+  "base_preset": "tsp_small",
+  "shared_overrides": {
+    "population_size": 40,
+    "generations": 60,
+    "algorithm_options": {
+      "stagnation_window": 6,
+      "refresh_fraction": 0.25,
+      "diversity_threshold": 0.2,
+      "adaptation_cooldown": 4
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "stagnation_restart", "low_diversity_injection"]
+  },
+  "seeds": [3, 4, 5],
+  "budget_ceiling": 2480,
+  "primary_metric": "best_route_distance",
+  "plotting": {
+    "history_metric": "best_route_distance"
+  },
+  "runtime_budget_note": "Small stagnation-focused TSP study, usually under two minutes on a laptop."
+}

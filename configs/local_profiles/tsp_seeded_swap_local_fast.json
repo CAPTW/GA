@@ -1,0 +1,34 @@
+{
+  "run_name": "tsp_seeded_swap_local_fast",
+  "problem": "tsp",
+  "algorithm": "hybrid_ga",
+  "representation": "permutation",
+  "selection": "tournament",
+  "crossover": "order",
+  "mutation": "swap",
+  "population_size": 40,
+  "genome_length": 10,
+  "generations": 33,
+  "crossover_rate": 0.9,
+  "mutation_rate": 0.05,
+  "elitism": 1,
+  "tournament_size": 3,
+  "seed": 3,
+  "maximize": true,
+  "log_every": 1,
+  "problem_options": {
+    "num_cities": 10,
+    "seed": 11,
+    "bounds": [
+      0.0,
+      100.0
+    ],
+    "return_to_start": true
+  },
+  "algorithm_options": {
+    "adaptive_policy": "none",
+    "init_strategy": "tsp_nearest_neighbor_mix",
+    "seed_fraction": 0.5,
+    "local_search_strategy": "none"
+  }
+}

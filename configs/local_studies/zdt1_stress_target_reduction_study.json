@@ -1,0 +1,106 @@
+{
+  "study_name": "zdt1_stress_target_reduction_study",
+  "description": "ZDT1 stress-target reduction coarse pass. Reuse the current ZDT1 stress suite and test only same-budget micro-tweaks around the hardened budget-first default to see whether spread and joint safety failures can be reduced without giving back the current HV advantage.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "quality_first": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "current_fast": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "micro_pop50_gen72_cooldown3": {
+      "population_size": 50,
+      "generations": 72,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "micro_refresh012_cooldown3": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.12,
+        "adaptation_cooldown": 3,
+        "stagnation_boost_factor": 1.5
+      }
+    },
+    "micro_cooldown2": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 2,
+        "stagnation_boost_factor": 1.5
+      }
+    }
+  },
+  "analysis": {
+    "zdt1_fast_hardening": {
+      "quality_variant": "quality_first",
+      "baseline_fast_variant": "current_fast",
+      "candidate_variants": [
+        "current_fast",
+        "micro_pop50_gen72_cooldown3",
+        "micro_refresh012_cooldown3",
+        "micro_cooldown2"
+      ],
+      "pareto_ratio_drop_threshold": 0.01,
+      "spread_degradation_threshold": 0.05,
+      "plot_file_names": {
+        "candidate_hv_loss": "plot_currentF_vs_candidate_safety_reduction.png",
+        "spread_safety_failures": "plot_spread_joint_fail_reduction.png",
+        "budget_vs_hv_loss": "plot_hv_preservation_tradeoff.png"
+      }
+    },
+    "stress_target_reduction": {
+      "target_ids": ["zdt1_fast_spread_safety_fail", "zdt1_fast_joint_safety_fail"],
+      "primary_target": "zdt1_fast_spread_safety_fail",
+      "focus_case_group": "safety_fail"
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "quality_first",
+      "current_fast",
+      "micro_pop50_gen72_cooldown3",
+      "micro_refresh012_cooldown3",
+      "micro_cooldown2"
+    ]
+  },
+  "seeds": [8212, 8214, 8218, 8219, 8220],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Stress-target reduction coarse pass only. Reuse the current ZDT1 stress suite and test only same-budget micro-tweaks around the hardened fast default."
+}

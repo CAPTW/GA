@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "description": "Frozen local operating protocol matrix for the current Q/F split, seed budgets, and narrow repair-note sanity workflow, rechecked after fast-default hardening, stress-target reduction, the target-specific hypothesis probes, the extreme-tail closeout / split-target confirmation pass, and now locked as the local baseline snapshot / regression guard reference.",
+  "protocols": {
+    "tsp": {
+      "default_profiles": {
+        "quality_first": "configs/local_profiles/tsp_seeded_swap_local.json",
+        "budget_first": "configs/local_profiles/tsp_seeded_swap_local_fast.json"
+      },
+      "study_refs": {
+        "compare": "tsp_sequential_compare_study",
+        "recalibration": "tsp_qf_recalibration_after_hardening",
+        "seed_budget_recheck": "tsp_seed_budget_recheck_after_hardening"
+      },
+      "modes": {
+        "explore": {
+          "rule": "Use budget-first F for quick local loops.",
+          "recommended_profile": "budget_first",
+          "variant_key": "budget_first",
+          "paired_compare_needed": false,
+          "initial_seed_count": 3,
+          "seed_ladder": [3, 5, 8, 10],
+          "escalation_path": [],
+          "stop_label": "accept_fast_exploratory",
+          "stop_label_semantics": "accept_fast_exploratory = stop on F for the quick loop; if route quality becomes sensitive, switch to Q instead of extending F.",
+          "final_confirm_recommendation": "If route quality is sensitive or an anti-case/corridor-like instance is plausible, switch to Q on 8-10 seeds.",
+          "rationale": "Post-hardening recalibration plus the latest extreme-tail contour pass kept F useful for quick local iteration, but the best nearby contour only nudged anti-case p95 while worsening max tail, so the budget-first note still cannot close corridor-like extremes."
+        },
+        "compare": {
+          "rule": "Run only the current paired Q/F compare; do not search new candidates here.",
+          "recommended_profile": {
+            "quality_first": "quality_first",
+            "budget_first": "budget_first"
+          },
+          "quality_variant_key": "quality_first",
+          "fast_variant_key": "budget_first",
+          "paired_compare_needed": true,
+          "initial_seed_count": 3,
+          "seed_ladder": [3, 5, 8, 10],
+          "escalation_path": [5],
+          "study_mode": "exploratory",
+          "stop_label": "accept_fast_exploratory",
+          "stop_label_semantics": "accept_fast_exploratory = F is still fine for the paired exploratory read; reject_early / require_q_confirm = stop trying to rescue F and move to Q.",
+          "case_group_overrides": {
+            "rescue_target": {
+              "initial_seed_count": 5,
+              "escalation_path": [],
+              "note": "Rescue-target-only rows are the one place where paired 5 seeds still pay off."
+            },
+            "anti_case": {
+              "direct_mode": "final",
+              "note": "Anti-case suspicion goes straight to the Q final path."
+            }
+          },
+          "quality_sensitive_direct_mode": "final",
+          "final_confirm_recommendation": "If anti-case suspicion or quality sensitivity matters, skip F rescue and use Q on 8-10 seeds.",
+          "rationale": "The latest same-budget tradeoff probe left the compare ladder structurally unchanged: rescue-target-only ambiguity is still the only place where the 5-seed step earns its keep, while anti-case-aware work still closes more honestly on Q because late cleanup remains the weak point."
+        },
+        "final": {
+          "rule": "Use quality-first Q for quality-sensitive or anti-case-aware final decisions.",
+          "recommended_profile": "quality_first",
+          "variant_key": "quality_first",
+          "paired_compare_needed": false,
+          "initial_seed_count": 8,
+          "seed_ladder": [8, 10],
+          "escalation_path": [10],
+          "stop_label": "require_q_confirm",
+          "stop_label_semantics": "require_q_confirm = this mode intentionally bypasses F rescue and closes with Q confirmation.",
+          "final_confirm_recommendation": "Run Q directly on 8-10 seeds; do not try to rescue F in quality-sensitive or anti-case-aware finals.",
+          "rationale": "Even after the latest same-budget tradeoff probe, TSP still closes on a descriptive Q/F split rather than a promoted numeric tolerance rule."
+        }
+      }
+    },
+    "zdt1": {
+      "default_profiles": {
+        "quality_first": "configs/local_profiles/zdt1_diversity_injection.json",
+        "budget_first": "configs/local_profiles/zdt1_diversity_injection_fast.json"
+      },
+      "study_refs": {
+        "compare": "zdt1_sequential_compare_study",
+        "recalibration": "zdt1_qf_recalibration_after_hardening",
+        "seed_budget_recheck": "zdt1_seed_budget_recheck_after_hardening"
+      },
+      "modes": {
+        "explore": {
+          "rule": "Use budget-first F for quick HV-first exploratory reads.",
+          "recommended_profile": "budget_first",
+          "variant_key": "budget_first",
+          "paired_compare_needed": false,
+          "initial_seed_count": 3,
+          "seed_ladder": [3, 5, 8, 10],
+          "escalation_path": [],
+          "stop_label": "accept_fast_exploratory",
+          "stop_label_semantics": "accept_fast_exploratory = F is good enough for the cheap HV-first loop; it is not the final safety call.",
+          "final_confirm_recommendation": "If you need spread / Pareto safety, switch to Q on 8-10 seeds.",
+          "rationale": "Post-hardening recalibration plus the latest spread-vs-joint split confirmation kept fast ZDT1 runs useful for exploratory HV reads, but timing-only probes still did not close the joint safety risk and spread still looks more population/generation-sensitive."
+        },
+        "compare": {
+          "rule": "Run only the current paired Q/F compare; keep HV and safety in the same read.",
+          "recommended_profile": {
+            "quality_first": "quality_first",
+            "budget_first": "budget_first"
+          },
+          "quality_variant_key": "quality_first",
+          "fast_variant_key": "budget_first",
+          "paired_compare_needed": true,
+          "initial_seed_count": 3,
+          "seed_ladder": [3, 5, 8, 10],
+          "escalation_path": [],
+          "study_mode": "exploratory",
+          "stop_label": "accept_fast_exploratory",
+          "stop_label_semantics": "accept_fast_exploratory = F is still fine for the paired exploratory read; require_q_confirm = safety-sensitive work should move to Q.",
+          "final_safety_direct_mode": "final",
+          "final_confirm_recommendation": "If the decision is safety-sensitive, skip the hopeful ladder and use Q on 8-10 seeds.",
+          "rationale": "The latest spread-vs-joint split confirmation kept the same shape: F still works at 3 paired seeds for exploration, but the safety-aware closing read still snaps back to Q because the remaining spread failures are not timing-only and joint failures are not cleanly timing-only either."
+        },
+        "final": {
+          "rule": "Use quality-first Q when spread / Pareto safety is part of the final call.",
+          "recommended_profile": "quality_first",
+          "variant_key": "quality_first",
+          "paired_compare_needed": false,
+          "initial_seed_count": 8,
+          "seed_ladder": [8, 10],
+          "escalation_path": [10],
+          "stop_label": "require_q_confirm",
+          "stop_label_semantics": "require_q_confirm = this mode intentionally closes with the safety-aware Q confirm instead of letting F through on HV alone.",
+          "final_confirm_recommendation": "Run Q directly on 8-10 seeds for final safety-aware ZDT1 decisions.",
+          "rationale": "Cooldown=3 still gives the most honest budget-first envelope, but HV can still look acceptable before spread / Pareto safety settle, and the timing-only probes did not remove that closing risk."
+        }
+      }
+    },
+    "knapsack": {
+      "default_profiles": {
+        "default": "greedy_local_search",
+        "baseline": "none",
+        "repair_note": "configs/local_profiles/knapsack_repair_local_experimental.json"
+      },
+      "study_refs": {
+        "sanity": "knapsack_sequential_sanity",
+        "freeze_recheck": "knapsack_note_freeze_recheck"
+      },
+      "modes": {
+        "sanity": {
+          "rule": "Keep the broad default parked and sanity-check the narrow repair_only note only.",
+          "recommended_profile": {
+            "default": "greedy_local_search",
+            "baseline": "none",
+            "repair_note": "repair_note"
+          },
+          "paired_compare_needed": true,
+          "initial_seed_count": 3,
+          "seed_ladder": [3, 5],
+          "escalation_path": [5],
+          "study_mode": "repair_note",
+          "stop_label": "repair_note_stable",
+          "stop_label_semantics": "repair_note_stable = the narrow repair_only note still holds; if the family looks tight-capacity or borderline, extend the sanity check to 5 seeds.",
+          "case_group_overrides": {
+            "tight_capacity_small": {
+              "initial_seed_count": 5,
+              "escalation_path": [],
+              "note": "Tight-capacity rows earn the longer sanity check."
+            }
+          },
+          "borderline_seed_count": 5,
+          "final_confirm_recommendation": "Use 3 seeds for the narrow repair_only sanity check, and extend to 5 only for tight-capacity or otherwise borderline rows.",
+          "rationale": "The freeze recheck kept knapsack without a broad default; the only honest rule remains a narrow repair-note sanity path."
+        }
+      }
+    },
+    "onemax": {
+      "default_profiles": {
+        "control": "none",
+        "reference": "early_stop_reference"
+      },
+      "study_refs": {
+        "control": "onemax_control_sequential_check",
+        "freeze_recheck": "onemax_control_freeze_recheck"
+      },
+      "modes": {
+        "control": {
+          "rule": "Keep OneMax as a fixed control-only problem.",
+          "recommended_profile": "control",
+          "paired_compare_needed": false,
+          "initial_seed_count": 1,
+          "seed_ladder": [1],
+          "escalation_path": [],
+          "stop_label": "control_stable",
+          "stop_label_semantics": "control_stable = the control read is already flat enough that a larger sequential ladder adds no value.",
+          "final_confirm_recommendation": "One seed control is enough; there is no reason to spend a larger ladder here.",
+          "rationale": "The freeze recheck kept OneMax as a control surface, not a place for a richer local operating protocol."
+        }
+      }
+    }
+  }
+}

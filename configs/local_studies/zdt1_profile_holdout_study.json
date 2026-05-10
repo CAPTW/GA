@@ -1,0 +1,25 @@
+{
+  "study_name": "zdt1_profile_holdout_study",
+  "description": "Holdout seed check for the current reusable ZDT1 diversity profile against a disabled baseline and a nearby threshold alternative.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 2,
+    "algorithm_options": {
+      "adaptive_policy": "low_diversity_injection",
+      "refresh_fraction": 0.2,
+      "adaptation_cooldown": 4,
+      "stagnation_boost_factor": 1.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.diversity_threshold": [0.0, 0.55, 0.6]
+  },
+  "seeds": [261, 262, 263, 264, 265, 266, 267, 268, 269, 270],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Holdout check for the current reusable ZDT1 profile. Threshold 0.0 acts as the disabled baseline."
+}

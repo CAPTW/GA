@@ -1,0 +1,26 @@
+{
+  "study_name": "knapsack_adaptive_mutation_study",
+  "description": "Compare fixed, decay, and stagnation-boost mutation schedules on the small knapsack preset with a reduced local budget.",
+  "problem": "knapsack",
+  "base_preset": "knapsack_small",
+  "shared_overrides": {
+    "population_size": 60,
+    "generations": 80,
+    "algorithm_options": {
+      "adaptive_mutation_min_rate": 0.01,
+      "adaptive_mutation_max_rate": 0.08,
+      "stagnation_window": 6,
+      "stagnation_boost_factor": 2.5
+    }
+  },
+  "sweep": {
+    "algorithm_options.adaptive_policy": ["none", "decay_mutation", "stagnation_boost"]
+  },
+  "seeds": [11, 12, 13],
+  "budget_ceiling": 4920,
+  "primary_metric": "best_feasible_fitness",
+  "plotting": {
+    "history_metric": "best_fitness"
+  },
+  "runtime_budget_note": "Small adaptive knapsack study, usually under two minutes on a laptop."
+}

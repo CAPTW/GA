@@ -1,0 +1,161 @@
+{
+  "manifest_version": 1,
+  "summary_paths": {
+    "baseline_comparison_summary": "outputs/benchmark_summary/baseline_comparison_summary.json",
+    "hybrid_comparison_summary": "outputs/benchmark_summary/hybrid_comparison_summary.json",
+    "ablation_summary": "outputs/benchmark_summary/ablation_summary.json",
+    "external_benchmark_summary": "outputs/benchmark_summary/external_benchmark_summary.json",
+    "external_family_summary": "outputs/benchmark_summary/external_family_summary.json",
+    "large_gap_closure_summary": "outputs/benchmark_summary/large_gap_closure_summary.json"
+  },
+  "readme_claim_highlight_ids": [
+    "tsp_external_nn2opt_default",
+    "zdt_external_nsga2_over_random_archive",
+    "bitstring_monotone_hill_climb_default",
+    "knapsack_correlated_seed_repair_worth_trying",
+    "tsp_medium_hybrid_internal_quality_first"
+  ],
+  "readme_solver_preview_row_ids": [
+    "onemax-practical",
+    "bitstring-trap",
+    "knapsack-uncorrelated",
+    "knapsack-correlated-weak",
+    "tsp-practical",
+    "tsp-medium-quality",
+    "zdt-default"
+  ],
+  "solver_rows": [
+    {
+      "row_id": "onemax-practical",
+      "claim_id": "onemax_internal_hill_climb_default",
+      "problem_family": "onemax",
+      "family_or_instance_scope": "validated internal onemax",
+      "size_tier": "small / medium / large",
+      "objective_priority": "practical default",
+      "recommended_solver": "hill_climb",
+      "recommended_preset_or_script": "baseline:hill_climb",
+      "notes": "Use pure GA only when you explicitly want GA operator studies."
+    },
+    {
+      "row_id": "bitstring-monotone",
+      "claim_id": "bitstring_monotone_hill_climb_default",
+      "problem_family": "bitstring monotone",
+      "family_or_instance_scope": "OneMax / LeadingOnes tested subset",
+      "size_tier": "representative large-like rows",
+      "objective_priority": "practical default",
+      "recommended_solver": "hill_climb",
+      "recommended_preset_or_script": "baseline:hill_climb",
+      "notes": "Do not generalize this row to deceptive or multimodal families."
+    },
+    {
+      "row_id": "bitstring-trap",
+      "claim_id": "bitstring_deceptive_trap_pure_ga_may_be_better",
+      "problem_family": "bitstring deceptive trap",
+      "family_or_instance_scope": "trap4(128) tested subset",
+      "size_tier": "representative large-like row",
+      "objective_priority": "tested deceptive quality path",
+      "recommended_solver": "pure-ga",
+      "recommended_preset_or_script": "configs/presets/onemax_large.json",
+      "notes": "Representative pure-GA bitstring preset; keep the claim narrow to the tested deceptive family."
+    },
+    {
+      "row_id": "bitstring-jump",
+      "claim_id": "bitstring_jump_rule_insufficient",
+      "problem_family": "bitstring multimodal",
+      "family_or_instance_scope": "jump4(128) tested subset",
+      "size_tier": "representative large-like row",
+      "objective_priority": "tested multimodal family",
+      "recommended_solver": "no single default",
+      "recommended_preset_or_script": "manual review",
+      "notes": "Experimental only. The tested row is currently a tie."
+    },
+    {
+      "row_id": "knapsack-uncorrelated",
+      "claim_id": "knapsack_uncorrelated_greedy_default",
+      "problem_family": "knapsack uncorrelated",
+      "family_or_instance_scope": "kplib uncorrelated tested subset",
+      "size_tier": "representative medium-like row",
+      "objective_priority": "practical default",
+      "recommended_solver": "greedy_local_search",
+      "recommended_preset_or_script": "baseline:greedy_local_search",
+      "notes": "This row is family-conditioned external support, not a broad external-wide knapsack default."
+    },
+    {
+      "row_id": "knapsack-correlated-weak",
+      "claim_id": "knapsack_correlated_seed_repair_worth_trying",
+      "problem_family": "knapsack weakly correlated",
+      "family_or_instance_scope": "kplib weakly correlated tested subset",
+      "size_tier": "representative medium-like row",
+      "objective_priority": "quality-first family path",
+      "recommended_solver": "hybrid-ga",
+      "recommended_preset_or_script": "seed_repair_hybrid",
+      "notes": "Worth trying when a modest runtime increase is acceptable."
+    },
+    {
+      "row_id": "knapsack-correlated-strong",
+      "claim_id": "knapsack_correlated_seed_repair_worth_trying",
+      "problem_family": "knapsack strongly correlated",
+      "family_or_instance_scope": "kplib strongly correlated tested subset",
+      "size_tier": "representative large-like row",
+      "objective_priority": "quality-first family path",
+      "recommended_solver": "hybrid-ga",
+      "recommended_preset_or_script": "seed_repair_hybrid",
+      "notes": "Keep the recommendation family-conditioned; this does not promote a broad knapsack hybrid default."
+    },
+    {
+      "row_id": "knapsack-subset",
+      "claim_id": "knapsack_subset_sum_experimental",
+      "problem_family": "knapsack subset-sum-like",
+      "family_or_instance_scope": "kplib subset-sum tested subset",
+      "size_tier": "representative large-like row",
+      "objective_priority": "tested structured family",
+      "recommended_solver": "no promoted default",
+      "recommended_preset_or_script": "manual review",
+      "notes": "Experimental only. The tested structured family is too close to support a promoted default."
+    },
+    {
+      "row_id": "tsp-practical",
+      "claim_id": "tsp_external_nn2opt_default",
+      "problem_family": "tsp",
+      "family_or_instance_scope": "TSPLIB-like tested subset",
+      "size_tier": "medium / large representative rows",
+      "objective_priority": "practical default",
+      "recommended_solver": "nearest_neighbor_2opt",
+      "recommended_preset_or_script": "baseline:nearest_neighbor_2opt",
+      "notes": "This is the strongest externally supported practical default in the repo."
+    },
+    {
+      "row_id": "tsp-medium-quality",
+      "claim_id": "tsp_medium_hybrid_internal_quality_first",
+      "problem_family": "tsp",
+      "family_or_instance_scope": "validated internal medium (20) only",
+      "size_tier": "medium",
+      "objective_priority": "quality-first",
+      "recommended_solver": "hybrid-ga",
+      "recommended_preset_or_script": "configs/presets/tsp_medium_hybrid.json",
+      "notes": "Internal-only narrow path. It is not promoted as an external practical default."
+    },
+    {
+      "row_id": "zdt-default",
+      "claim_id": "zdt_external_nsga2_over_random_archive",
+      "problem_family": "zdt family",
+      "family_or_instance_scope": "validated zdt1 + tested ZDT2/ZDT3 subset",
+      "size_tier": "small / medium / large",
+      "objective_priority": "balanced multi-metric default",
+      "recommended_solver": "nsga2",
+      "recommended_preset_or_script": "configs/presets/zdt1_{small,medium,large}.json",
+      "notes": "Use the validated zdt1 presets as the default path; keep large-tier tradeoffs explicit."
+    },
+    {
+      "row_id": "zdt-large-hv-note",
+      "claim_id": "zdt_large_tradeoff_note",
+      "problem_family": "zdt large",
+      "family_or_instance_scope": "validated internal large only",
+      "size_tier": "large",
+      "objective_priority": "cheap HV-first note",
+      "recommended_solver": "mutation_archive",
+      "recommended_preset_or_script": "baseline:mutation_archive",
+      "notes": "Experimental note only. Large-tier ZDT still needs a tradeoff explanation instead of a one-best claim."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "candidate_id": "candidate_l_sparse_parent_bias_light",
+  "candidate_type": "nsga2_parent_selection_variant",
+  "status": "proposed",
+  "promotion_status": "phase0_sanity",
+  "default_changed": false,
+  "base_candidate": "candidate_j_h_lite_retry2",
+  "mechanism": "sparse_region_parent_bias_light",
+  "source_hypothesis": "nsga2_survivor_pressure_controlled_ablation_plan",
+  "operator_change": {
+    "selection": {
+      "from": "crowded_tournament",
+      "to": "crowded_tournament + light sparse-region parent bias"
+    },
+    "crossover": {
+      "from": "arithmetic default path",
+      "to": "uniform via candidate_j line"
+    },
+    "duplicate_handling": {
+      "decision_dedup": true,
+      "duplicate_retry_count": 2,
+      "duplicate_retry_mutation_scale": 1.5
+    }
+  },
+  "runtime_selection": {
+    "selection_mode": "explicit_only",
+    "entrypoints": [
+      "scripts/validate_nsga2_survivor_pressure_phase0.py",
+      "src/ga_lab/experiment/nsga2_candidate_variants.py"
+    ]
+  },
+  "allowed_use": "phase0_sanity_only",
+  "disallowed_use": "default_replacement",
+  "expected_improvement": [
+    "spacing",
+    "nondominated_count"
+  ],
+  "known_risks": [
+    "Sparse parent bias may have no measurable effect at all.",
+    "Even a light parent-selection bias may still regress HV, distance, or IGD."
+  ],
+  "required_gates": [
+    "fairness_fail_free",
+    "default_changed_false",
+    "candidate_isolation_pass",
+    "actual_evaluations_match",
+    "artifact_suffix_required",
+    "local_baseline_guard_pass"
+  ],
+  "source_artifacts": [
+    "artifacts/hypotheses/nsga2_survivor_pressure_controlled_ablation_plan.md",
+    "artifacts/nsga2_survivor_pressure_planning_report.md",
+    "artifacts/nsga2_candidate_governance_closure_report.md"
+  ],
+  "notes": [
+    "This candidate is Phase 0 only and is not approved as an opt-in profile yet.",
+    "Selecting this candidate requires explicit runner invocation."
+  ]
+}

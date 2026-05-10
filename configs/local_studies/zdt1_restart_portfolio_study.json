@@ -1,0 +1,80 @@
+{
+  "study_name": "zdt1_restart_portfolio_study",
+  "description": "Coarse ZDT1 restart-portfolio frontier. Compare canonical once, fast once, and equal-split fast restarts scored by merged nondominated archive quality.",
+  "problem": "zdt1",
+  "base_config": "configs/local_profiles/zdt1_diversity_injection.json",
+  "shared_overrides": {
+    "log_every": 1
+  },
+  "variant_overrides": {
+    "canonical_once": {
+      "population_size": 60,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "fast_once": {
+      "population_size": 45,
+      "generations": 80,
+      "algorithm_options": {
+        "adaptive_policy": "low_diversity_injection",
+        "diversity_threshold": 0.55,
+        "refresh_fraction": 0.1,
+        "adaptation_cooldown": 4
+      }
+    },
+    "fast_x2_equal_split": {
+      "__local_baseline__": "zdt1_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "portfolio_restart_count": 2,
+        "portfolio_total_budget_factor": 1.0
+      }
+    },
+    "fast_x3_equal_split": {
+      "__local_baseline__": "zdt1_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "portfolio_restart_count": 3,
+        "portfolio_total_budget_factor": 1.0
+      }
+    },
+    "fast_x2_budget075": {
+      "__local_baseline__": "zdt1_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "portfolio_restart_count": 2,
+        "portfolio_total_budget_factor": 0.75
+      }
+    },
+    "fast_x3_budget075": {
+      "__local_baseline__": "zdt1_restart_portfolio",
+      "algorithm_options": {
+        "portfolio_profile": "configs/local_profiles/zdt1_diversity_injection_fast.json",
+        "portfolio_restart_count": 3,
+        "portfolio_total_budget_factor": 0.75
+      }
+    }
+  },
+  "sweep": {
+    "study_variant": [
+      "canonical_once",
+      "fast_once",
+      "fast_x2_equal_split",
+      "fast_x3_equal_split",
+      "fast_x2_budget075",
+      "fast_x3_budget075"
+    ]
+  },
+  "seeds": [8201, 8202, 8203, 8204, 8205],
+  "budget_ceiling": 14520,
+  "primary_metric": "hypervolume",
+  "plotting": {
+    "history_metric": "hypervolume"
+  },
+  "runtime_budget_note": "Coarse only. Keep the current canonical/fast split unless matched-budget merged fast restarts noticeably improve the budget-first frontier without harming spread."
+}
