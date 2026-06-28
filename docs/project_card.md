@@ -2,7 +2,7 @@
 
 ## What This Repository Is
 
-`ga-codex-lab` is an evidence-backed optimization lab for comparing cheap heuristics, pure genetic
+The Evolutionary Solver Benchmark Lab is an evidence-backed optimization lab for comparing cheap heuristics, pure genetic
 algorithms, selected hybrid GA paths, and NSGA-II under matched evaluation budgets.
 
 It is not a "GA wins everything" demo. The repo is designed to answer a more useful question:

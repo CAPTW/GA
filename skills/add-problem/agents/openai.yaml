@@ -1,4 +1,0 @@
-interface:
-  display_name: "Add Problem"
-  short_description: "Add a new GA benchmark problem safely"
-  default_prompt: "Use $add-problem to add a new problem with configs, tests, and docs."

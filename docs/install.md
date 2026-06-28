@@ -1,6 +1,6 @@
 # Install
 
-`ga-codex-lab` now has three explicit execution modes. They do not all support the same commands.
+`evolutionary-solver-benchmark-lab` now has three explicit execution modes. They do not all support the same commands.
 
 | Mode | Who it is for | Install shape | What it is good for |
 | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 python -m pip install --upgrade pip
-pip install dist/ga_codex_lab-0.1.0-py3-none-any.whl
+pip install dist/evolutionary_solver_benchmark_lab-0.1.0-py3-none-any.whl
 ```
 
 Portable commands supported from any working directory:

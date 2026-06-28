@@ -10,13 +10,12 @@ try:
 except ImportError as exc:
     raise RuntimeError("The ops API requires the optional 'fastapi' dependency") from exc
 
-from .codex import invoke_codex
 from .db import AuthenticatedActor, OpsDatabase
 from .ingestion import sync_results_dir
 from .scheduler import load_job_definitions, register_job_definitions, run_job
 from .settings import OpsSettings
 
-app = FastAPI(title="GA Codex Lab Ops API", version="0.1.0")
+app = FastAPI(title="Evolutionary Solver Benchmark Lab Ops API", version="0.1.0")
 security = HTTPBearer(auto_error=False)
 
 
@@ -24,12 +23,6 @@ class SyncRequest(BaseModel):
     results_dir: str = Field(default="outputs")
     source_collection: str | None = Field(default=None)
     upload_artifacts: bool = Field(default=True)
-
-
-class CodexRequest(BaseModel):
-    prompt: str
-    model: str | None = Field(default=None)
-    metadata: dict[str, str] = Field(default_factory=dict)
 
 
 @lru_cache
@@ -233,45 +226,3 @@ def run_named_job(
     if selected is None:
         raise HTTPException(status_code=404, detail=f"Unknown job: {job_name}")
     return run_job(selected, settings=settings, triggered_by=actor.name)
-
-
-@app.post("/codex/invoke")
-def codex_invoke(
-    request: CodexRequest,
-    actor: Annotated[AuthenticatedActor, Depends(require_scope("codex.invoke"))],
-    settings: Annotated[OpsSettings, Depends(get_settings)],
-) -> dict[str, Any]:
-    try:
-        result = invoke_codex(
-            settings=settings,
-            prompt=request.prompt,
-            model=request.model,
-            metadata=request.metadata,
-        )
-    except Exception as exc:
-        with _open_database(settings) as database:
-            database.log_audit(
-                actor=actor.name,
-                action="invoke_codex",
-                resource_type="codex",
-                status="failed",
-                details={
-                    "model": request.model or settings.codex_model,
-                    "error": str(exc),
-                    "backend": settings.codex_backend,
-                },
-            )
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
-    with _open_database(settings) as database:
-        database.log_audit(
-            actor=actor.name,
-            action="invoke_codex",
-            resource_type="codex",
-            status="success",
-            details={
-                "model": result.get("model"),
-                "response_id": result.get("id"),
-                "backend": result.get("backend", settings.codex_backend),
-            },
-        )
-    return result

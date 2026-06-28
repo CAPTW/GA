@@ -1,4 +1,4 @@
-"""Operational control plane helpers for GA Codex Lab."""
+"""Operational control plane helpers for the evolutionary solver benchmark lab."""
 
 from .db import OpsDatabase
 from .ingestion import sync_results_dir

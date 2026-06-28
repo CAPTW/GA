@@ -14,7 +14,7 @@
   "log_every": 1,
   "tracking": {
     "backend": "mlflow",
-    "experiment": "ga-codex-lab",
+    "experiment": "evolutionary-solver-benchmark-lab",
     "uri": "http://127.0.0.1:5000",
     "tags": {
       "suite": "manual",

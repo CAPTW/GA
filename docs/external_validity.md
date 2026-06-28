@@ -141,8 +141,8 @@ validated range 밖 일반화는 하지 않습니다.
 
 ## Related Outputs
 
-- [external_family_summary.md](/Users/IDEAL/OneDrive/문서/Antigravity/GA/ga-codex-lab/outputs/benchmark_summary/external_family_summary.md)
-- [external_family_summary.json](/Users/IDEAL/OneDrive/문서/Antigravity/GA/ga-codex-lab/outputs/benchmark_summary/external_family_summary.json)
+- `outputs/benchmark_summary/external_family_summary.md`
+- `outputs/benchmark_summary/external_family_summary.json`
 ## Related Docs
 
 - [External family solver guide](external_family_solver_guide.md)

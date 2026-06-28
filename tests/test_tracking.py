@@ -284,7 +284,7 @@ def test_run_experiment_logs_to_wandb_tracker_online(tmp_path, monkeypatch) -> N
         tracking={
             "backend": "wandb",
             "project": "ga-tests",
-            "entity": "openai-lab",
+            "entity": "solver-lab",
             "base_url": "https://api.wandb.ai",
             "mode": "online",
             "verify_login": True,
@@ -295,7 +295,7 @@ def test_run_experiment_logs_to_wandb_tracker_online(tmp_path, monkeypatch) -> N
 
     assert result.summary["best_fitness"] == 16.0
     assert any(name == "login" for name, _ in calls)
-    assert any(name == "init" and payload.get("entity") == "openai-lab" for name, payload in calls)
+    assert any(name == "init" and payload.get("entity") == "solver-lab" for name, payload in calls)
     assert any(
         name == "artifact.add_dir" and payload == str(result.output_dir) for name, payload in calls
     )

@@ -99,7 +99,7 @@ class MLflowTracker:
         experiment_name = (
             _tracking_value(tracking, "experiment", env="MLFLOW_EXPERIMENT_NAME")
             or tracking.get("project")
-            or "ga-codex-lab"
+            or "evolutionary-solver-benchmark-lab"
         )
         mlflow.set_experiment(str(experiment_name))
         tags = tracking.get("tags", {})
@@ -175,7 +175,7 @@ class WandbTracker:
             tracking,
             "project",
             env="WANDB_PROJECT",
-            default="ga-codex-lab",
+            default="evolutionary-solver-benchmark-lab",
         )
         run_dir = _tracking_value(tracking, "dir", env="WANDB_DIR")
         self._run = wandb.init(

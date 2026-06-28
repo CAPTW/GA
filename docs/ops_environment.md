@@ -1,17 +1,19 @@
 # Ops Environment
 
-This repository now includes an isolated ops layer under `services/ga_ops/` so the GA engine stays in `src/ga_lab/`.
+This repository includes an isolated ops layer under `services/ga_ops/` so the
+GA engine stays in `src/ga_lab/`.
 
-## What it adds
+## What It Adds
 
-- SQLite metadata DB for experiment, scheduler, artifact, and audit records
-- Object storage abstraction with local filesystem mode and S3-compatible mode
-- Audit logs and bearer-token access control for the internal ops API
-- DB-backed Streamlit dashboard for recent runs, regressions, best configs, jobs, and audit events
-- Scheduler jobs for nightly benchmarks, weekly reports, and release-candidate regression runs
-- Optional Codex invocation endpoint for internal tools
+- SQLite metadata DB for experiment, scheduler, artifact, and audit records.
+- Object storage abstraction with local filesystem mode and S3-compatible mode.
+- Audit logs and bearer-token access control for the internal ops API.
+- DB-backed Streamlit dashboard for recent runs, regressions, best configs,
+  jobs, and audit events.
+- Scheduler jobs for nightly benchmarks, weekly reports, and release-candidate
+  regression runs.
 
-## Local setup
+## Local Setup
 
 Install the ops extra:
 
@@ -22,7 +24,7 @@ pip install -e .[ops]
 Create an admin token or a named token:
 
 ```bash
-python scripts/ops_manage_tokens.py --name local-admin --scopes ops.read ops.write codex.invoke
+python scripts/ops_manage_tokens.py --name local-admin --scopes ops.read ops.write
 ```
 
 Sync existing outputs into the metadata DB and object store:
@@ -36,45 +38,6 @@ Start the API:
 ```bash
 python -m uvicorn ga_ops.app:app --host 0.0.0.0 --port 8000 --app-dir services
 ```
-
-To use Codex through the logged-in CLI session instead of an API key:
-
-```bash
-codex login
-set GA_LAB_CODEX_BACKEND=cli
-set GA_LAB_CODEX_MODEL=gpt-5.4
-```
-
-You can keep those settings in a project-local env file:
-
-```bash
-copy .env.ops-cli.example .env.ops-cli
-```
-
-`GA_LAB_CODEX_BACKEND=auto` is the default. In auto mode the ops layer uses:
-
-- the OpenAI SDK when `OPENAI_API_KEY` is set
-- the logged-in `codex` CLI when no API key is present
-
-CLI-backed Codex invocation is intended for host-local runs. Containerized services still need an
-installed and logged-in `codex` CLI inside the container, or they should continue using the SDK
-with `OPENAI_API_KEY`.
-
-Windows helper scripts:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/run_ops_api_cli.ps1
-powershell -ExecutionPolicy Bypass -File scripts/run_ops_api_cli.ps1 -ValidateOnly
-powershell -ExecutionPolicy Bypass -File scripts/run_ops_scheduler_cli.ps1
-powershell -ExecutionPolicy Bypass -File scripts/run_ops_scheduler_cli.ps1 -Once
-```
-
-The helper scripts:
-
-- verify `codex login status`
-- default the ops stack to `GA_LAB_CODEX_BACKEND=cli`
-- reuse `.env` and `.env.ops-cli` automatically when present
-- fall back to local-safe defaults for the DB, logs, reports, and scheduler config
 
 Start the dashboard:
 
@@ -106,7 +69,7 @@ Run the release-candidate regression bundle:
 python scripts/run_release_candidate_regression.py
 ```
 
-## Docker environment
+## Docker Environment
 
 The repository ships with a containerized local ops stack:
 
@@ -119,7 +82,8 @@ Services:
 - `ops-api`: FastAPI service on `http://localhost:8000`
 - `ops-dashboard`: Streamlit dashboard on `http://localhost:8502`
 - `ops-scheduler`: APScheduler host for recurring jobs
-- `minio`: S3-compatible object storage on `http://localhost:9000` with console on `http://localhost:9001`
+- `minio`: S3-compatible object storage on `http://localhost:9000` with console
+  on `http://localhost:9001`
 
 The compose file uses:
 
@@ -129,7 +93,7 @@ The compose file uses:
 
 Set `GA_LAB_OPS_ADMIN_TOKEN` before running the API in any shared environment.
 
-## API notes
+## API Notes
 
 Endpoints:
 
@@ -140,12 +104,11 @@ Endpoints:
 - `GET /jobs`
 - `POST /ingestions/sync`
 - `POST /jobs/{job_name}/run`
-- `POST /codex/invoke`
 
 Scopes:
 
 - `ops.read`
 - `ops.write`
-- `codex.invoke`
 
-The API writes audit events for every request, sync action, token rotation, scheduler run, and weekly report generation.
+The API writes audit events for every request, sync action, token rotation,
+scheduler run, and weekly report generation.

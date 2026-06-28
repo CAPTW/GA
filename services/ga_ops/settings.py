@@ -12,7 +12,7 @@ def _load_project_env_files(root: Path) -> None:
         from dotenv import load_dotenv
     except ImportError:
         return
-    for name in (".env", ".env.ops-cli"):
+    for name in (".env", ".env.ops"):
         path = root / name
         if path.exists():
             load_dotenv(path, override=False)
@@ -43,9 +43,6 @@ class OpsSettings:
     scheduler_timezone: str
     logs_root: Path
     reports_root: Path
-    codex_backend: str
-    codex_model: str | None
-    codex_cli_command: str
     dashboard_results_dir: Path
 
     @classmethod
@@ -90,9 +87,6 @@ class OpsSettings:
                 root=root,
                 default=root / "outputs" / "reports",
             ),
-            codex_backend=os.getenv("GA_LAB_CODEX_BACKEND", "auto").strip().lower(),
-            codex_model=os.getenv("GA_LAB_CODEX_MODEL"),
-            codex_cli_command=os.getenv("GA_LAB_CODEX_CLI_COMMAND", "codex").strip() or "codex",
             dashboard_results_dir=_path_from_env(
                 "GA_LAB_DASHBOARD_RESULTS_DIR",
                 root=root,

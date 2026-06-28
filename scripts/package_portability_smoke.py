@@ -76,9 +76,9 @@ def _load_summary(path: Path) -> dict[str, Any]:
 
 
 def _default_wheel(dist_dir: Path) -> Path:
-    wheels = sorted(dist_dir.glob("ga_codex_lab-*.whl"))
+    wheels = sorted(dist_dir.glob("evolutionary_solver_benchmark_lab-*.whl"))
     if not wheels:
-        raise FileNotFoundError(f"No ga_codex_lab wheel found in {dist_dir}")
+        raise FileNotFoundError(f"No evolutionary_solver_benchmark_lab wheel found in {dist_dir}")
     return wheels[-1]
 
 

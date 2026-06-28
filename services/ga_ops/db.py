@@ -257,7 +257,7 @@ class OpsDatabase:
         if admin_token and token == admin_token:
             return AuthenticatedActor(
                 name="admin",
-                scopes={"ops.read", "ops.write", "codex.invoke"},
+                scopes={"ops.read", "ops.write"},
             )
         if not token:
             return None

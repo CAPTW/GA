@@ -323,8 +323,8 @@ def _render_grid_detail(grid_summary: dict[str, Any]) -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="GA Codex Lab Dashboard", layout="wide")
-    st.title("GA Codex Lab Dashboard")
+    st.set_page_config(page_title="Evolutionary Solver Benchmark Lab Dashboard", layout="wide")
+    st.title("Evolutionary Solver Benchmark Lab Dashboard")
 
     results_dir = Path(st.sidebar.text_input("Results directory", "outputs"))
     if not results_dir.exists():

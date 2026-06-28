@@ -4,14 +4,9 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
-
-from fastapi.testclient import TestClient
 
 from ga_lab.config import GAConfig
 from ga_lab.runner import run_experiment
-from ga_ops import codex as codex_module
-from ga_ops.app import app, get_settings
 from ga_ops.db import OpsDatabase
 from ga_ops.ingestion import sync_results_dir
 from ga_ops.reporting import generate_weekly_report
@@ -40,9 +35,6 @@ def _settings(tmp_path: Path) -> OpsSettings:
         scheduler_timezone="Asia/Seoul",
         logs_root=tmp_path / "var" / "logs",
         reports_root=tmp_path / "reports",
-        codex_backend="auto",
-        codex_model=None,
-        codex_cli_command="codex",
         dashboard_results_dir=tmp_path / "outputs",
     )
 
@@ -292,13 +284,11 @@ def test_load_job_definitions_accepts_utf8_bom(tmp_path) -> None:
     assert jobs[0].name == "weekly_report"
 
 
-def test_settings_loads_cli_env_file_relative_paths(tmp_path, monkeypatch) -> None:
-    env_path = tmp_path / ".env.ops-cli"
+def test_settings_loads_ops_env_file_relative_paths(tmp_path, monkeypatch) -> None:
+    env_path = tmp_path / ".env.ops"
     env_path.write_text(
         "\n".join(
             [
-                "GA_LAB_CODEX_BACKEND=cli",
-                "GA_LAB_CODEX_MODEL=gpt-5.4",
                 "GA_LAB_OPS_DB_PATH=var/ops/custom.db",
                 "GA_LAB_LOGS_ROOT=var/ops/custom-logs",
                 "GA_LAB_SCHEDULER_JOBS_PATH=configs/schedules/default_jobs.json",
@@ -312,8 +302,6 @@ def test_settings_loads_cli_env_file_relative_paths(tmp_path, monkeypatch) -> No
         encoding="utf-8",
     )
     for name in (
-        "GA_LAB_CODEX_BACKEND",
-        "GA_LAB_CODEX_MODEL",
         "GA_LAB_OPS_DB_PATH",
         "GA_LAB_LOGS_ROOT",
         "GA_LAB_SCHEDULER_JOBS_PATH",
@@ -322,103 +310,6 @@ def test_settings_loads_cli_env_file_relative_paths(tmp_path, monkeypatch) -> No
 
     settings = OpsSettings.from_env(project_root=tmp_path)
 
-    assert settings.codex_backend == "cli"
-    assert settings.codex_model == "gpt-5.4"
     assert settings.db_path == tmp_path / "var" / "ops" / "custom.db"
     assert settings.logs_root == tmp_path / "var" / "ops" / "custom-logs"
     assert settings.scheduler_jobs_path == tmp_path / "configs" / "schedules" / "default_jobs.json"
-
-
-def test_invoke_codex_uses_cli_backend_when_api_key_missing(tmp_path, monkeypatch) -> None:
-    settings = _settings(tmp_path)
-    settings.codex_model = "gpt-5.4"
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-
-    def _fail_api(**_: Any) -> dict[str, Any]:
-        raise AssertionError("API backend should not be used")
-
-    def _ok_cli(**_: Any) -> dict[str, Any]:
-        return {
-            "id": None,
-            "model": "gpt-5.4",
-            "output_text": "cli runtime ok",
-            "backend": "cli",
-        }
-
-    monkeypatch.setattr(codex_module, "_invoke_codex_api", _fail_api)
-    monkeypatch.setattr(codex_module, "_invoke_codex_cli", _ok_cli)
-
-    result = codex_module.invoke_codex(
-        settings=settings,
-        prompt="Return exactly: cli runtime ok",
-    )
-
-    assert result["backend"] == "cli"
-    assert result["output_text"] == "cli runtime ok"
-
-
-def test_invoke_codex_cli_reads_last_message_file(tmp_path, monkeypatch) -> None:
-    settings = _settings(tmp_path)
-    settings.codex_backend = "cli"
-    settings.codex_model = "gpt-5.4"
-
-    def _fake_run_command(
-        command: list[str],
-        *,
-        cwd: Path,
-        input_text: str | None = None,
-    ) -> subprocess.CompletedProcess[str]:
-        assert cwd == settings.project_root
-        assert input_text == "Reply with exactly: cli runtime ok."
-        output_path = Path(command[command.index("--output-last-message") + 1])
-        output_path.write_text("cli runtime ok", encoding="utf-8")
-        return subprocess.CompletedProcess(command, returncode=0, stdout="", stderr="")
-
-    monkeypatch.setattr(codex_module, "_ensure_cli_available", lambda *_args, **_kwargs: "codex")
-    monkeypatch.setattr(codex_module, "_run_command", _fake_run_command)
-
-    result = codex_module.invoke_codex(
-        settings=settings,
-        prompt="Reply with exactly: cli runtime ok.",
-    )
-
-    assert result["backend"] == "cli"
-    assert result["model"] == "gpt-5.4"
-    assert result["output_text"] == "cli runtime ok"
-
-
-def test_codex_invoke_returns_503_when_api_key_missing(tmp_path, monkeypatch) -> None:
-    db_path = tmp_path / "runtime_api.db"
-    monkeypatch.setenv("GA_LAB_OPS_DB_PATH", str(db_path))
-    monkeypatch.setenv("GA_LAB_OPS_ADMIN_TOKEN", "runtime-admin")
-    monkeypatch.setenv("GA_LAB_CODEX_MODEL", "gpt-5.4")
-    get_settings.cache_clear()
-
-    def _fail_invoke_codex(**_: object) -> dict[str, object]:
-        raise RuntimeError("The api_key client option must be set")
-
-    monkeypatch.setattr("ga_ops.app.invoke_codex", _fail_invoke_codex)
-
-    with TestClient(app) as client:
-        response = client.post(
-            "/codex/invoke",
-            headers={"Authorization": "Bearer runtime-admin"},
-            json={
-                "prompt": "Return exactly: runtime validation ok",
-                "model": "gpt-5.4",
-                "metadata": {"source": "pytest"},
-            },
-        )
-
-    assert response.status_code == 503
-    assert response.json()["detail"] == "The api_key client option must be set"
-
-    with OpsDatabase(db_path) as database:
-        database.initialize()
-        audit_logs = database.list_audit_logs(limit=5)
-        assert audit_logs[0]["action"] == "POST /codex/invoke"
-        assert any(
-            log["action"] == "invoke_codex" and log["status"] == "failed" for log in audit_logs
-        )
-
-    get_settings.cache_clear()

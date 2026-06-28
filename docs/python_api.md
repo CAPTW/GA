@@ -1,6 +1,6 @@
 # Python API
 
-`ga-codex-lab` now freezes a small public Python API for package consumers at
+`evolutionary-solver-benchmark-lab` now freezes a small public Python API for package consumers at
 [`ga_lab.api`](../src/ga_lab/api.py).
 
 That module is the only stable import path for library users.

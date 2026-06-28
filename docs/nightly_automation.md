@@ -16,7 +16,7 @@ make nightly-dry-run
 
 ## What it runs
 
-1. `pytest tests/test_baseline_regression.py tests/test_comparison.py tests/test_prompt_templates.py`
+1. `pytest tests/test_baseline_regression.py tests/test_comparison.py`
 2. `python scripts/run_baselines.py --manifest configs/ci/baseline_smoke.json`
 3. `python scripts/run_baselines.py --manifest configs/comparisons/onemax_operator_compare_10seeds.json`
 4. `python scripts/summarize_results.py` over the nightly output root
@@ -52,6 +52,6 @@ If the workspace is not a git checkout, the runner records that explicitly and s
 
 This repository does not require GitHub cron jobs for nightly checks.
 
-- Use Codex automation or the OS scheduler against the repository root.
-- Schedule `make nightly` in the workspace `C:\Users\IDEAL\OneDrive\문서\Antigravity\GA\ga-codex-lab`.
-- Keep nightly outputs isolated under `outputs/nightly/` so concurrent Codex threads do not reuse the same artifacts.
+- Use the OS scheduler, CI, or another trusted automation runner against the repository root.
+- Schedule `make nightly` from a clean checkout of this repository.
+- Keep nightly outputs isolated under `outputs/nightly/` so concurrent runs do not reuse the same artifacts.

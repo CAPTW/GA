@@ -1,6 +1,6 @@
-﻿# GA Codex Lab
+# Evolutionary Solver Benchmark Lab
 
-`ga-codex-lab` is an evidence-backed optimization lab for comparing cheap baselines, pure genetic
+An evidence-backed optimization lab for comparing cheap baselines, pure genetic
 algorithms, selected hybrid GA paths, and NSGA-II under matched function-evaluation budgets.
 
 It is built to answer a practical question:

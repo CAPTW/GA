@@ -28,7 +28,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 python -m pip install --upgrade pip
-pip install dist/ga_codex_lab-0.1.0-py3-none-any.whl
+pip install dist/evolutionary_solver_benchmark_lab-0.1.0-py3-none-any.whl
 ```
 
 Then change into any working directory you want and use the packaged commands below.

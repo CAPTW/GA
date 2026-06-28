@@ -14,7 +14,7 @@
   "log_every": 1,
   "tracking": {
     "backend": "wandb",
-    "project": "ga-codex-lab",
+    "project": "evolutionary-solver-benchmark-lab",
     "entity": "",
     "mode": "online",
     "verify_login": true,
