@@ -1062,8 +1062,11 @@ def test_local_profile_loads() -> None:
         _project_root() / "configs" / "local_profiles" / "tsp_seeded_swap_local_fast.json"
     )
     assert tsp_fast_profile.problem == "tsp"
-    assert tsp_fast_profile.population_size == 30
-    assert tsp_fast_profile.generations == 45
+    # Hardened tuning-sprint profile: pop40/gen33 is the deliberate budget-first fast default
+    # documented in README.md and docs/local_experiment_guide.md (lowered mean loss + anti-case
+    # tail). Keep this test aligned with the committed, documented hardened values.
+    assert tsp_fast_profile.population_size == 40
+    assert tsp_fast_profile.generations == 33
 
     zdt_fast_profile = load_config(
         _project_root() / "configs" / "local_profiles" / "zdt1_diversity_injection_fast.json"

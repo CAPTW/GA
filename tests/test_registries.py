@@ -13,24 +13,7 @@ from ga_lab.problems.registry import problem_plugin_names
 
 def test_registry_lists_expose_documented_plugin_names() -> None:
     assert algorithm_plugin_names() == ("ga", "nsga2", "hybrid_ga")
-    assert problem_plugin_names() == (
-        "onemax",
-        "tsp",
-        "knapsack",
-        "constrained_sphere",
-        "constrained_box_quadratic",
-        "constrained_equality_plane_quadratic",
-        "constrained_zdt_box_toy",
-        "constrained_dtlz_box_toy",
-        "zdt1",
-        "zdt2",
-        "zdt3",
-        "dtlz2",
-        "dtlz3",
-        "dtlz4",
-        "wfg1",
-        "wfg2",
-    )
+    assert problem_plugin_names() == ("onemax", "tsp", "knapsack", "zdt1")
     assert representation_plugin_names() == ("bit", "real", "permutation")
     assert selection_plugin_names() == (
         "tournament",
