@@ -15,8 +15,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -35,7 +35,7 @@ jobs:
           exit "$status"
       - name: Upload lint artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-lint
           path: .ci-artifacts/lint
@@ -44,8 +44,8 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -61,7 +61,7 @@ jobs:
           python -m mypy src 2>&1 | tee .ci-artifacts/typecheck/mypy.log
       - name: Upload typecheck artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-typecheck
           path: .ci-artifacts/typecheck
@@ -70,8 +70,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -92,7 +92,7 @@ jobs:
           python scripts/check_public_api.py 2>&1 | tee .ci-artifacts/test/public-api.log
       - name: Upload test artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-test
           path: .ci-artifacts/test
@@ -101,8 +101,8 @@ jobs:
   baseline-regression:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -118,7 +118,7 @@ jobs:
           python -m pytest tests/test_baseline_regression.py --junitxml .ci-artifacts/baseline-regression/pytest.xml 2>&1 | tee .ci-artifacts/baseline-regression/pytest.log
       - name: Upload baseline regression artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-baseline-regression
           path: .ci-artifacts/baseline-regression
@@ -127,8 +127,8 @@ jobs:
   benchmark-smoke:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -145,7 +145,7 @@ jobs:
           find .ci-artifacts/benchmark-smoke -maxdepth 4 -type f | sort > .ci-artifacts/benchmark-smoke/files.txt
       - name: Upload benchmark smoke artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-benchmark-smoke
           path: .ci-artifacts/benchmark-smoke
@@ -159,8 +159,8 @@ jobs:
         python-version: ["3.11"]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -175,7 +175,7 @@ jobs:
           python scripts/package_portability_smoke.py --dist-dir dist --output-root .ci-artifacts/portable-smoke
       - name: Upload portable smoke artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: portable-smoke-${{ matrix.os }}-py${{ matrix.python-version }}
           path: .ci-artifacts/portable-smoke
@@ -184,8 +184,8 @@ jobs:
   governance:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -201,7 +201,7 @@ jobs:
           python scripts/run_ci_benchmarks.py --tier tier0 --output-root .ci-artifacts/governance 2>&1 | tee .ci-artifacts/governance/governance.log
       - name: Upload governance artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-governance
           path: .ci-artifacts/governance
