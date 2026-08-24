@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -22,24 +23,35 @@ def _portable_env() -> dict[str, str]:
     return env
 
 
-def test_recommend_preset_works_out_of_tree(tmp_path) -> None:
-    completed = subprocess.run(
-        [
-            sys.executable,
-            "-c",
-            (
-                "from ga_lab.consumer_cli import recommend_preset_main; "
-                "raise SystemExit(recommend_preset_main(["
-                "'--problem','onemax','--size','32','--priority','default','--format','json'"
-                "]))"
-            ),
-        ],
-        cwd=tmp_path,
-        env=_portable_env(),
-        capture_output=True,
-        text=True,
-        check=True,
-    )
+def test_recommend_preset_works_out_of_tree() -> None:
+    # NOTE: the conftest `tmp_path` fixture is intentionally workspace-local
+    # (<repo>/.pytest-local-tmp/...) for Windows temp-dir cleanup, so it lives *inside* the repo
+    # and cannot exercise the genuine out-of-tree path (find_project_root would correctly resolve
+    # the repo root). Use a real system temp dir instead and assert it is outside the project root.
+    with tempfile.TemporaryDirectory(prefix="ga_lab_portable_out_of_tree_") as tmpdir:
+        out_of_tree_cwd = Path(tmpdir).resolve()
+        repo_root = _project_root()
+        assert not out_of_tree_cwd.is_relative_to(repo_root), (
+            f"expected an out-of-tree cwd, but {out_of_tree_cwd} is under {repo_root}"
+        )
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                (
+                    "from ga_lab.consumer_cli import recommend_preset_main; "
+                    "raise SystemExit(recommend_preset_main(["
+                    "'--problem','onemax','--size','32','--priority','default','--format','json'"
+                    "]))"
+                ),
+            ],
+            cwd=out_of_tree_cwd,
+            env=_portable_env(),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
 
     payload = json.loads(completed.stdout)
     assert payload["resource_uri"] == "preset:onemax_small"

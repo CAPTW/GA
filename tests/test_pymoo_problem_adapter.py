@@ -6,7 +6,11 @@ import importlib.util
 import pytest
 
 from ga_lab.experiment.mo_metrics import reference_front_for_problem
-from ga_lab.problems.registry import build_problem_from_name, problem_plugin_names
+from ga_lab.problems.registry import (
+    build_problem_from_name,
+    get_problem_plugin,
+    problem_plugin_names,
+)
 
 
 pytestmark = pytest.mark.skipif(
@@ -45,7 +49,18 @@ def test_wfg_reference_fronts_exist_from_pymoo_backend() -> None:
 
 
 def test_wfg_problems_are_registered() -> None:
-    names = problem_plugin_names()
-
-    assert "wfg1" in names
-    assert "wfg2" in names
+    # WFG problems live in the extended pymoo-backed registry: resolvable + buildable by name,
+    # but intentionally EXCLUDED from the core public plugin-name list (which stays exactly
+    # onemax/tsp/knapsack/zdt1 — see test_registries). Assert the extended-registry contract
+    # rather than core-list membership.
+    core_names = problem_plugin_names()
+    for wfg_name in ("wfg1", "wfg2"):
+        assert wfg_name not in core_names
+        spec = get_problem_plugin(wfg_name)
+        assert spec.name == wfg_name
+        problem = build_problem_from_name(
+            wfg_name,
+            {"objective_count": 2, "variable_count": 6},
+        )
+        assert problem is not None
+        assert problem.name == wfg_name
